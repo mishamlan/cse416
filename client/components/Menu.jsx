@@ -76,7 +76,7 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
         <button className="tab" id="tab1" onClick={handleClickTab} style={{'backgroundColor': menuTab == 'tab1' ? 'white' : '#DDDDDD'}} >Setting</button>
           <button className="tab" id="tab2" onClick={handleClickTab} style={{'backgroundColor': menuTab == 'tab2' ? 'white' : '#DDDDDD'}} >Summary</button>
           <button className="tab" id="tab3" onClick={handleClickTab} style={{'backgroundColor': menuTab == 'tab3' ? 'white' : '#DDDDDD'}} >Compare</button>
-          <button className="tab" id="tab4" onClick={handleClickTab} style={{'backgroundColor': menuTab == 'tab4' ? 'white' : '#DDDDDD'}} >Infographic</button>
+          <button className="tab" id="tab4" onClick={handleClickTab} style={{'backgroundColor': menuTab == 'tab4' ? 'white' : '#DDDDDD'}} ></button>
       </div>
       <div className="menu-content">
         <div className="setting" style={{'display': menuTab == 'tab1' ? 'block' : 'none'}} >

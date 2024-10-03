@@ -90,7 +90,6 @@ const Map = () => {
         });
         
         if(displayDistricts) {
-          console.log('show dis')
           showMapLayer('louisiana-congress');
           hideMapLayer('louisiana');
         } else {
