@@ -1,0 +1,102 @@
+.menu {
+    width: 420px;
+    height: calc(100vh - 50px);
+    margin-top: 50px;
+    background-color: white;
+    border-right: 1px solid black;
+    position: absolute;
+    z-index: 3;
+}
+
+.tab-bar {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+}
+
+.tab {
+    width: 140px;
+    font-size: 20px;
+    line-height: 60px;
+    font-weight: bold;
+    text-align: center;
+    border: 0;
+}
+
+.tab:hover {
+    cursor: pointer;
+}
+
+.menu-content {
+    height: calc(100vh - 110px);
+    padding: 20px 20px;
+}
+
+.input-sets {
+    margin-bottom: 10px;
+}
+
+label {
+    font-size: 18px;
+}
+
+label:hover {
+    cursor: pointer;
+}
+
+input {
+    cursor: pointer;
+}
+
+.setting-field {
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+.setting-btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.setting-btns button {
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    padding: 5px 10px;
+    transition: all linear .1s;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.setting-btns button:hover {
+    background-color: white;
+    color: black;
+    transition: all linear .1s;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+caption {
+    font-weight: bold;
+}
+
+th {
+    margin: 0px;
+    border: 1px solid black;
+    font-size: 16px;
+    padding: 5px 0px;
+}
+
+td {
+    border: 1px solid black;
+    text-align: center;
+    font-size: 16px;
+    padding: 5px 0px;
+}

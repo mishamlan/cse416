@@ -1,0 +1,52 @@
+nav {
+    width: 100vw;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
+    background-color: rgba(0,0,0,0.6);
+    position: fixed;
+    z-index: 3;
+}
+
+#state {
+    color: #a0a0a0;
+    font-size: 24px;
+    width: 250px;
+    
+}
+
+.select {
+    display: flex;
+    justify-items: stretch;
+}
+
+.select span {
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    white-space: pre;
+}
+
+.menu-btn {
+    background-color: transparent;
+    border: 0;
+    margin: 10px 0;
+
+    width: 25px;
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menu-btn:hover {
+    cursor: pointer;
+}
+
+.menu-icon {
+    width: 25px;
+    height: 4px;
+    background-color: white;
+}
+
