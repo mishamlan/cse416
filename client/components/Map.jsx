@@ -24,16 +24,6 @@ const Map = () => {
     [-51.454007,54.451247]  // northeast
   ];
 
-  const nevadaBound = [
-    [],
-    []
-  ];
-
-  const louisianaBound = [
-    [-110.593339,23.289729],
-    [-74.492265,38.365725]
-  ];
-
   const stateColor = 'Black';
   const districtColor = 'Green';
   const precinctColor = 'Purple';
@@ -86,32 +76,46 @@ const Map = () => {
           // hideMapLayer('louisiana-precincts');
         }
 
-        if (visualization == 'election-results') {
-          console.log('show election results');
-          showMapLayer('nevada-district-test');
-        } else if (visualization == 'demographic') {
-          console.log('show demographic')
-          if (!mapRef.current.getLayer('nevada-district-test')){
-            mapRef.current.addLayer({
-              id: 'nevada-district-test',
-              type: 'fill',
-              source: 'nevada-district',
-              layout: {},
-              paint: {
-                'fill-color': [
-                  'step',
-                  ['get', 'Area_Sq_Mi'],
-                  "#bdbdbd",1000,"#f7fbff", 2000, "#deebf7", 10000, "#c6dbef", 50000,"#9ecae1"
-                ],
-                'fill-opacity': 0.8
-              }
-            });
-          } else {
-            showMapLayer('nevada-district-test');
-          }
-        } else {
-          console.log('no visualization');
-          hideMapLayer('nevada-district-test');
+        switch (visualization) {
+          case 'election-results':
+            hideMapLayer('nevada-district-white');
+            break;
+          case 'white':
+            if (!mapRef.current.getLayer('nevada-district-white')){
+              console.log('create layer white')
+              mapRef.current.addLayer({
+                id: 'nevada-district-white',
+                type: 'fill',
+                source: 'nevada-district',
+                layout: {},
+                paint: {
+                  'fill-color': [
+                    'step',
+                    ['get', 'Area_Sq_Mi'],
+                    "#fff7e5",1000,"#ffe4c9", 2000, "#fcd0a1", 5000, "#fcae6b", 10000,"#fe8d3b", 20000, "#f16913", 50000, "#d84801"
+                  ],
+                  'fill-opacity': 1
+                }
+              });
+            } else {
+              showMapLayer('nevada-district-white');
+            }
+            break;
+          case 'black':
+            // hideMapLayer('nevada-district-white');
+            break;
+          case 'hispanic':
+            // hideMapLayer('nevada-district-white');
+            break;
+          case 'asian':
+            // hideMapLayer('nevada-district-white');
+            break;
+          case 'other':
+            // hideMapLayer('nevada-district-white');
+            break;
+          default:
+            console.log('no visualization')
+            hideMapLayer('nevada-district-white');
         }
 
       } else {

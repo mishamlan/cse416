@@ -89,10 +89,34 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
               <input type="radio" name="visualization" value="election-results" id="election-results" onChange={changeVisualization}/>
               <label htmlFor="election-results"> Election Results</label>
             </div>
-            <div className="input-sets">
-              <input type="radio" name="visualization" value="demographic" id="demographic" onChange={changeVisualization}/>
-              <label htmlFor="demographic"> Demographic</label>
+            {/* <div className="input-sets">
+              <input type="radio" name="visualization" value="white" id="white" onChange={changeVisualization}/>
+              <label htmlFor="white"> White Population</label>
             </div>
+            <div className="input-sets">
+              <input type="radio" name="visualization" value="black" id="black" onChange={changeVisualization}/>
+              <label htmlFor="black"> Black Population</label>
+            </div>
+            <div className="input-sets">
+              <input type="radio" name="visualization" value="hispanic" id="hispanic" onChange={changeVisualization}/>
+              <label htmlFor="hispanic"> Hispanic Population</label>
+            </div>
+            <div className="input-sets">
+              <input type="radio" name="visualization" value="asian" id="asian" onChange={changeVisualization}/>
+              <label htmlFor="asian"> Asian Population</label>
+            </div>
+            <div className="input-sets">
+              <input type="radio" name="visualization" value="other" id="other" onChange={changeVisualization}/>
+              <label htmlFor="other"> Other Population</label>
+            </div> */}
+            <select name="demographic" id="demographic" onChange={changeVisualization}>
+              <option value={null}>Select Demographic</option>
+              <option value="white">White Population</option>
+              <option value="Black">Black Population</option>
+              <option value="Hispanic">Hispanic Population</option>
+              <option value="asian">Asian Population</option>
+              <option value="other">Other Population</option>
+            </select>
             <div className="setting-btns">
               <button onClick={handleUncheck}>Clear</button>
             </div>
