@@ -6,6 +6,8 @@ import '@/styles/Menu.css'
 
 const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, displayDistricts, displayPrecincts, setVisualization, setDistrictPlan}) => {
   const [menuTab, setMenuTab] = useState('tab1');
+  const [demographic, setDemographic] = useState('African-American'); 
+
   const states= {
     NV:[
       "Districts: 4",
@@ -56,6 +58,27 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
   const changeDistrictPlan = (e) => {
     setDistrictPlan(e.target.value);
   }
+
+  const compareComponent = () => {
+    const [demographic, setDemographic] = useState('African-American');
+  }
+
+
+  // SMD Data
+  const smdData = [
+    { y: [10, 15, 20], name: 'District 1', type: 'box' },
+    { y: [30, 35, 40], name: 'District 2', type: 'box' },
+    { y: [45, 50, 55], name: 'District 3', type: 'box' },
+    { y: [65, 70, 75], name: 'District 4', type: 'box' }
+  ];
+
+  // MMD Data
+  const mmdData = [
+    { y: [25, 30, 35], name: 'District 1', type: 'box' },
+    { y: [50, 55, 60], name: 'District 2', type: 'box' },
+    { y: [60, 65, 70], name: 'District 3', type: 'box' },
+    { y: [75, 80, 85], name: 'District 4', type: 'box' }
+  ];
 
 
   return (
@@ -173,10 +196,48 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
           </table>
         </div>
         <div className="Compare" style={{'display': menuTab == 'tab3' ? 'block' : 'none'}} >
-          <Plot 
-            data={[]}
-            layout={{title: 'Seat Distribution', barmode: 'stack', width: 380}}
-          />
+          <p style={{ marginBottom: '20px' }}>This section provides graphics to compare the the results of an SMD election and MMD election </p>
+
+          <h3>Box and Whisker Analysis</h3>
+
+          <select
+            style={{ marginBottom: '20px' }}
+            value={demographic}
+            onChange={(e) => setDemographic(e.target.value)}
+          >
+            <option value="White">White</option>
+            <option value="African-American">African-American</option>
+            <option value="Asian">Asian</option>
+            <option value="Hispanic">Hispanic</option>
+            <option value="Pacific Islander">Pacific Islander</option>
+            <option value="Other">Other</option>
+          </select>
+            <Plot
+              data={smdData}
+              layout={{ 
+                title: 'SMD - Box and Whisker Plot', 
+                yaxis: { 
+                  title: 'Percentage (%)', 
+                  range: [0, 100], // Set y-axis range from 0 to 100
+                  dtick: 10        // Set y-axis ticks to increment by 10
+                }, 
+                width: 380 
+              }}
+            />
+
+            <Plot
+              data={mmdData}
+              layout={{ 
+                title: 'MMD - Box and Whisker Plot', 
+                yaxis: { 
+                  title: 'Percentage (%)', 
+                  range: [0, 100], // Set y-axis range from 0 to 100
+                  dtick: 10        // Set y-axis ticks to increment by 10
+                }, 
+                width: 380 
+              }}
+            />
+            <p>MMD shows increased repersentation for {demographic} across all districts</p>
         </div>
         <div className="Infographic" style={{'display': menuTab == 'tab4' ? 'block' : 'none'}} >
         <h3>What is the Fair Representation Act</h3>
