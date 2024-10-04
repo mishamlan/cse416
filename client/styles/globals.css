@@ -41,7 +41,7 @@ a {
   }
 }
 
-.legend {
+.legend-container {
   position: absolute;
   right: 20px;
   bottom: 30px;
@@ -52,12 +52,28 @@ a {
   
 }
 
-.line-legend {
-  height: 100px;
-  width: 180px;
+.legend {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.line-legend {
+  height: 100px;
+  width: 180px;
+}
+
+.demo-legend {
+  height: 200px;
+  width: 180px;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.demo-legend>div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #black-line {

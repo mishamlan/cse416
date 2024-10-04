@@ -57,9 +57,9 @@ const Map = () => {
         addMapLayer('louisiana', '/geoJSON/louisiana.geojson', stateColor);
         addLineLayer('louisiana-congress', '/geoJSON/louisiana-congress.geojson', districtColor);
         addLineLayer('louisiana-precincts', '/geoJSON/louisiana-precinct.geojson', precinctColor);
-        hideMapLayer('louisiana-congress');
-        hideMapLayer('louisiana-precincts');
-        hideMapLayer('nevada-district')
+        hideMapLayer('louisiana-congress-line');
+        hideMapLayer('louisiana-precincts-line');
+        hideMapLayer('nevada-district-line')
       });
 
     } else {
@@ -75,9 +75,9 @@ const Map = () => {
         });
         
         if(displayDistricts) {
-          showMapLayer('nevada-district');
+          showMapLayer('nevada-district-line');
         } else {
-          hideMapLayer('nevada-district');
+          hideMapLayer('nevada-district-line');
         }
         
         if(displayPrecincts) {
@@ -88,10 +88,30 @@ const Map = () => {
 
         if (visualization == 'election-results') {
           console.log('show election results');
+          showMapLayer('nevada-district-test');
         } else if (visualization == 'demographic') {
           console.log('show demographic')
+          if (!mapRef.current.getLayer('nevada-district-test')){
+            mapRef.current.addLayer({
+              id: 'nevada-district-test',
+              type: 'fill',
+              source: 'nevada-district',
+              layout: {},
+              paint: {
+                'fill-color': [
+                  'step',
+                  ['get', 'Area_Sq_Mi'],
+                  "#bdbdbd",1000,"#f7fbff", 2000, "#deebf7", 10000, "#c6dbef", 50000,"#9ecae1"
+                ],
+                'fill-opacity': 0.8
+              }
+            });
+          } else {
+            showMapLayer('nevada-district-test');
+          }
         } else {
           console.log('no visualization');
+          hideMapLayer('nevada-district-test');
         }
 
       } else {
@@ -101,15 +121,15 @@ const Map = () => {
         });
         
         if(displayDistricts) {
-          showMapLayer('louisiana-congress');
+          showMapLayer('louisiana-congress-line');
         } else {
-          hideMapLayer('louisiana-congress');
+          hideMapLayer('louisiana-congress-line');
         }
         
         if(displayPrecincts) {
-          showMapLayer('louisiana-precincts');
+          showMapLayer('louisiana-precincts-line');
         } else {
-          hideMapLayer('louisiana-precincts');
+          hideMapLayer('louisiana-precincts-line');
         }
 
         if (visualization == 'election-results') {
@@ -166,7 +186,7 @@ const Map = () => {
       });
 
       mapRef.current.addLayer({
-        id: id+'line',
+        id: id+'-line',
         type: 'line',
         source: id,
         layout: {},
@@ -179,11 +199,11 @@ const Map = () => {
   }
 
   const hideMapLayer = (id) => {
-    mapRef.current.setLayoutProperty(id+'line', 'visibility', 'none');
+    mapRef.current.setLayoutProperty(id, 'visibility', 'none');
   }
   
   const showMapLayer = (id) => {
-    mapRef.current.setLayoutProperty(id+'line', 'visibility', 'visible');
+    mapRef.current.setLayoutProperty(id, 'visibility', 'visible');
   }
 
   return (
