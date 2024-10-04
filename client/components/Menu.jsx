@@ -4,7 +4,7 @@ import Plot from 'react-plotly.js'
 import { useState } from 'react'
 import '@/styles/Menu.css'
 
-const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, displayDistricts, displayPrecincts, setChoropleth, setDistrictPlan}) => {
+const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, displayDistricts, displayPrecincts, setVisualization, setDistrictPlan}) => {
   const [menuTab, setMenuTab] = useState('tab1');
   const states= {
     NV:[
@@ -26,26 +26,14 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
   }
 
   const handleDistricts = (e) => {
-    if (stateSelect == null) {
-      alert('Please Select a state first.')
-      return;
-    }
     setDisplayDistricts(e.target.checked);
   }
 
   const handlePrecincts = (e) => {
-    if (stateSelect == null) {
-      alert('Please Select a state first.')
-      return;
-    }
     setDisplayPrecincts(e.target.checked);
   }
 
   const handleSelectAll = (e) => {
-    if (stateSelect == null) {
-      alert('Please Select a state first.')
-      return;
-    }
     setDisplayDistricts(true);
     setDisplayPrecincts(true);
   }
@@ -55,14 +43,14 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
     setDisplayPrecincts(false);
   }
 
-  const changeChoropleth = (e) => {
-    setChoropleth(e.target.value);
+  const changeVisualization = (e) => {
+    setVisualization(e.target.value);
   }
 
   const handleUncheck = (e) => {
-    let checkedRadio = document.querySelector('input[name="choropleth"]:checked')
+    let checkedRadio = document.querySelector('input[name="visualization"]:checked')
     if (checkedRadio) checkedRadio.checked = false;
-    setChoropleth(null);
+    setVisualization(null);
   }
 
   const changeDistrictPlan = (e) => {
@@ -95,15 +83,15 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
               <button type="reset" onClick={handleClearAll}>Clear All</button>
             </div>
           </div>
-          <h2>Choropleth</h2>
+          <h2>Visualization</h2>
           <div className="setting-field">
             <div className="input-sets">
-              <input type="radio" name="choropleth" value="election-results" id="election-results" onChange={changeChoropleth}/>
+              <input type="radio" name="visualization" value="election-results" id="election-results" onChange={changeVisualization}/>
               <label htmlFor="election-results"> Election Results</label>
             </div>
             <div className="input-sets">
-              <input type="radio" name="choropleth" value="minority-population" id="minority-population" onChange={changeChoropleth}/>
-              <label htmlFor="minority-population"> Minority Population</label>
+              <input type="radio" name="visualization" value="demographic" id="demographic" onChange={changeVisualization}/>
+              <label htmlFor="demographic"> Demographic</label>
             </div>
             <div className="setting-btns">
               <button onClick={handleUncheck}>Clear</button>

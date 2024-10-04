@@ -14,15 +14,15 @@ const RootLayout = ({children}) => {
   const [stateSelect, setStateSelect] = useState('N/A');
   const [displayDistricts, setDisplayDistricts] = useState(false);
   const [displayPrecincts, setDisplayPrecincts] = useState(false);
-  const [choropleth, setChoropleth] = useState(null);
+  const [visualization, setVisualization] = useState(null);
   const [districtPlan, setDistrictPlan] = useState('current-plan');
 
   return (
     <html>
-      <HeaderContext.Provider value={{stateSelect, displayDistricts, displayPrecincts, choropleth, districtPlan}}>
+      <HeaderContext.Provider value={{stateSelect, displayDistricts, displayPrecincts, visualization, districtPlan}}>
         <body>
           <Nav setMenu={setMenu} setStateSelect={setStateSelect} />
-          <Menu isMenu={menu} stateSelect={stateSelect} setDisplayDistricts={setDisplayDistricts} setDisplayPrecincts={setDisplayPrecincts} displayDistricts={displayDistricts} displayPrecincts={displayPrecincts} setChoropleth={setChoropleth} setDistrictPlan={setDistrictPlan}/>
+          <Menu isMenu={menu} stateSelect={stateSelect} setDisplayDistricts={setDisplayDistricts} setDisplayPrecincts={setDisplayPrecincts} displayDistricts={displayDistricts} displayPrecincts={displayPrecincts} setVisualization={setVisualization} setDistrictPlan={setDistrictPlan}/>
           <main>{children}</main>
         </body>
       </HeaderContext.Provider>

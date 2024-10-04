@@ -42,6 +42,10 @@
     margin-bottom: 10px;
 }
 
+.input-sets:hover {
+    background-color: aliceblue;
+}
+
 label {
     font-size: 18px;
 }

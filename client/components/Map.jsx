@@ -11,9 +11,9 @@ const Map = () => {
   const mapContainerRef = useRef();
   const mapRef = useRef();
 
+  let {stateSelect, displayDistricts, displayPrecincts, visualization} = useContext(HeaderContext);
   
   // center of the map
-  let {stateSelect, displayDistricts, displayPrecincts, choropleth} = useContext(HeaderContext);
   const center = [-98.403102,39.567843];  // general center
   const nevadaCenter = [-116.911022,38.861699];  // center of Nevada
   const louisianaCenter = [-92.530767,31.029098];  // center of Louisiana
@@ -23,13 +23,15 @@ const Map = () => {
     [-146.991116,17.613213],  // southwest
     [-51.454007,54.451247]  // northeast
   ];
+
   const nevadaBound = [
-    [-128.853161,34.112444],
-    [-104.968884,43.313750]
+    [],
+    []
   ];
+
   const louisianaBound = [
-    [-92.530767,31.029098],
-    [-86.559698,33.527363]
+    [-110.593339,23.289729],
+    [-74.492265,38.365725]
   ];
 
   const stateColor = 'Black';
@@ -50,12 +52,14 @@ const Map = () => {
       });
   
       mapRef.current.on('load', () => {
-        addMapLayer('nevada', '/geoJSON/nevada-w-countries.geojson', stateColor);
+        addMapLayer('nevada', '/geoJSON/nevada-outline.geojson', stateColor);
+        addLineLayer('nevada-district', '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson', districtColor);
         addMapLayer('louisiana', '/geoJSON/louisiana.geojson', stateColor);
-        addMapLayer('louisiana-congress', '/geoJSON/louisiana-congress.geojson', districtColor);
-        addMapLayer('louisiana-precincts', '/geoJSON/louisiana-precinct.geojson', precinctColor);
+        addLineLayer('louisiana-congress', '/geoJSON/louisiana-congress.geojson', districtColor);
+        addLineLayer('louisiana-precincts', '/geoJSON/louisiana-precinct.geojson', precinctColor);
         hideMapLayer('louisiana-congress');
         hideMapLayer('louisiana-precincts');
+        hideMapLayer('nevada-district')
       });
 
     } else {
@@ -71,11 +75,9 @@ const Map = () => {
         });
         
         if(displayDistricts) {
-          // showMapLayer('louisiana-congress');
-          // hideMapLayer('louisiana');
+          showMapLayer('nevada-district');
         } else {
-          // hideMapLayer('louisiana-congress');
-          // showMapLayer('louisiana');
+          hideMapLayer('nevada-district');
         }
         
         if(displayPrecincts) {
@@ -83,6 +85,15 @@ const Map = () => {
         } else {
           // hideMapLayer('louisiana-precincts');
         }
+
+        if (visualization == 'election-results') {
+          console.log('show election results');
+        } else if (visualization == 'demographic') {
+          console.log('show demographic')
+        } else {
+          console.log('no visualization');
+        }
+
       } else {
         mapRef.current.flyTo({
           center: louisianaCenter,
@@ -91,10 +102,8 @@ const Map = () => {
         
         if(displayDistricts) {
           showMapLayer('louisiana-congress');
-          hideMapLayer('louisiana');
         } else {
           hideMapLayer('louisiana-congress');
-          showMapLayer('louisiana');
         }
         
         if(displayPrecincts) {
@@ -102,12 +111,21 @@ const Map = () => {
         } else {
           hideMapLayer('louisiana-precincts');
         }
+
+        if (visualization == 'election-results') {
+          console.log('show election results');
+        } else if (visualization == 'demographic') {
+          console.log('show demographic')
+        } else {
+          console.log('no visualization');
+        }
+
       }
 
     }
 
     
-  }, [mapRef, stateSelect, displayDistricts, displayPrecincts]);
+  }, [mapRef, stateSelect, displayDistricts, displayPrecincts, visualization]);
 
   const addMapLayer = (id, path, color) => {
     if(!mapRef.current.getSource(id)) {
@@ -140,16 +158,32 @@ const Map = () => {
     }
   }
 
+  const addLineLayer = (id, path, color) => {
+    if(!mapRef.current.getSource(id)) {
+      mapRef.current.addSource(id, {
+        type: 'geojson',
+        data: path,  // path -> public/geoJSON/...
+      });
+
+      mapRef.current.addLayer({
+        id: id+'line',
+        type: 'line',
+        source: id,
+        layout: {},
+        paint: {
+          'line-color': color,
+          'line-width': 1
+        }
+      });
+    }
+  }
+
   const hideMapLayer = (id) => {
-    mapRef.current.setLayoutProperty(id+'fill', 'visibility', 'none');
     mapRef.current.setLayoutProperty(id+'line', 'visibility', 'none');
-    console.log('hide layer')
   }
   
   const showMapLayer = (id) => {
-    mapRef.current.setLayoutProperty(id+'fill', 'visibility', 'visible');
-    mapRef.current.setLayoutProperty(id+'none', 'visibility', 'visible');
-    console.log('add layer')
+    mapRef.current.setLayoutProperty(id+'line', 'visibility', 'visible');
   }
 
   return (
