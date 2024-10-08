@@ -10,12 +10,12 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
   const NV_election_res_data = [
     {
       type: "pie",
-      values: [50.1, 47.7, 2.2],
-      labels: ["Democrats", "Republicans", "Others"],
+      values: [50.1, 47.7],
+      labels: ["Democrats", "Republicans"],
       textinfo: "label+percent",
       hole: 0.4, // For a donut chart
       marker: {
-        colors: ["#00AEF3", "#E81B23", "#808080"], // Custom colors
+        colors: ["#00AEF3", "#E81B23"], // Custom colors
       },
     },
   ];
@@ -44,12 +44,12 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
     },
   };
   const dummy_districts = ['District 1', 'District 2', 'District 3', 'District 4'];
-  const racialIdentities = ['White', 'Black', 'Asian', 'Hispanic', 'Pacific Islander', 'Other']; // Fixed the naming and ensured 6 identities
+  const racialIdentities = ['White', 'Black', 'Asian', 'Hispanic', 'Other']; // Fixed the naming and ensured 6 identities
   const dummy_populationData = {
-    'District 1': [5000, 3000, 1500, 2000, 4000, 500],
-    'District 2': [4000, 3500, 2000, 2500, 2500, 1000],
-    'District 3': [6000, 2000, 1000, 3000, 2300, 1000],
-    'District 4': [4500, 2500, 1500, 2500, 1000, 500],
+    'District 1': [50000, 30000, 15000, 20000, 4000],
+    'District 2': [40000, 35000, 20000, 25000, 4000],
+    'District 3': [60000, 20000, 10000, 30000, 4000],
+    'District 4': [45000, 25000, 15000, 25000, 4000],
   };
 
   const NV_traces = racialIdentities.map((identity, index) => {
@@ -125,20 +125,14 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
   }
 
 
-  // SMD Data
-  const smdData = [
+  // boxwhister data
+  const boxwhisker = [
     { y: [10, 15, 20], name: 'District 1', type: 'box' },
     { y: [30, 35, 40], name: 'District 2', type: 'box' },
     { y: [45, 50, 55], name: 'District 3', type: 'box' },
-    { y: [65, 70, 75], name: 'District 4', type: 'box' }
-  ];
+    { y: [65, 70, 75], name: 'District 4', type: 'box' },
+    { y: [45, 55, 65], name: 'Multi-Member District', type: 'box' }
 
-  // MMD Data
-  const mmdData = [
-    { y: [25, 30, 35], name: 'District 1', type: 'box' },
-    { y: [50, 55, 60], name: 'District 2', type: 'box' },
-    { y: [60, 65, 70], name: 'District 3', type: 'box' },
-    { y: [75, 80, 85], name: 'District 4', type: 'box' }
   ];
 
 
@@ -235,35 +229,22 @@ const Menu = ({isMenu, stateSelect, setDisplayDistricts, setDisplayPrecincts, di
             <option value="African-American">African-American</option>
             <option value="Asian">Asian</option>
             <option value="Hispanic">Hispanic</option>
-            <option value="Pacific Islander">Pacific Islander</option>
-            <option value="Other">Other</option>
+            <option value="Others">Others</option>
           </select>
             <Plot
-              data={smdData}
+              data={boxwhisker}
               layout={{ 
-                title: 'SMD - Box and Whisker Plot', 
+                title: 'SMDs vs MMD Distribution of Race', 
                 yaxis: { 
                   title: 'Percentage (%)', 
-                  range: [0, 100], // Set y-axis range from 0 to 100
-                  dtick: 10        // Set y-axis ticks to increment by 10
+                  range: [0, 100],
+                  dtick: 10        
                 }, 
-                width: 380 
+                width: 380,
+                showlegend: false
               }}
             />
 
-            <Plot
-              data={mmdData}
-              layout={{ 
-                title: 'MMD - Box and Whisker Plot', 
-                yaxis: { 
-                  title: 'Percentage (%)', 
-                  range: [0, 100], // Set y-axis range from 0 to 100
-                  dtick: 10        // Set y-axis ticks to increment by 10
-                }, 
-                width: 380 
-              }}
-            />
-            <p>MMD shows increased repersentation for {demographic} across all districts</p>
         </div>
         <div className="Infographic" style={{'display': menuTab == 'tab4' ? 'block' : 'none'}} >
         <h3>What is the Fair Representation Act</h3>
