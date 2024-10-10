@@ -1,17 +1,13 @@
 'use client'
 
-import { useRef, useEffect, useContext, useState } from 'react';
-import {HeaderContext} from '@/app/layout';
+import { useRef, useEffect} from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import '@/styles/Map.css'
 
 
 const Map = () => {
   const mapContainerRef = useRef();
   const mapRef = useRef();
-
-  let {stateSelect, displayDistricts, displayPrecincts, visualization} = useContext(HeaderContext);
   
   // center of the map
   const center = [-98.403102,39.567843];  // general center
@@ -52,104 +48,9 @@ const Map = () => {
         hideMapLayer('nevada-district-line')
       });
 
-    } else {
-      if (stateSelect == 'N/A') {
-        mapRef.current.flyTo({
-          center: center,
-          zoom: 3.5,
-        });
-      } else if (stateSelect == 'NV') {
-        mapRef.current.flyTo({
-          center: nevadaCenter,
-          zoom: 5.5,
-        });
-        
-        if(displayDistricts) {
-          showMapLayer('nevada-district-line');
-        } else {
-          hideMapLayer('nevada-district-line');
-        }
-        
-        if(displayPrecincts) {
-          // showMapLayer('louisiana-precincts');
-        } else {
-          // hideMapLayer('louisiana-precincts');
-        }
-
-        switch (visualization) {
-          case 'election-results':
-            hideMapLayer('nevada-district-white');
-            break;
-          case 'white':
-            if (!mapRef.current.getLayer('nevada-district-white')){
-              console.log('create layer white')
-              mapRef.current.addLayer({
-                id: 'nevada-district-white',
-                type: 'fill',
-                source: 'nevada-district',
-                layout: {},
-                paint: {
-                  'fill-color': [
-                    'step',
-                    ['get', 'Area_Sq_Mi'],
-                    "#fff7e5",1000,"#ffe4c9", 2000, "#fcd0a1", 5000, "#fcae6b", 10000,"#fe8d3b", 20000, "#f16913", 50000, "#d84801"
-                  ],
-                  'fill-opacity': 1
-                }
-              });
-            } else {
-              showMapLayer('nevada-district-white');
-            }
-            break;
-          case 'black':
-            // hideMapLayer('nevada-district-white');
-            break;
-          case 'hispanic':
-            // hideMapLayer('nevada-district-white');
-            break;
-          case 'asian':
-            // hideMapLayer('nevada-district-white');
-            break;
-          case 'other':
-            // hideMapLayer('nevada-district-white');
-            break;
-          default:
-            console.log('no visualization')
-            hideMapLayer('nevada-district-white');
-        }
-
-      } else {
-        mapRef.current.flyTo({
-          center: louisianaCenter,
-          zoom: 6.5,
-        });
-        
-        if(displayDistricts) {
-          showMapLayer('louisiana-congress-line');
-        } else {
-          hideMapLayer('louisiana-congress-line');
-        }
-        
-        if(displayPrecincts) {
-          showMapLayer('louisiana-precincts-line');
-        } else {
-          hideMapLayer('louisiana-precincts-line');
-        }
-
-        if (visualization == 'election-results') {
-          console.log('show election results');
-        } else if (visualization == 'demographic') {
-          console.log('show demographic')
-        } else {
-          console.log('no visualization');
-        }
-
-      }
-
     }
 
-    
-  }, [mapRef, stateSelect, displayDistricts, displayPrecincts, visualization]);
+  }, [mapRef]);
 
   const addMapLayer = (id, path, color) => {
     if(!mapRef.current.getSource(id)) {

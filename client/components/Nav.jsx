@@ -1,25 +1,33 @@
 'use client'
 
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import '@/styles/Nav.css'
 
-const Nav = ({setMenu, setStateSelect}) => {
+const Nav = () => {
 
-  const handleClick = e => {
-    setMenu(prev => !prev);
-  };
+  const router = useRouter();
+
+  const selectState = e => {
+    router.push(`/${e.target.value}`);
+  }
 
   return (
     <nav>
-      <button className="menu-btn" onClick={handleClick}>
-          <div className="menu-icon"></div>
-          <div className="menu-icon"></div>
-          <div className="menu-icon"></div>
-      </button>
+      <div className='nav-tab-container'>
+        <Link href="/">
+          <div className='nav-tab'>Home</div>
+        </Link>
+
+        <Link href="/about">
+          <div className='nav-tab'>About</div>
+        </Link>
+      </div>
 
       <div className="select">
         <span>State </span>
-        <select name="state" id="state" onChange={e => {setStateSelect(e.target.value);}}>
-          <option value="N/A">Select...</option>
+        <select name="state" id="state" onChange={selectState}>
+          <option value="">Select...</option>
           <option value="NV">Nevada</option>
           <option value="LA">Louisiana</option>
         </select>
