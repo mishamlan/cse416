@@ -68,16 +68,48 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
             minZoom: 5.5,
             maxBounds: bound,
           });
+
+          let hoverPolyongId = null;
   
           stateRef.current.on('load', () => {
-              addLineLayer(`${stateName}-district`, districtJSON, 'Green');
+              addMapLayer(`${stateName}-district`, districtJSON, '#00ff4c', '#96ffb7');
+
+              stateRef.current.on('mousemove', `${stateName}-district-fills`, (e) => {
+                stateRef.current.getCanvas().style.cursor = 'pointer';
+                if (e.features.length > 0) {
+                  if (hoverPolyongId) {
+                    stateRef.current.removeFeatureState(
+                      {source: `${stateName}-district`, id: hoverPolyongId},
+                    );
+                  }
+
+                  hoverPolyongId = e.features[0].id;
+
+                  stateRef.current.setFeatureState(
+                    {source: `${stateName}-district`, id: hoverPolyongId},
+                    {hover: true}
+                  );
+                }
+              });
+              
+              stateRef.current.on('mouseleave', `${stateName}-district-fills`, () => {
+                if (hoverPolyongId !== null) {
+                  stateRef.current.setFeatureState(
+                    {source: `${stateName}-district`, id: hoverPolyongId},
+                    {hover: false}
+                  );
+                }
+                hoverPolyongId = null;
+              });
           });
-  
+          
       } else {
           if(displayDistricts) {
-            showMapLayer(`${stateName}-district-line`);
+            showMapLayer(`${stateName}-district-lines`);
+            showMapLayer(`${stateName}-district-fills`);
           } else {
-            hideMapLayer(`${stateName}-district-line`);
+            hideMapLayer(`${stateName}-district-lines`);
+            hideMapLayer(`${stateName}-district-fills`);
           }
   
           if(displayPrecincts) {
@@ -130,6 +162,43 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
       }
     },[displayDistricts, displayPrecincts, visualization]);
   
+    const addMapLayer = (id, path, fillColor, highlightColor) => {
+      if(!stateRef.current.getSource(id)) {
+        stateRef.current.addSource(id, {
+          type: 'geojson',
+          data: path,  // path -> public/geoJSON/...
+          generateId: true,
+        });
+    
+        stateRef.current.addLayer({
+          id: id+'-fills',
+          type: 'fill',
+          source: id,
+          layout: {},
+          paint: {
+            'fill-color': [
+              'case',
+              ['boolean', ['feature-state', 'hover'], false],
+              highlightColor,
+              fillColor
+            ],
+            'fill-opacity': 1
+          }
+        });
+    
+        stateRef.current.addLayer({
+          id: id+'-lines',
+          type: 'line',
+          source: id,
+          layout: {},
+          paint: {
+            'line-color': 'White',
+            'line-width': 2
+          }
+        });
+      }
+    }
+
     const addLineLayer = (id, path, color) => {
       if(!stateRef.current.getSource(id)) {
         stateRef.current.addSource(id, {

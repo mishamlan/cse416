@@ -1,6 +1,5 @@
 'use client'
 
-import Plot from 'react-plotly.js'
 import { useState } from 'react'
 import '@/styles/Menu.css'
 
@@ -127,7 +126,6 @@ const Menu = ({setDisplayDistricts, setDisplayPrecincts, displayDistricts, displ
       </div>
       <div className="legend-container">
         <div className="legend line-legend" style={{'display': !visualization ? 'flex' : 'none'}}>
-          <div><div id="black-line"></div> : State</div>
           <div><div id="green-line"></div> : District</div>
           <div><div id="purple-line"></div> : Precinct</div>
         </div>

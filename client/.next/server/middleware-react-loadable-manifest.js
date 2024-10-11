@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST='{"components/Compare.jsx -> react-plotly.js":{"id":2008,"files":["static/chunks/f2d0f643.d1770af3a24de040.js","static/chunks/8.5608ee0e60b9c39d.js"]},"components/Summary.jsx -> react-plotly.js":{"id":2008,"files":["static/chunks/f2d0f643.d1770af3a24de040.js","static/chunks/8.5608ee0e60b9c39d.js"]}}';
