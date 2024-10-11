@@ -8,6 +8,7 @@ import Compare from '@/components/Compare';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const StatePage = ({stateName, center, bound, districtJSON}) => {
+  console.log(districtJSON)
     const mapContainerRef = useRef();
     const stateRef = useRef();
   
@@ -72,7 +73,7 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
           let hoverPolyongId = null;
   
           stateRef.current.on('load', () => {
-              addMapLayer(`${stateName}-district`, districtJSON, '#00ff4c', '#96ffb7');
+              addMapLayer(`${stateName}-district`, '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson', '#00ff4c', '#96ffb7');
 
               stateRef.current.on('mousemove', `${stateName}-district-fills`, (e) => {
                 stateRef.current.getCanvas().style.cursor = 'pointer';
