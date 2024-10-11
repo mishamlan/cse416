@@ -56,7 +56,7 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
       },
       barmode: 'stack', // Stacked bars for better visibility
     };
-  
+
     useEffect(() => {
       if (!stateRef.current) {
         mapboxgl.accessToken = 'pk.eyJ1IjoibnozMSIsImEiOiJjbTFlOWI3OXYxajJ3MnZvbmxndXQ2M2Z6In0.56ahjZJxD52t9UyCTlnm4Q';
@@ -164,6 +164,7 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
   
     const addMapLayer = (id, path, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
+        console.log(stateRef)
         stateRef.current.addSource(id, {
           type: 'geojson',
           data: path,  // path -> public/geoJSON/...

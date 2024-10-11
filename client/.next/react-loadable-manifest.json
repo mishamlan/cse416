@@ -1,16 +1,14 @@
 {
   "components/Compare.jsx -> react-plotly.js": {
-    "id": 2008,
+    "id": "components/Compare.jsx -> react-plotly.js",
     "files": [
-      "static/chunks/f2d0f643.d1770af3a24de040.js",
-      "static/chunks/8.5608ee0e60b9c39d.js"
+      "static/chunks/_app-pages-browser_node_modules_react-plotly_js_react-plotly_js.js"
     ]
   },
   "components/Summary.jsx -> react-plotly.js": {
-    "id": 2008,
+    "id": "components/Summary.jsx -> react-plotly.js",
     "files": [
-      "static/chunks/f2d0f643.d1770af3a24de040.js",
-      "static/chunks/8.5608ee0e60b9c39d.js"
+      "static/chunks/_app-pages-browser_node_modules_react-plotly_js_react-plotly_js.js"
     ]
   }
 }
