@@ -73,7 +73,7 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
           let hoverPolyongId = null;
   
           stateRef.current.on('load', () => {
-              addMapLayer(`${stateName}-district`, '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson', '#00ff4c', '#96ffb7');
+              addMapLayer(`${stateName}-district`, DATA_USED, '#00ff4c', '#96ffb7');
 
               stateRef.current.on('mousemove', `${stateName}-district-fills`, (e) => {
                 stateRef.current.getCanvas().style.cursor = 'pointer';
@@ -162,7 +162,8 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
             }
       }
     },[displayDistricts, displayPrecincts, visualization]);
-  
+    const DATA_USED = stateName === 'nevada' ? '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson' : '/geoJSON/louisiana-congress.geojson';
+
     const addMapLayer = (id, path, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
         console.log(stateRef)
