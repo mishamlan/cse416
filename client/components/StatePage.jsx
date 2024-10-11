@@ -8,10 +8,11 @@ import Compare from '@/components/Compare';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const StatePage = ({stateName, center, bound, districtJSON}) => {
-  console.log(districtJSON)
+  // console.log(JSON.stringify(districtJSON));
+
     const mapContainerRef = useRef();
     const stateRef = useRef();
-  
+    // const districtJSON2= JSON.stringify(districtJSON)
     const [displayDistricts, setDisplayDistricts] = useState(true);
     const [displayPrecincts, setDispPrecincts] = useState(false);
     const [visualization, setVisualization] = useState(null);
@@ -73,7 +74,7 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
           let hoverPolyongId = null;
   
           stateRef.current.on('load', () => {
-              addMapLayer(`${stateName}-district`, DATA_USED, '#00ff4c', '#96ffb7');
+              addMapLayer(`${stateName}-district`, districtJson, '#00ff4c', '#96ffb7');
 
               stateRef.current.on('mousemove', `${stateName}-district-fills`, (e) => {
                 stateRef.current.getCanvas().style.cursor = 'pointer';
@@ -162,7 +163,7 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
             }
       }
     },[displayDistricts, displayPrecincts, visualization]);
-    const DATA_USED = stateName === 'nevada' ? '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson' : '/geoJSON/louisiana-congress.geojson';
+    const districtJson = stateName === 'nevada' ? '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson' : '/geoJSON/louisiana-congress.geojson';
 
     const addMapLayer = (id, path, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
