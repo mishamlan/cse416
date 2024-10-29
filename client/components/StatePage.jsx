@@ -7,36 +7,41 @@ import Summary from '@/components/Summary';
 import Compare from '@/components/Compare';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const StatePage = ({stateName, center, bound, districtJSON}) => {
-  // console.log(JSON.stringify(districtJSON));
+const StatePage = ({stateName, center, bound, districtJSON, racialJSON}) => {
 
     const mapContainerRef = useRef();
     const stateRef = useRef();
-    // const districtJSON2= JSON.stringify(districtJSON)
     const [displayDistricts, setDisplayDistricts] = useState(true);
     const [displayPrecincts, setDispPrecincts] = useState(false);
     const [visualization, setVisualization] = useState(null);
     const [districtPlan, setDistrictPlan] = useState('current-plan');
   
-    const dummy_districts = ['District 1', 'District 2', 'District 3', 'District 4'];
-    const racialIdentities = ['White', 'Black', 'Asian', 'Hispanic', 'Other']; // Fixed the naming and ensured 6 identities
-    const dummy_populationData = {
-      'District 1': [50000, 30000, 15000, 20000, 4000],
-      'District 2': [40000, 35000, 20000, 25000, 4000],
-      'District 3': [60000, 20000, 10000, 30000, 4000],
-      'District 4': [45000, 25000, 15000, 25000, 4000],
-    };
-  
+    const districtPopulations = {};
+
+    // Iterate over the districtData array to populate the districtPopulations object
+    racialJSON.forEach(district => {
+      const districtName = district.district;
+      districtPopulations[districtName] = [
+        district.white.population,
+        district.black.population,
+        district.asian.population,
+        district.hispanic.population,
+        district.some_other_race_alone.population,
+      ];
+    });
+    
+    const districts = Object.keys(districtPopulations);
+    const racialIdentities = ['White', 'Black', 'Asian', 'Hispanic', 'Other'];
+    
     const NV_traces = racialIdentities.map((identity, index) => {
       return {
-        x: dummy_districts,
-        // Corrected line
-        y: dummy_districts.map(district => dummy_populationData[district][index]),
+        x: districts,
+        y: districts.map(district => districtPopulations[district][index]),
         type: 'bar',
         name: identity,
       };
     });
-  
+  console.log(NV_traces)
     const NV_demographic_layout = {
       title: "Population by Racial Identity across Districts",
       xaxis: {
@@ -74,7 +79,7 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
           let hoverPolyongId = null;
   
           stateRef.current.on('load', () => {
-              addMapLayer(`${stateName}-district`, districtJson, '#00ff4c', '#96ffb7');
+              addMapLayer(`${stateName}-district`, districtJSON, '#00ff4c', '#96ffb7');
 
               stateRef.current.on('mousemove', `${stateName}-district-fills`, (e) => {
                 stateRef.current.getCanvas().style.cursor = 'pointer';
@@ -163,7 +168,6 @@ const StatePage = ({stateName, center, bound, districtJSON}) => {
             }
       }
     },[displayDistricts, displayPrecincts, visualization]);
-    const districtJson = stateName === 'nevada' ? '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson' : '/geoJSON/louisiana-congress.geojson';
 
     const addMapLayer = (id, path, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
