@@ -1,6 +1,10 @@
 {
+<<<<<<< HEAD
   "/NV/page": "app/NV/page.js",
   "/page": "app/page.js",
   "/LA/page": "app/LA/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js"
+=======
+  "/NV/page": "app/NV/page.js"
+>>>>>>> refs/remotes/origin/main
 }

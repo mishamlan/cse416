@@ -1,18 +1,22 @@
-
-"use client";  
+"use client";
 import StatePage from "@/components/StatePage";
 import { useEffect, useState } from 'react';
 
 const NV = () => {
   const stateName = 'nevada';
+<<<<<<< HEAD
   const center = [-116.911022,38.861699];
   const bound = [[-122.169058,34.787989],[-111.479360,42.764263]];
   const stateJSON = '/geoJSON/nevada-outline.geojson';
   // const nevadaDistricts = '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson';
 
+=======
+  const center = [-116.911022, 38.861699];
+  const bound = [[-122.169058, 34.787989], [-111.479360, 42.764263]];
+  
+>>>>>>> refs/remotes/origin/main
   const [districtData, setDistrictData] = useState(null);
-  const [isClient, setIsClient] = useState(false); // Add state to check if client-side
-
+  const [racialData, setRacialData] = useState(null);
 
   const dummy_districts = ['District 1', 'District 2', 'District 3', 'District 4'];
     const racialIdentities = ['White', 'Black', 'Asian', 'Hispanic', 'Other']; // Fixed the naming and ensured 6 identities
@@ -57,26 +61,41 @@ const NV = () => {
 
 
   useEffect(() => {
-    setIsClient(true); // Ensure this runs only on the client-side
-
     const fetchDistrictData = async () => {
       try {
-        const response = await fetch('/geojson/2021Congressional_Final_SB1_Amd2.geojson');
-          if (response.ok) {
+        const response = await fetch('http://localhost:8080/geojson/nv/districts');
+        if (response.ok) {
           const data = await response.json();
-          console.log(data)
-          setDistrictData(data); // Set the fetched data to state
+          console.log("backend data: \n", data);
+          setDistrictData(data);
         } else {
-          console.error('Failed to fetch the GeoJSON data');
+          console.error('Failed to fetch the district GeoJSON data');
         }
       } catch (error) {
-        console.error('Error fetching the GeoJSON data:', error);
+        console.error('Error fetching the district GeoJSON data:', error);
       }
     };
-    if(districtData==null)
-    fetchDistrictData();
-  }, []);
-  // if (!isClient) return null 
+
+    const fetchRacialData = async () => {
+      try {
+        const res = await fetch('http://localhost:8080/demographic/nv/nv_racial_data');
+        if (res.ok) {
+          const data = await res.json();
+          console.log(data);
+          setRacialData(data);
+        } else {
+          console.error('Failed to fetch the racial GeoJSON data');
+        }
+      } catch (error) {
+        console.error('Error fetching the racial GeoJSON data:', error);
+      }
+    };
+
+    if (districtData === null) fetchDistrictData();
+    if (racialData === null) fetchRacialData();
+  }, [districtData, racialData]);
+
+  if (!districtData || !racialData) return <div>Loading...</div>;
 
   return (
     <div>
@@ -85,15 +104,19 @@ const NV = () => {
         center={center}
         bound={bound}
         districtJSON={districtData}
+<<<<<<< HEAD
         stateJSON={stateJSON}
         dummy_districts={dummy_districts}
         racialIdentities={racialIdentities}
         dummy_populationData={dummy_populationData}
         NV_traces={NV_traces}
         NV_demographic_layout={NV_demographic_layout}
+=======
+        racialJSON={racialData}
+>>>>>>> refs/remotes/origin/main
       />
     </div>
-  )
+  );
 }
 
-export default NV
+export default NV;

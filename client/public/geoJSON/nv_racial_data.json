@@ -1,0 +1,149 @@
+[    {
+        "district": 1,
+        "2020_population": 776153,
+        "white": {
+            "population": 354538,
+            "percent": 0.4568
+        },
+        "black": {
+            "population": 100814,
+            "percent": 0.1299
+        },
+        "american_indian": {
+            "population": 23644,
+            "percent": 0.0305
+        },
+        "asian": {
+            "population": 79806,
+            "percent": 0.1028
+        },
+        "native_hawaiian": {
+            "population": 12570,
+            "percent": 0.0162
+        },
+        "some_other_race_alone": {
+            "population": 141719,
+            "percent": 0.1826
+        },
+        "two_or_more_races": {
+            "population": 119860,
+            "percent": 0.1544
+        },
+        "hispanic": {
+            "population": 278903,
+            "percent": 0.3593
+        }
+        
+    },
+
+    {
+        "district": 2,
+        "2020_population": 776154,
+        "white": {
+            "population": 525157,
+            "percent": 0.6766
+        },
+        "black": {
+            "population": 25210,
+            "percent": 0.0325
+        },
+        "american_indian": {
+            "population": 38061,
+            "percent": 0.0490
+        },
+        "asian": {
+            "population": 48366,
+            "percent": 0.0623
+        },
+        "native_hawaiian": {
+            "population": 8339,
+            "percent": 0.0107
+        },
+        "some_other_race_alone": {
+            "population": 83727,
+            "percent": 0.1079
+        },
+        "two_or_more_races": {
+            "population": 95806,
+            "percent": 0.1234
+        },
+        "hispanic": {
+            "population": 179909,
+            "percent": 0.2318
+        }
+    },
+
+    {
+        "district": 3,
+        "2020_population": 776153,
+        "white": {
+            "population": 373902,
+            "percent": 0.4817
+        },
+        "black": {
+            "population": 98120,
+            "percent": 0.1264
+        },
+        "american_indian": {
+            "population": 18587,
+            "percent": 0.0239
+        },
+        "asian": {
+            "population": 163953,
+            "percent": 0.2112
+        },
+        "native_hawaiian": {
+            "population": 18203,
+            "percent": 0.0235
+        },
+        "some_other_race_alone": {
+            "population": 70274,
+            "percent": 0.0905
+        },
+        "two_or_more_races": {
+            "population": 102932,
+            "percent": 0.1326
+        },
+        "hispanic": {
+            "population": 164069,
+            "percent": 0.2114
+        }
+    },
+
+    {
+        "district": 4,
+        "2020_population": 776154,
+        "white": {
+            "population": 334866,
+            "percent": 0.4314
+        },
+        "black": {
+            "population": 151054,
+            "percent": 0.1946
+        },
+        "american_indian": {
+            "population": 25498,
+            "percent": 0.0329
+        },
+        "asian": {
+            "population": 61468,
+            "percent": 0.0792
+        },
+        "native_hawaiian": {
+            "population": 13420,
+            "percent": 0.0173
+        },
+        "some_other_race_alone": {
+            "population": 140037,
+            "percent": 0.1804
+        },
+        "two_or_more_races": {
+            "population": 115411,
+            "percent": 0.1487
+        },
+        "hispanic": {
+            "population": 267376,
+            "percent": 0.3445
+        }
+    }
+]

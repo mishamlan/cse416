@@ -7,6 +7,7 @@ import Summary from '@/components/Summary';
 import Compare from '@/components/Compare';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+<<<<<<< HEAD
 const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
   dummy_districts,racialIdentities,dummy_populationData,NV_traces,NV_demographic_layout
 }) => {
@@ -22,6 +23,64 @@ const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
     const [tab, setTab] = useState('summary');
     
     let hoverPolyongId = null;
+=======
+const StatePage = ({stateName, center, bound, districtJSON, racialJSON}) => {
+
+    const mapContainerRef = useRef();
+    const stateRef = useRef();
+    const [displayDistricts, setDisplayDistricts] = useState(true);
+    const [displayPrecincts, setDispPrecincts] = useState(false);
+    const [visualization, setVisualization] = useState(null);
+    const [districtPlan, setDistrictPlan] = useState('current-plan');
+  
+    const districtPopulations = {};
+
+    // Iterate over the districtData array to populate the districtPopulations object
+    racialJSON.forEach(district => {
+      const districtName = district.district;
+      districtPopulations[districtName] = [
+        district.white.population,
+        district.black.population,
+        district.asian.population,
+        district.hispanic.population,
+        district.some_other_race_alone.population,
+      ];
+    });
+    
+    const districts = Object.keys(districtPopulations);
+    const racialIdentities = ['White', 'Black', 'Asian', 'Hispanic', 'Other'];
+    
+    const NV_traces = racialIdentities.map((identity, index) => {
+      return {
+        x: districts,
+        y: districts.map(district => districtPopulations[district][index]),
+        type: 'bar',
+        name: identity,
+      };
+    });
+  console.log(NV_traces)
+    const NV_demographic_layout = {
+      title: "Population by Racial Identity across Districts",
+      xaxis: {
+        title: "Districts",
+      },
+      yaxis: {
+        title: "Population",
+      },
+      paper_bgcolor: 'rgba(0,0,0,0)', // Transparent background for the entire chart
+      plot_bgcolor: 'rgba(0,0,0,0)', // Transparent background for the plot area
+      height: 400,
+      width: 400,
+      legend: {
+        orientation: "h", // Make legend horizontal
+        x: 0.5, // Center the legend horizontally
+        y: -0.5, // Position it below the chart
+        xanchor: "center", // Align the legend horizontally to the center
+        yanchor: "top", // Align the legend vertically to the top of the chart
+      },
+      barmode: 'stack', // Stacked bars for better visibility
+    };
+>>>>>>> refs/remotes/origin/main
 
     useEffect(() => {
       if (!stateRef.current) {
@@ -36,8 +95,12 @@ const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
           });
   
           stateRef.current.on('load', () => {
+<<<<<<< HEAD
             addMapLayer(`${stateName}-district`, DATA_USED, '#00ff4c', '#96ffb7');
             addLineLayer(`${stateName}-outline`, stateJSON, '#000000');
+=======
+              addMapLayer(`${stateName}-district`, districtJSON, '#00ff4c', '#96ffb7');
+>>>>>>> refs/remotes/origin/main
 
             highlightLayer(stateName, 'district');
           });
@@ -100,7 +163,6 @@ const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
           }
       }
     },[displayDistricts, displayPrecincts, visualization]);
-    const DATA_USED = stateName === 'nevada' ? '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson' : '/geoJSON/louisiana-congress.geojson';
 
     const addMapLayer = (id, path, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
