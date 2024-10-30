@@ -7,6 +7,11 @@ const LA = () => {
   const center = [-92.530767,31.029098];
   const bound = [[-95.869350,28.233563],[-88.359821,33.563892]];
   const louisianaDistricts = '/geoJSON/louisiana-congress.geojson';
+  const stateJSON = '/geoJSON/louisiana.geojson';
+
+  const SMDEnsemble = {
+    smd1: '/geoJSON/louisiana-congress.geojson',
+  };
 
   const [districtData, setDistrictData] = useState(null);
 
@@ -37,6 +42,7 @@ const LA = () => {
         center={center}
         bound={bound}
         districtJSON={districtData}
+        stateJSON={stateJSON}
       />
     </div>
   )
