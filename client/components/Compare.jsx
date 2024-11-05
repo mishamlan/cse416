@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 
 const Plot = dynamic(() => import('react-plotly.js', {ssr: false}));
 
-const Compare = () => {
+const Compare = ({tab}) => {
 
   const [demographic, setDemographic] = useState('African-American');
 
@@ -21,7 +21,7 @@ const Compare = () => {
   }
 
   return (
-    <div className="Compare" >
+    <div className="Compare" style={{'display': tab == 'compare' ? 'block' : 'none'}} >
           <h2>Compare</h2>
           <br />
           <p style={{ marginBottom: '20px' }}>This section provides graphics to compare the the results of an SMD election and MMD election </p>

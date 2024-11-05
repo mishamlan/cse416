@@ -1,6 +1,11 @@
 {
   "pages": {
+<<<<<<< HEAD
     "/page": [
+=======
+    "/NV/page": [
+<<<<<<< HEAD
+>>>>>>> 06900c53223e802c80e6a5e96a1d9dbe5016eb3e
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/page.css",
@@ -12,11 +17,32 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+<<<<<<< HEAD
     "/NV/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/NV/page.css",
       "static/chunks/app/NV/page.js"
+=======
+    "/page": [
+=======
+>>>>>>> refs/remotes/origin/main
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/page.css",
+      "static/chunks/app/page.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+<<<<<<< HEAD
+      "static/css/app/LA/page.css",
+      "static/chunks/app/LA/page.js"
+=======
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+>>>>>>> refs/remotes/origin/main
+>>>>>>> 06900c53223e802c80e6a5e96a1d9dbe5016eb3e
     ]
   }
 }

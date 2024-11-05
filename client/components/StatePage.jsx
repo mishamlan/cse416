@@ -7,6 +7,23 @@ import Summary from '@/components/Summary';
 import Compare from '@/components/Compare';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+<<<<<<< HEAD
+const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
+  dummy_districts,racialIdentities,dummy_populationData,NV_traces,NV_demographic_layout
+}) => {
+  // console.log(districtJSON)
+    const mapContainerRef = useRef();
+    const stateRef = useRef();
+
+    const [displayDistricts, setDisplayDistricts] = useState(true);
+    const [displayPrecincts, setDispPrecincts] = useState(false);
+    const [displayLayer, setDisplayLayer] = useState('district');
+    const [visualization, setVisualization] = useState('none');
+    const [districtPlan, setDistrictPlan] = useState('current');
+    const [tab, setTab] = useState('summary');
+    
+    let hoverPolyongId = null;
+=======
 const StatePage = ({stateName, center, bound, districtJSON, racialJSON}) => {
 
     const mapContainerRef = useRef();
@@ -63,6 +80,7 @@ const StatePage = ({stateName, center, bound, districtJSON, racialJSON}) => {
       },
       barmode: 'stack', // Stacked bars for better visibility
     };
+>>>>>>> refs/remotes/origin/main
 
     useEffect(() => {
       if (!stateRef.current) {
@@ -75,39 +93,16 @@ const StatePage = ({stateName, center, bound, districtJSON, racialJSON}) => {
             minZoom: 5.5,
             maxBounds: bound,
           });
-
-          let hoverPolyongId = null;
   
           stateRef.current.on('load', () => {
+<<<<<<< HEAD
+            addMapLayer(`${stateName}-district`, DATA_USED, '#00ff4c', '#96ffb7');
+            addLineLayer(`${stateName}-outline`, stateJSON, '#000000');
+=======
               addMapLayer(`${stateName}-district`, districtJSON, '#00ff4c', '#96ffb7');
+>>>>>>> refs/remotes/origin/main
 
-              stateRef.current.on('mousemove', `${stateName}-district-fills`, (e) => {
-                stateRef.current.getCanvas().style.cursor = 'pointer';
-                if (e.features.length > 0) {
-                  if (hoverPolyongId) {
-                    stateRef.current.removeFeatureState(
-                      {source: `${stateName}-district`, id: hoverPolyongId},
-                    );
-                  }
-
-                  hoverPolyongId = e.features[0].id;
-
-                  stateRef.current.setFeatureState(
-                    {source: `${stateName}-district`, id: hoverPolyongId},
-                    {hover: true}
-                  );
-                }
-              });
-              
-              stateRef.current.on('mouseleave', `${stateName}-district-fills`, () => {
-                if (hoverPolyongId !== null) {
-                  stateRef.current.setFeatureState(
-                    {source: `${stateName}-district`, id: hoverPolyongId},
-                    {hover: false}
-                  );
-                }
-                hoverPolyongId = null;
-              });
+            highlightLayer(stateName, 'district');
           });
           
       } else {
@@ -120,16 +115,16 @@ const StatePage = ({stateName, center, bound, districtJSON, racialJSON}) => {
           }
   
           if(displayPrecincts) {
-            // showMapLayer('louisiana-precincts');
+            // showMapLayer(`${stateName}-precincts`);
           } else {
-            // hideMapLayer('louisiana-precincts');
+            // hideMapLayer(`${stateName}-precincts`);
           }
   
           switch (visualization) {
               case 'election-results':
                 hideMapLayer(`${stateName}-district-white`);
                 break;
-              case 'white':
+              case 'white-population':
                 if (!stateRef.current.getLayer(`${stateName}-district-white`)){
                   console.log('create layer white')
                   stateRef.current.addLayer({
@@ -150,28 +145,27 @@ const StatePage = ({stateName, center, bound, districtJSON, racialJSON}) => {
                   showMapLayer(`${stateName}-district-white`);
                 }
                 break;
-              case 'black':
+              case 'black-population':
                 // hideMapLayer('nevada-district-white');
                 break;
-              case 'hispanic':
+              case 'hispanic-population':
                 // hideMapLayer('nevada-district-white');
                 break;
-              case 'asian':
+              case 'asian-population':
                 // hideMapLayer('nevada-district-white');
                 break;
-              case 'other':
+              case 'other-population':
                 // hideMapLayer('nevada-district-white');
                 break;
               default:
                 console.log('no visualization')
                 hideMapLayer('nevada-district-white');
-            }
+          }
       }
     },[displayDistricts, displayPrecincts, visualization]);
 
     const addMapLayer = (id, path, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
-        console.log(stateRef)
         stateRef.current.addSource(id, {
           type: 'geojson',
           data: path,  // path -> public/geoJSON/...
@@ -215,7 +209,7 @@ const StatePage = ({stateName, center, bound, districtJSON, racialJSON}) => {
         });
   
         stateRef.current.addLayer({
-          id: id+'-line',
+          id: id+'-lines',
           type: 'line',
           source: id,
           layout: {},
@@ -234,21 +228,90 @@ const StatePage = ({stateName, center, bound, districtJSON, racialJSON}) => {
     const showMapLayer = (id) => {
       stateRef.current.setLayoutProperty(id, 'visibility', 'visible');
     }
+
+    const highlightLayer = (stateName, boundary) => {
+      stateRef.current.on('mousemove', `${stateName}-${boundary}-fills`, (e) => {
+        stateRef.current.getCanvas().style.cursor = 'pointer';
+        if (e.features.length > 0) {
+          if (hoverPolyongId) {
+            stateRef.current.removeFeatureState(
+              {source: `${stateName}-${boundary}`, id: hoverPolyongId},
+            );
+          }
+
+          hoverPolyongId = e.features[0].id;
+
+          stateRef.current.setFeatureState(
+            {source: `${stateName}-${boundary}`, id: hoverPolyongId},
+            {hover: true}
+          );
+        }
+      });
+      
+      stateRef.current.on('mouseleave', `${stateName}-${boundary}-fills`, () => {
+        if (hoverPolyongId !== null) {
+          stateRef.current.setFeatureState(
+            {source: `${stateName}-${boundary}`, id: hoverPolyongId},
+            {hover: false}
+          );
+        }
+        hoverPolyongId = null;
+      });
+    }
   
     return (
       <div className='content'>
-        <Menu displayDistricts={displayDistricts} 
+        <Menu setDisplayLayer={setDisplayLayer}
+          displayDistricts={displayDistricts} 
           setDisplayDistricts={setDisplayDistricts} 
           displayPrecincts={displayPrecincts} 
           setDisplayPrecincts={setDispPrecincts}
           setVisualization={setVisualization}
           setDistrictPlan={setDistrictPlan}
           visualization={visualization}
+          districtPlan={districtPlan}
         />
-        <div ref={mapContainerRef} className="state-container"></div>
+        <div ref={mapContainerRef} className="state-container">
+          <div className="legend-container">
+            <div className="legend line-legend" style={{'display': visualization == 'none' ? 'flex' : 'none'}}>
+              <div><div id="black-line"></div> State</div>
+              <div><div id="green-line"></div> District</div>
+              <div><div id="purple-line"></div> Precinct</div>
+            </div>
+            <div className="legend election-legend" style={{'display': visualization == "election-results" ? 'flex' : 'none'}}>
+              election legend
+            </div>
+            <div className="legend demo-legend" style={{'display': visualization.includes('population') ? 'flex' : 'none'}}>
+              <div>
+                <div style={{'backgroundColor':"#fff7e5", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
+                <div style={{'backgroundColor':"#ffe4c9", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
+                <div style={{'backgroundColor':"#fcd0a1", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
+                <div style={{'backgroundColor':"#fcae6b", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
+                <div style={{'backgroundColor':"#fe8d3b", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
+                <div style={{'backgroundColor':"#f16913", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
+                <div style={{'backgroundColor':"#d84801", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
+              </div>
+              <div>
+                <div style={{'padding':"6px 0px"}}></div>
+                <div style={{'padding':"6px 0px"}}>1000</div>
+                <div style={{'padding':"6px 0px"}}>2000</div>
+                <div style={{'padding':"6px 0px"}}>5000</div>
+                <div style={{'padding':"6px 0px"}}>10000</div>
+                <div style={{'padding':"6px 0px"}}>20000</div>
+                <div style={{'padding':"6px 0px"}}>50000</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className='data-sect'>
-          <Summary data={NV_traces} layout={NV_demographic_layout}/>
-          <Compare />
+          <div className="tabs">
+            <div className="tab" style={{'backgroundColor': tab == 'summary' ? 'white': '#a0a0a0'}} onClick={() => setTab('summary')}>Summary</div>
+            <div className="tab" style={{'backgroundColor': tab == 'compare' ? 'white': '#a0a0a0'}} onClick={() => setTab('compare')}>Compare</div>
+          </div>
+          <div className="main-data">
+            <Summary tab={tab} data={NV_traces} layout={NV_demographic_layout}/>
+            <Compare tab={tab} />
+          </div>
         </div>
       </div>
     )

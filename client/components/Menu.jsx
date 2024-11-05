@@ -3,43 +3,43 @@
 import { useState } from 'react'
 import '@/styles/Menu.css'
 
-const Menu = ({setDisplayDistricts, setDisplayPrecincts, displayDistricts, displayPrecincts, setVisualization, setDistrictPlan, visualization}) => {
-  const NV_election_res_data = [
-    {
-      type: "pie",
-      values: [50.1, 47.7],
-      labels: ["Democrats", "Republicans"],
-      textinfo: "label+percent",
-      hole: 0.4, // For a donut chart
-      marker: {
-        colors: ["#00AEF3", "#E81B23"], // Custom colors
-      },
-    },
-  ];
-  const NV_election_res_layout = {
-    title: "2020 Primary Election Results",
-    height: 400,
-    width: 500,
-    paper_bgcolor: 'rgba(0,0,0,0)', // Transparent background for the entire chart
-    plot_bgcolor: 'rgba(0,0,0,0)',
-    legend: {
-      orientation: "h", // Make legend horizontal
-      x: 0.2, // Center the legend horizontally
-      y: -0.2, // Position it below the chart
-      xanchor: "center", // Align the legend horizontally to the center
-      yanchor: "top", // Align the legend vertically to the top of the chart
-    },
-    margin: {
-      l: 50, // Left margin (increase to push the chart more to the left)
-      r: 250, // Right margin
-      t: 50, // Top margin
-      b: 100, // Bottom margin to make space for the legend
-    },
-    // Shift the pie chart more to the left by modifying domain
-    xaxis: {
-      domain: [0.2, 1], // The lower the first value, the more the pie chart moves left
-    },
-  };
+const Menu = ({setDisplayLayer, setDisplayDistricts, setDisplayPrecincts, displayDistricts, displayPrecincts, setVisualization, setDistrictPlan, visualization, districtPlan}) => {
+  // const NV_election_res_data = [
+  //   {
+  //     type: "pie",
+  //     values: [50.1, 47.7],
+  //     labels: ["Democrats", "Republicans"],
+  //     textinfo: "label+percent",
+  //     hole: 0.4, // For a donut chart
+  //     marker: {
+  //       colors: ["#00AEF3", "#E81B23"], // Custom colors
+  //     },
+  //   },
+  // ];
+  // const NV_election_res_layout = {
+  //   title: "2020 Primary Election Results",
+  //   height: 400,
+  //   width: 500,
+  //   paper_bgcolor: 'rgba(0,0,0,0)', // Transparent background for the entire chart
+  //   plot_bgcolor: 'rgba(0,0,0,0)',
+  //   legend: {
+  //     orientation: "h", // Make legend horizontal
+  //     x: 0.2, // Center the legend horizontally
+  //     y: -0.2, // Position it below the chart
+  //     xanchor: "center", // Align the legend horizontally to the center
+  //     yanchor: "top", // Align the legend vertically to the top of the chart
+  //   },
+  //   margin: {
+  //     l: 50, // Left margin (increase to push the chart more to the left)
+  //     r: 250, // Right margin
+  //     t: 50, // Top margin
+  //     b: 100, // Bottom margin to make space for the legend
+  //   },
+  //   // Shift the pie chart more to the left by modifying domain
+  //   xaxis: {
+  //     domain: [0.2, 1], // The lower the first value, the more the pie chart moves left
+  //   },
+  // };
 
   const handleDistricts = (e) => {
     setDisplayDistricts(e.target.checked);
@@ -59,6 +59,10 @@ const Menu = ({setDisplayDistricts, setDisplayPrecincts, displayDistricts, displ
     setDisplayPrecincts(false);
   }
 
+  const changeDisplay = (e) => {
+    setDisplayLayer(e.target.value);
+  }
+
   const changeVisualization = (e) => {
     setVisualization(e.target.value);
   }
@@ -75,82 +79,51 @@ const Menu = ({setDisplayDistricts, setDisplayPrecincts, displayDistricts, displ
 
   return (
     <div className="menu">
-      <div className="menu-sect">
-        <h2>Settings</h2>
-        <div className="menu-content">
-          <h3>Boundaries</h3>
-          <div className="setting-field">
-            <div className="input-sets">
-              <input type="checkbox" name="setting" value="districts" id="display-districts" onChange={handleDistricts} checked={displayDistricts} />
-              <label htmlFor="display-districts"> Display Districts</label>
-            </div>
-            <div className="input-sets">
-              <input type="checkbox" name="setting" value="precincts" id="display-precincts" onChange={handlePrecincts} checked={displayPrecincts} />
-              <label htmlFor="display-precincts"> Display Precincts</label>
-            </div>
-            <div className="setting-btns">
-              <button onClick={handleSelectAll}>Select All</button>
-              <button type="reset" onClick={handleClearAll}>Clear All</button>
-            </div>
+      <h2>Settings</h2>
+      <div className="menu-content">
+        <h3>Boundaries</h3>
+        <div className="setting-field">
+          <div className="input-sets">
+            <input type="checkbox" name="setting" value="districts" id="display-districts" onChange={handleDistricts} checked={displayDistricts} />
+            <label htmlFor="display-districts"> Display Districts</label>
           </div>
-          <h3>Visualization</h3>
-          <div className="setting-field">
-            <div className="input-sets">
-              <input type="radio" name="visualization" value="election-results" id="election-results" onChange={changeVisualization}/>
-              <label htmlFor="election-results"> Election Results</label>
-            </div>
-            <select name="demographic" id="demographic" onChange={changeVisualization}>
-              <option value={null}>Select Demographic</option>
-              <option value="white">White Population</option>
-              <option value="Black">Black Population</option>
-              <option value="Hispanic">Hispanic Population</option>
-              <option value="asian">Asian Population</option>
-              <option value="other">Other Population</option>
-            </select>
-            <div className="setting-btns">
-              <button onClick={handleUncheck}>Clear</button>
-            </div>
+          <div className="input-sets">
+            <input type="checkbox" name="setting" value="precincts" id="display-precincts" onChange={handlePrecincts} checked={displayPrecincts} />
+            <label htmlFor="display-precincts"> Display Precincts</label>
           </div>
-          <h3>District Plan</h3>
-          <div className="setting-field">
-            <div className="input-sets">
-              <input type="radio" name="district-plan" value="current-plan" id="current-plan" onChange={changeDistrictPlan} defaultChecked={true} />
-              <label htmlFor="current-plan"> SMD Plan</label>
-            </div>
-            <div className="input-sets">
-              <input type="radio" name="district-plan" id="MMD-plan" value="MMD-plan" onChange={changeDistrictPlan} />
-              <label htmlFor="MMD-plan"> MMD Plan</label>
-            </div>
+          <div className="setting-btns">
+            <button onClick={handleSelectAll}>Select All</button>
+            <button type="reset" onClick={handleClearAll}>Clear All</button>
           </div>
         </div>
-      </div>
-      <div className="legend-container">
-        <div className="legend line-legend" style={{'display': !visualization ? 'flex' : 'none'}}>
-          <div><div id="green-line"></div> : District</div>
-          <div><div id="purple-line"></div> : Precinct</div>
+        <h3>Visualization</h3>
+        <div className="setting-field">
+          <button className="input-sets" style={{'backgroundColor': visualization == 'none' ? '#dddddd' : '#ffffff'}} onClick={changeVisualization} value={'none'}>None</button>
+          <button className="input-sets" style={{'backgroundColor': visualization == 'election-results' ? '#dddddd' : '#ffffff'}} onClick={changeVisualization} value={'election-results'}>Election Results</button>
+          <button className="input-sets" style={{'backgroundColor': visualization == 'white-population' ? '#dddddd' : '#ffffff'}} onClick={changeVisualization} value={'white-population'}>White Population</button>
+          <button className="input-sets" style={{'backgroundColor': visualization == 'black-population' ? '#dddddd' : '#ffffff'}} onClick={changeVisualization} value={'black-population'}>Black Population</button>
+          <button className="input-sets" style={{'backgroundColor': visualization == 'hispanic-population' ? '#dddddd' : '#ffffff'}} onClick={changeVisualization} value={'hispanic-population'}>Hispanic Population</button>
+          <button className="input-sets" style={{'backgroundColor': visualization == 'asian-population' ? '#dddddd' : '#ffffff'}} onClick={changeVisualization} value={'asian-population'}>Asian Population</button>
+          <button className="input-sets" style={{'backgroundColor': visualization == 'other-population' ? '#dddddd' : '#ffffff'}} onClick={changeVisualization} value={'other-population'}>Other Population</button>
         </div>
-        <div className="legend election-legend" style={{'display': visualization == "election-results" ? 'flex' : 'none'}}>
-          election legend
-        </div>
-        <div className="legend demo-legend" style={{'display': visualization == "white"? 'flex' : 'none'}}>
-          <div>
-            <div style={{'backgroundColor':"#fff7e5", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
-            <div style={{'backgroundColor':"#ffe4c9", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
-            <div style={{'backgroundColor':"#fcd0a1", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
-            <div style={{'backgroundColor':"#fcae6b", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
-            <div style={{'backgroundColor':"#fe8d3b", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
-            <div style={{'backgroundColor':"#f16913", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
-            <div style={{'backgroundColor':"#d84801", 'height':'30px', 'width':'30px', 'display':'inline-block'}}></div>
+        <h3>District Plans</h3>
+        <div className="setting-field">
+          <button className="input-sets" style={{'backgroundColor': districtPlan == 'current' ? '#dddddd' : '#ffffff'}} onClick={changeDistrictPlan} value={'current'}>Current SMD Plan</button>
+          <button className="input-sets" style={{'backgroundColor': districtPlan == 'smd1' ? '#dddddd' : '#ffffff'}} onClick={changeDistrictPlan} value={'smd1'}>SMD Plan 1</button>
+          <button className="input-sets" style={{'backgroundColor': districtPlan == 'smd2' ? '#dddddd' : '#ffffff'}} onClick={changeDistrictPlan} value={'smd2'}>SMD Plan 2</button>
+          <button className="input-sets" style={{'backgroundColor': districtPlan == 'smd3' ? '#dddddd' : '#ffffff'}} onClick={changeDistrictPlan} value={'smd3'}>SMD Plan 3</button>
+          <button className="input-sets" style={{'backgroundColor': districtPlan == 'smd4' ? '#dddddd' : '#ffffff'}} onClick={changeDistrictPlan} value={'smd4'}>SMD Plan 4</button>
+          <button className="input-sets" style={{'backgroundColor': districtPlan == 'mmd' ? '#dddddd' : '#ffffff'}} onClick={changeDistrictPlan} value={'mmd'}>MMD Plan</button>
+
+
+          {/* <div className="input-sets">
+            <input type="radio" name="district-plan" value="current-plan" id="current-plan" onChange={changeDistrictPlan} defaultChecked={true} />
+            <label htmlFor="current-plan"> SMD Plan</label>
           </div>
-          <div>
-            <div style={{'padding':"6px 0px"}}></div>
-            <div style={{'padding':"6px 0px"}}>1000</div>
-            <div style={{'padding':"6px 0px"}}>2000</div>
-            <div style={{'padding':"6px 0px"}}>5000</div>
-            <div style={{'padding':"6px 0px"}}>10000</div>
-            <div style={{'padding':"6px 0px"}}>20000</div>
-            <div style={{'padding':"6px 0px"}}>50000</div>
-          </div>
+          <div className="input-sets">
+            <input type="radio" name="district-plan" id="MMD-plan" value="MMD-plan" onChange={changeDistrictPlan} />
+            <label htmlFor="MMD-plan"> MMD Plan</label>
+          </div> */}
         </div>
       </div>
     </div>

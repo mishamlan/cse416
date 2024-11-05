@@ -1,18 +1,19 @@
 'use client'
 
 import { useRef, useEffect} from 'react';
+import { useRouter } from 'next/navigation';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 
 const Map = () => {
+  const router = useRouter();
+
   const mapContainerRef = useRef();
   const mapRef = useRef();
   
   // center of the map
-  const center = [-98.403102,39.567843];  // general center
-  const nevadaCenter = [-116.911022,38.861699];  // center of Nevada
-  const louisianaCenter = [-92.530767,31.029098];  // center of Louisiana
+  const center = [-98.403102,39.567843];  // usa center
   
   // set position bound
   const bound = [
@@ -21,9 +22,6 @@ const Map = () => {
   ];
 
   const stateColor = 'Black';
-  const districtColor = 'Green';
-  const precinctColor = 'Purple';
-  
 
   useEffect(() => {
     if (!mapRef.current) {
@@ -39,13 +37,7 @@ const Map = () => {
   
       mapRef.current.on('load', () => {
         addMapLayer('nevada', '/geoJSON/nevada-outline.geojson', stateColor);
-        addLineLayer('nevada-district', '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson', districtColor);
         addMapLayer('louisiana', '/geoJSON/louisiana.geojson', stateColor);
-        addLineLayer('louisiana-congress', '/geoJSON/louisiana-congress.geojson', districtColor);
-        addLineLayer('louisiana-precincts', '/geoJSON/louisiana-precinct.geojson', precinctColor);
-        hideMapLayer('louisiana-congress-line');
-        hideMapLayer('louisiana-precincts-line');
-        hideMapLayer('nevada-district-line')
       });
 
     }
@@ -60,7 +52,7 @@ const Map = () => {
       });
   
       mapRef.current.addLayer({
-        id: id+'fill',
+        id: id+'-fill',
         type: 'fill',
         source: id,
         layout: {},
@@ -80,35 +72,19 @@ const Map = () => {
           'line-width': 1
         }
       });
-    }
-  }
 
-  const addLineLayer = (id, path, color) => {
-    if(!mapRef.current.getSource(id)) {
-      mapRef.current.addSource(id, {
-        type: 'geojson',
-        data: path,  // path -> public/geoJSON/...
+      mapRef.current.on('click', `${id}-fill`, (e) => {
+        let state = id == 'nevada' ? 'NV' : 'LA';
+        router.push(`/${state}`);
       });
 
-      mapRef.current.addLayer({
-        id: id+'-line',
-        type: 'line',
-        source: id,
-        layout: {},
-        paint: {
-          'line-color': color,
-          'line-width': 1
-        }
+      mapRef.current.on('mouseenter', `${id}-fill`, (e) => {
+        mapRef.current.getCanvas().style.cursor = 'pointer';
+      });
+      mapRef.current.on('mouseleave', `${id}-fill`, (e) => {
+        mapRef.current.getCanvas().style.cursor = '';
       });
     }
-  }
-
-  const hideMapLayer = (id) => {
-    mapRef.current.setLayoutProperty(id, 'visibility', 'none');
-  }
-  
-  const showMapLayer = (id) => {
-    mapRef.current.setLayoutProperty(id, 'visibility', 'visible');
   }
 
   return (
