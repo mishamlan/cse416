@@ -27,12 +27,18 @@ const NV = () => {
     };
 
     const fetchRacialData = async () => {
+      let data;
+      if(data = localStorage.getItem('nv_racial_data')){
+        setRacialData(JSON.parse(data));
+        console.log('inside if statement')
+      }
       try {
         const res = await fetch('http://localhost:8080/demographic/nv/nv_racial_data');
         if (res.ok) {
           const data = await res.json();
           console.log(data);
           setRacialData(data);
+          localStorage.setItem('nv_racial_data', JSON.stringify(data))
         } else {
           console.error('Failed to fetch the racial GeoJSON data');
         }
