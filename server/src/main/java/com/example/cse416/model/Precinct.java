@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.springframework.data.annotation.Id;
 
-import com.example.cse416.constants.Groups;
+import com.example.cse416.constants.Group;
 
 public class Precinct extends Election{
     @Id
@@ -12,7 +12,7 @@ public class Precinct extends Election{
     private Integer population;
     private String boundary;
     private Candidate winner;
-   private HashMap<Groups, Integer> demographics;
+   private HashMap<Group, Integer> demographics;
 public String getId() {
     return id;
 }
@@ -37,10 +37,10 @@ public Candidate getWinner() {
 public void setWinner(Candidate winner) {
     this.winner = winner;
 }
-public HashMap<Groups, Integer> getDemographics() {
+public HashMap<Group, Integer> getDemographics() {
     return demographics;
 }
-public void setDemographics(HashMap<Groups, Integer> demographics) {
+public void setDemographics(HashMap<Group, Integer> demographics) {
     this.demographics = demographics;
 }
 

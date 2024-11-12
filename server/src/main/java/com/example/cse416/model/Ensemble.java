@@ -3,12 +3,12 @@ package com.example.cse416.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.example.cse416.constants.Groups;
+import com.example.cse416.constants.Group;
 
 public class Ensemble {
     ArrayList<DistrictPlan> plans;
     ArrayList<Candidate> winners;
-    HashMap<Groups, Integer> demographics;
+    HashMap<Group, Integer> demographics;
     public ArrayList<DistrictPlan> getPlans() {
         return plans;
     }
@@ -21,10 +21,10 @@ public class Ensemble {
     public void setWinners(ArrayList<Candidate> winners) {
         this.winners = winners;
     }
-    public HashMap<Groups, Integer> getDemographics() {
+    public HashMap<Group, Integer> getDemographics() {
         return demographics;
     }
-    public void setDemographics(HashMap<Groups, Integer> demographics) {
+    public void setDemographics(HashMap<Group, Integer> demographics) {
         this.demographics = demographics;
     }
 

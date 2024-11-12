@@ -1,6 +1,6 @@
 package com.example.cse416.constants;
 
-public enum Groups {
+public enum Group {
     asian,
     black,
     white,
