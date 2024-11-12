@@ -1,24 +1,15 @@
 package com.example.cse416.model;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class State {
     private State name;
     private Ensemble ensemble;
     private Integer population;
-    public State getName() {
-        return name;
-    }
-    public void setName(State name) {
-        this.name = name;
-    }
-    public Ensemble getEnsemble() {
-        return ensemble;
-    }
-    public void setEnsemble(Ensemble ensemble) {
-        this.ensemble = ensemble;
-    }
-    public Integer getPopulation() {
-        return population;
-    }
-    public void setPopulation(Integer population) {
-        this.population = population;
-    }
 }
