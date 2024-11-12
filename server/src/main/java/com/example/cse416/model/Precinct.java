@@ -13,5 +13,35 @@ public class Precinct extends Election{
     private String boundary;
     private Candidate winner;
    private HashMap<Groups, Integer> demographics;
+public String getId() {
+    return id;
+}
+public void setId(String id) {
+    this.id = id;
+}
+public Integer getPopulation() {
+    return population;
+}
+public void setPopulation(Integer population) {
+    this.population = population;
+}
+public String getBoundary() {
+    return boundary;
+}
+public void setBoundary(String boundary) {
+    this.boundary = boundary;
+}
+public Candidate getWinner() {
+    return winner;
+}
+public void setWinner(Candidate winner) {
+    this.winner = winner;
+}
+public HashMap<Groups, Integer> getDemographics() {
+    return demographics;
+}
+public void setDemographics(HashMap<Groups, Integer> demographics) {
+    this.demographics = demographics;
+}
 
 }
