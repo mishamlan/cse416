@@ -1,0 +1,29 @@
+{
+    "ensembleStats": {
+        "opportunityDistrictRange": {
+            "min": 2,
+            "max": 5,
+            "average": 3.5
+        },
+        "partySplitRange": {
+            "democratic": {
+                "min": 6,
+                "max": 9,
+                "average": 7.5
+            },
+            "republican": {
+                "min": 6,
+                "max": 9,
+                "average": 7.5
+            }
+        },
+        "voteShare": {
+            "democratic": 0.48,
+            "republican": 0.52
+        },
+        "seatShare": {
+            "democratic": 0.47,
+            "republican": 0.53
+        }
+    }
+}
