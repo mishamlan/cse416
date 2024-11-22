@@ -1,0 +1,89 @@
+{
+    "plans": [
+        {
+            "state": "la",
+            "id": "plan1",
+            "type": "smd",
+            "districts": [
+                {
+                    "state": "la",
+                    "population": 750000,
+                    "boundary": "SAMPLE_BOUNDARY_DATA",
+                    "demographics": {
+                        "asian": 50000,
+                        "black": 300000,
+                        "white": 350000,
+                        "latino": 50000
+                    },
+                    "threshold": 50,
+                    "type": "smd",
+                    "year": 2022,
+                    "ballots": [
+                        {
+                            "id": "ballot1",
+                            "candidates": [
+                                {
+                                    "id": "candidate1",
+                                    "name": "John Doe",
+                                    "party": "democrat",
+                                    "opportunity": true
+                                }
+                            ]
+                        }
+                    ],
+                    "winners": [
+                        {
+                            "id": "candidate1",
+                            "name": "John Doe",
+                            "party": "democrat",
+                            "opportunity": true
+                        }
+                    ],
+                    "majorityParty": "democrat"
+                },
+                {
+                    "state": "la",
+                    "population": 750000,
+                    "boundary": "SAMPLE_BOUNDARY_DATA",
+                    "demographics": {
+                        "asian": 40000,
+                        "black": 200000,
+                        "white": 460000,
+                        "latino": 50000
+                    },
+                    "threshold": 50,
+                    "type": "smd",
+                    "year": 2022,
+                    "ballots": [
+                        {
+                            "id": "ballot2",
+                            "candidates": [
+                                {
+                                    "id": "candidate2",
+                                    "name": "Jane Smith",
+                                    "party": "republican",
+                                    "opportunity": false
+                                }
+                            ]
+                        }
+                    ],
+                    "winners": [
+                        {
+                            "id": "candidate2",
+                            "name": "Jane Smith",
+                            "party": "republican",
+                            "opportunity": false
+                        }
+                    ],
+                    "majorityParty": "republican"
+                }
+            ]
+        }
+    ],
+    "demographics": {
+        "asian": 90000,
+        "black": 500000,
+        "white": 810000,
+        "latino": 100000
+    }
+}
