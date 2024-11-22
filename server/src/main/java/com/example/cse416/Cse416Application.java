@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RestController
+
 public class Cse416Application {
     // Class-level fields
     private static final Map<String, Ensemble> ensembleCache = new HashMap<>();
@@ -74,7 +75,7 @@ public class Cse416Application {
     }
 
     // GUI-4: Display summary of SMD/MMD ensembles
-    @GetMapping("/api/ensemble/summary/{state}/{type}/{number}")
+    @GetMapping("/ensemble/summary/{state}/{type}/{number}")
     public ResponseEntity<Map<String, Object>> getEnsembleSummary(
             @PathVariable String state,
             @PathVariable String type,
@@ -100,7 +101,7 @@ public class Cse416Application {
     }
 
     // GUI-11: Display district plan summary
-    @GetMapping("/api/districtplan/{state}/{type}/{number}")
+    @GetMapping("/dplan/{state}/{type}/{number}")
     public ResponseEntity<Map<String, Object>> getDistrictPlan(
             @PathVariable String state,
             @PathVariable String type,
@@ -121,7 +122,7 @@ public class Cse416Application {
     }
 
     // GUI-15 & GUI-16: Display ensemble data and box & whisker
-    @GetMapping("/api/ensemble/data/{state}/{type}/{number}")
+    @GetMapping("/ensemble/data/{state}/{type}/{number}")
     public ResponseEntity<Map<String, Object>> getEnsembleData(
             @PathVariable String state,
             @PathVariable String type,
@@ -134,15 +135,29 @@ public class Cse416Application {
             data.put("opportunityDistrictRange", calculateOpportunityRange(ensemble));
             data.put("partySplitRange", calculatePartySplitRange(ensemble));
             
-            if (type.equals("smd")) {
-                data.put("boxAndWhisker", calculateBoxAndWhisker(ensemble));
-            }
-            
             return ResponseEntity.ok(data);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/boxwhisker/{state}/{type}/{number}")
+    public ResponseEntity<Map<String, Object>> getBoxWhiskerData(
+            @PathVariable String state,
+            @PathVariable String type,
+            @PathVariable Integer number) {
+        
+        try {
+            Ensemble ensemble = loadEnsembleData(state, type, number);
+            Map<String, Object> data = new HashMap<>();
+            
+            data.put("boxAndWhisker", calculateBoxAndWhisker(ensemble));
+            
+            return ResponseEntity.ok(data);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }   
 
     // Data access methods
     private Ensemble loadEnsembleData(String state, String type, Integer number) throws IOException {

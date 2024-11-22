@@ -1,0 +1,49 @@
+{
+    "smd": {
+        "numPlans": 5000,
+        "averageMinorityReps": 2.5,
+        "averageEqualPopulationMeasure": 0.98,
+        "averagePartySplit": {
+            "democratic": 0.47,
+            "republican": 0.53
+        },
+        "minorityRepresentation": {
+            "black": 2,
+            "hispanic": 1,
+            "asian": 0
+        },
+        "safeDistricts": {
+            "democratic": 5,
+            "republican": 6
+        },
+        "competitiveDistricts": 4,
+        "totalDistricts": 15
+    },
+    "mmd": {
+        "numPlans": 5000,
+        "averageMinorityReps": 3.5,
+        "averageEqualPopulationMeasure": 0.97,
+        "averagePartySplit": {
+            "democratic": 0.52,
+            "republican": 0.48
+        },
+        "minorityRepresentation": {
+            "black": 3,
+            "hispanic": 2,
+            "asian": 1
+        },
+        "mmdLayout": [5, 5, 3, 3],
+        "safeDistricts": {
+            "democratic": 2,
+            "republican": 1
+        },
+        "competitiveDistricts": 1,
+        "totalDistricts": 4,
+        "representativesPerDistrict": {
+            "district1": 5,
+            "district2": 5,
+            "district3": 3,
+            "district4": 3
+        }
+    }
+}

@@ -1,73 +1,47 @@
 {
-    "boxAndWhiskerData": {
-        "districts": [
-            {
-                "districtNumber": 1,
+    "boxWhiskerData": {
+        "districts": {
+            "district1": {
                 "democratic": {
-                    "min": 0.3,
-                    "q1": 0.4,
-                    "median": 0.5,
-                    "q3": 0.6,
-                    "max": 0.7
+                    "min": 0.2,
+                    "q1": 0.3,
+                    "median": 0.4,
+                    "q3": 0.5,
+                    "max": 0.6,
+                    "outliers": [0.15, 0.65]
                 },
                 "republican": {
-                    "min": 0.3,
-                    "q1": 0.4,
-                    "median": 0.5,
-                    "q3": 0.6,
-                    "max": 0.7
+                    "min": 0.4,
+                    "q1": 0.5,
+                    "median": 0.6,
+                    "q3": 0.7,
+                    "max": 0.8,
+                    "outliers": [0.35, 0.85]
                 },
-                "minorityGroups": {
-                    "black": {
-                        "min": 0.1,
-                        "q1": 0.2,
-                        "median": 0.3,
-                        "q3": 0.4,
-                        "max": 0.5
-                    }
-                }
-            },
-            {
-                "districtNumber": 2,
-                "democratic": {
-                    "min": 0.25,
-                    "q1": 0.35,
-                    "median": 0.45,
-                    "q3": 0.55,
-                    "max": 0.65
+                "africanAmerican": {
+                    "min": 0.1,
+                    "q1": 0.15,
+                    "median": 0.2,
+                    "q3": 0.25,
+                    "max": 0.3,
+                    "outliers": [0.05, 0.35]
                 },
-                "republican": {
-                    "min": 0.35,
-                    "q1": 0.45,
-                    "median": 0.55,
-                    "q3": 0.65,
-                    "max": 0.75
-                },
-                "minorityGroups": {
-                    "black": {
-                        "min": 0.15,
-                        "q1": 0.25,
-                        "median": 0.35,
-                        "q3": 0.45,
-                        "max": 0.55
-                    }
+                "hispanic": {
+                    "min": 0.05,
+                    "q1": 0.1,
+                    "median": 0.15,
+                    "q3": 0.2,
+                    "max": 0.25,
+                    "outliers": [0.02, 0.28]
                 }
             }
-        ],
+        },
         "enactedPlanValues": {
             "district1": {
                 "democratic": 0.45,
                 "republican": 0.55,
-                "minorityGroups": {
-                    "black": 0.3
-                }
-            },
-            "district2": {
-                "democratic": 0.52,
-                "republican": 0.48,
-                "minorityGroups": {
-                    "black": 0.35
-                }
+                "africanAmerican": 0.22,
+                "hispanic": 0.15
             }
         }
     }
