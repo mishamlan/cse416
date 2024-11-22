@@ -1,0 +1,74 @@
+{
+    "boxAndWhiskerData": {
+        "districts": [
+            {
+                "districtNumber": 1,
+                "democratic": {
+                    "min": 0.3,
+                    "q1": 0.4,
+                    "median": 0.5,
+                    "q3": 0.6,
+                    "max": 0.7
+                },
+                "republican": {
+                    "min": 0.3,
+                    "q1": 0.4,
+                    "median": 0.5,
+                    "q3": 0.6,
+                    "max": 0.7
+                },
+                "minorityGroups": {
+                    "black": {
+                        "min": 0.1,
+                        "q1": 0.2,
+                        "median": 0.3,
+                        "q3": 0.4,
+                        "max": 0.5
+                    }
+                }
+            },
+            {
+                "districtNumber": 2,
+                "democratic": {
+                    "min": 0.25,
+                    "q1": 0.35,
+                    "median": 0.45,
+                    "q3": 0.55,
+                    "max": 0.65
+                },
+                "republican": {
+                    "min": 0.35,
+                    "q1": 0.45,
+                    "median": 0.55,
+                    "q3": 0.65,
+                    "max": 0.75
+                },
+                "minorityGroups": {
+                    "black": {
+                        "min": 0.15,
+                        "q1": 0.25,
+                        "median": 0.35,
+                        "q3": 0.45,
+                        "max": 0.55
+                    }
+                }
+            }
+        ],
+        "enactedPlanValues": {
+            "district1": {
+                "democratic": 0.45,
+                "republican": 0.55,
+                "minorityGroups": {
+                    "black": 0.3
+                }
+            },
+            "district2": {
+                "democratic": 0.52,
+                "republican": 0.48,
+                "minorityGroups": {
+                    "black": 0.35
+                }
+            }
+        }
+    }
+}

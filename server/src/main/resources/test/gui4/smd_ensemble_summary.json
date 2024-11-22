@@ -1,0 +1,14 @@
+{
+    "summary": {
+        "numPlans": 5000,
+        "averageMinorityReps": 2.5,
+        "averageEqualPopulation": 0.97,
+        "averageRepDemSplit": {
+            "republican": 8,
+            "democratic": 7
+        },
+        "safeDistricts": 10,
+        "competitiveDistricts": 5,
+        "averagePopulationDeviation": 0.01
+    }
+}

@@ -1,0 +1,88 @@
+{
+    "boxAndWhiskerData": {
+        "districts": [
+            {
+                "districtNumber": 1,
+                "numRepresentatives": 5,
+                "democratic": {
+                    "min": 0.4,
+                    "q1": 0.5,
+                    "median": 0.6,
+                    "q3": 0.7,
+                    "max": 0.8
+                },
+                "republican": {
+                    "min": 0.2,
+                    "q1": 0.3,
+                    "median": 0.4,
+                    "q3": 0.5,
+                    "max": 0.6
+                },
+                "minorityGroups": {
+                    "black": {
+                        "min": 0.2,
+                        "q1": 0.3,
+                        "median": 0.35,
+                        "q3": 0.4,
+                        "max": 0.5
+                    }
+                },
+                "expectedRepresentation": {
+                    "democratic": 3,
+                    "republican": 2,
+                    "minority": 2
+                }
+            },
+            {
+                "districtNumber": 2,
+                "numRepresentatives": 3,
+                "democratic": {
+                    "min": 0.35,
+                    "q1": 0.45,
+                    "median": 0.55,
+                    "q3": 0.65,
+                    "max": 0.75
+                },
+                "republican": {
+                    "min": 0.25,
+                    "q1": 0.35,
+                    "median": 0.45,
+                    "q3": 0.55,
+                    "max": 0.65
+                },
+                "minorityGroups": {
+                    "black": {
+                        "min": 0.15,
+                        "q1": 0.25,
+                        "median": 0.3,
+                        "q3": 0.35,
+                        "max": 0.45
+                    }
+                },
+                "expectedRepresentation": {
+                    "democratic": 2,
+                    "republican": 1,
+                    "minority": 1
+                }
+            }
+        ],
+        "enactedPlanValues": {
+            "district1": {
+                "democratic": 0.6,
+                "republican": 0.4,
+                "minorityGroups": {
+                    "black": 0.35
+                },
+                "representatives": 5
+            },
+            "district2": {
+                "democratic": 0.55,
+                "republican": 0.45,
+                "minorityGroups": {
+                    "black": 0.3
+                },
+                "representatives": 3
+            }
+        }
+    }
+}
