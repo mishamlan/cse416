@@ -17,10 +17,8 @@ import com.example.cse416.model.Ensemble;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-
-
 import com.example.cse416.Service;
+
 @SpringBootApplication
 @RestController
 public class Controller {

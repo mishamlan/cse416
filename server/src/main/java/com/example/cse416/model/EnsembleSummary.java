@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EnsembleData {
+public class EnsembleSummary {
     private int numOfPlans;
     private StateID state;
     private List<DistrictPlan> plans;
