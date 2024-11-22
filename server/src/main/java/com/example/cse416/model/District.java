@@ -17,6 +17,8 @@ import lombok.Setter;
 public class District extends Election{
    private StateID state;
    private Integer population;
+   private Double repSplit;
+   private Double demSplit;
    private String boundary;
    private HashMap<Group, Integer> demographics;
    private Integer threshold;
