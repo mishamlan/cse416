@@ -36,15 +36,13 @@ const LA = () => {
   }, []);
 
   return (
-    <div>
-      <StatePage 
+    <StatePage 
         stateName={stateName} 
         center={center}
         bound={bound}
-        districtJSON={districtData}
+        districtJSON={louisianaDistricts}
         stateJSON={stateJSON}
-      />
-    </div>
+    />
   )
 }
 

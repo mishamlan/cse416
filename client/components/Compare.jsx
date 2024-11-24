@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import {  useState } from 'react';
 import dynamic from 'next/dynamic'
+// import Plot from 'react-plotly.js';
 
-const Plot = dynamic(() => import('react-plotly.js', {ssr: false}));
+// const Plot = dynamic(() => import('react-plotly.js', {ssr: false}));
 
 const Compare = ({tab}) => {
 
@@ -16,44 +17,41 @@ const Compare = ({tab}) => {
 
   ];
 
-  const compareComponent = () => {
-    const [demographic, setDemographic] = useState('African-American');
-  }
+  // const compareComponent = () => {
+  //   const [demographic, setDemographic] = useState('African-American');
+  // }
 
   return (
-    <div className="Compare" style={{'display': tab == 'compare' ? 'block' : 'none'}} >
-          <h2>Compare</h2>
-          <br />
-          <p style={{ marginBottom: '20px' }}>This section provides graphics to compare the the results of an SMD election and MMD election </p>
+    <div></div>
+    // <div className={tab == 'compare' ? 'mt-8 p-4 ' : 'hidden'} >
+    //       <h3>Box and Whisker Analysis</h3>
 
-          <h3>Box and Whisker Analysis</h3>
+    //       <select className='dropdown-menu h-8 w-40'
+    //         style={{ marginBottom: '20px' }}
+    //         value={demographic}
+    //         onChange={(e) => setDemographic(e.target.value)}
+    //       >
+    //         <option value="White">White</option>
+    //         <option value="African-American">African-American</option>
+    //         <option value="Asian">Asian</option>
+    //         <option value="Hispanic">Hispanic</option>
+    //         <option value="Others">Others</option>
+    //       </select>
+    //         <Plot
+    //           data={boxwhisker}
+    //           layout={{ 
+    //             title: 'Distribution of Race', 
+    //             yaxis: { 
+    //               title: 'Percentage (%)', 
+    //               range: [0, 100],
+    //               dtick: 10        
+    //             }, 
+    //             width: 380,
+    //             showlegend: false
+    //           }}
+    //         />
 
-          <select
-            style={{ marginBottom: '20px' }}
-            value={demographic}
-            onChange={(e) => setDemographic(e.target.value)}
-          >
-            <option value="White">White</option>
-            <option value="African-American">African-American</option>
-            <option value="Asian">Asian</option>
-            <option value="Hispanic">Hispanic</option>
-            <option value="Others">Others</option>
-          </select>
-            <Plot
-              data={boxwhisker}
-              layout={{ 
-                title: 'SMDs vs MMD Distribution of Race', 
-                yaxis: { 
-                  title: 'Percentage (%)', 
-                  range: [0, 100],
-                  dtick: 10        
-                }, 
-                width: 380,
-                showlegend: false
-              }}
-            />
-
-        </div>
+    //     </div>
   )
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "cse416_project",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,16 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "http-proxy-middleware": "^3.0.3",
-    "mapbox-gl": "^3.7.0",
-    "next": "^14.2.13",
+    "mapbox-gl": "^3.8.0",
+    "next": "15.0.3",
     "plotly.js": "^2.35.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "19.0.0-rc-66855b96-20241106",
+    "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-plotly.js": "^2.6.0"
   },
   "devDependencies": {
     "eslint": "^8",
-    "eslint-config-next": "14.2.13"
+    "eslint-config-next": "15.0.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
   }
 }
