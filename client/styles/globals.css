@@ -27,7 +27,7 @@
 }
 
 .title {
-  @apply text-white text-3xl font-bold h-full pt-1 cursor-pointer
+  @apply text-white text-5xl font-extrabold h-full pt-0 cursor-pointer
 }
 
 .state-content {

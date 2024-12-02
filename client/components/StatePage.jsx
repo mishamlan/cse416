@@ -203,7 +203,7 @@ const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
           </div>
         </div>
         <div ref={mapContainerRef} className="w-5/12 h-full">
-          <div className="flex flex-col w-28 h-28 bg-white absolute bottom-8 left-3 z-10 p-5 shadow-lg border-2">
+          <div className="flex flex-col w-28 h-28 bg-white absolute bottom-8 left-3 z-10 p-5 shadow-lg border-2 invisible">
             <div className='flex '><div className='w-5 h-1 bg-black'></div> State</div>
             <div className='flex '><div className='w-5 h-1 bg-green-500'></div> District</div>
             <div className='flex '><div className='w-5 h-1 bg-purple-500'></div> Precinct</div>

@@ -15,7 +15,7 @@ const Nav = () => {
   return (
     <nav className='w-full h-12 bg-black flex-btw px-6'>
       <Link href="/">
-        <div className='title'>L I O N S</div>
+        <img src="Lions_Logo.svg" alt="LIONS" />
       </Link>
 
       <select className='dropdown-menu w-44' name="state" id="state" onChange={selectState}>

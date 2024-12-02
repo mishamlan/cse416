@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import DemographicItem from './DemographicItem';
 
 const Summary = ({tab}) => {
 
@@ -19,6 +20,24 @@ const Summary = ({tab}) => {
 
   const selectDistrict = (e) => {
     setDistrict(e.target.value);
+  };
+
+  const [demographics, setDemographics] = useState(
+    {
+      white: 20000,
+      Asian: 10000,
+      Hispanic: 10000,
+      Black: 10000,
+      Other: 10000,
+    }
+  );
+
+  const displayDemo = () => {
+    let list = [];
+    for (const [race, vap] of Object.entries(demographics)) {
+      list.push(<DemographicItem key={district+race} race={race} vap={vap} />);
+    }
+    return list;
   };
 
   useEffect(() => {
@@ -41,7 +60,7 @@ const Summary = ({tab}) => {
         </li>
         <li className='flex flex-col mr-8'>
           <span className='text-base'>Threshold for Opportunity District</span>
-          <span className='text-3xl'>{summaryData.threshold}</span>
+          <span className='text-3xl'>{summaryData.threshold.toLocaleString()}</span>
         </li>
         <li className='flex flex-col mr-8'>
           <span className='text-base'>Number of safe Districts</span>
@@ -69,7 +88,7 @@ const Summary = ({tab}) => {
         </div>
         <div className="flex-col mx-16">
           <h2 className="text-md">Total Population</h2>
-          <span className="text-3xl">{summaryData.population}</span>
+          <span className="text-3xl">{summaryData.population.toLocaleString()}</span>
         </div>
         <div className='rounded-lg border-2 border-black shadow-md'>
           <table className='border-collapse'>
@@ -80,26 +99,7 @@ const Summary = ({tab}) => {
               </tr>
             </thead>
             <tbody>
-              <tr className='border-y border-black'>
-                <td className='py-2 px-4'>White</td>
-                <td className='py-2 px-4'>10000</td>
-              </tr>
-              <tr className='border-y border-black'>
-                <td className='py-2 px-4'>Asian</td>
-                <td className='py-2 px-4'>10000</td>
-              </tr>
-              <tr className='border-y border-black'>
-                <td className='py-2 px-4'>Hispanic</td>
-                <td className='py-2 px-4'>10000</td>
-              </tr>
-              <tr className='border-y border-black'>
-                <td className='py-2 px-4'>Black</td>
-                <td className='py-2 px-4'>10000</td>
-              </tr>
-              <tr className='border-y border-black'>
-                <td className='py-2 px-4'>Other</td>
-                <td className='py-2 px-4'>10000</td>
-              </tr>
+              {displayDemo()}
             </tbody>
           </table>
         </div>

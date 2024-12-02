@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import ElectionResultsItem from './ElectionResultsItem';
 
 const ViewElection = ({tab}) => {
   const numberOfRepresentatives = 1;
@@ -8,6 +9,24 @@ const ViewElection = ({tab}) => {
 
   const [district, setDistrict] = useState('dist-1');
   const [election, setElection] = useState('2020-enact');
+  const [results, setResults] = useState([
+    {
+      rank: 1,
+      name: 'John Doe',
+      party: 'Democratic',
+      votes: 100000,
+      percent: 0.66,
+      isWinner: true,
+    },
+    {
+      rank: 2,
+      name: 'John Doe',
+      party: 'Republican',
+      votes: 50000,
+      percent: 0.33,
+      isWinner: false,
+    }
+  ]);
 
   const selectDistrict = (e) => {
     setDistrict(e.target.value);
@@ -15,6 +34,15 @@ const ViewElection = ({tab}) => {
 
   const selectElection = (e) => {
     setElection(e.target.value);
+  };
+
+  const displayResults = () => {
+    let list = [];
+    results.forEach(candidate => {
+      const {rank, name, party, votes, percent, isWinner} = candidate;
+      list.push(<ElectionResultsItem key={district+election+rank} rank={rank} name={name} party={party} votes={votes} percent={percent} isWinner={isWinner} />);
+    });
+    return list;
   };
 
   useEffect(() => {
@@ -64,23 +92,7 @@ const ViewElection = ({tab}) => {
               </tr>
             </thead>
             <tbody>
-              {/* hard coded */}
-              <tr>
-                <td className='px-8 text-center'>1</td>
-                <td className='px-8 text-center'>John Doe</td>
-                <td className='px-8 text-center democrats'>Democratic</td>
-                <td className='px-8 text-center'>100000</td>
-                <td className='px-8 text-center'>66%</td>
-                <td className='px-8 text-center'>yes</td>
-              </tr>
-              <tr>
-                <td className='px-8 text-center'>2</td>
-                <td className='px-8 text-center'>John Doe</td>
-                <td className='px-8 text-center republican'>Republican</td>
-                <td className='px-8 text-center'>50000</td>
-                <td className='px-8 text-center'>33%</td>
-                <td className='px-8 text-center'>no</td>
-              </tr>
+              {displayResults()}
             </tbody>
           </table>
         </div>
