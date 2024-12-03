@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import '@/styles/Nav.css'
+import "@/styles/globals.css"
 
 const Nav = () => {
 
@@ -13,25 +13,16 @@ const Nav = () => {
   }
 
   return (
-    <nav>
-      <div className='nav-tab-container'>
-        <Link href="/">
-          <div className='nav-tab'>Home</div>
-        </Link>
+    <nav className='w-full h-12 bg-black flex-btw px-6'>
+      <Link href="/">
+        <img src="Lions_Logo.svg" alt="LIONS" />
+      </Link>
 
-        <Link href="/about">
-          <div className='nav-tab'>About</div>
-        </Link>
-      </div>
-
-      <div className="select">
-        <span>State </span>
-        <select name="state" id="state" onChange={selectState}>
-          <option value="">Select...</option>
-          <option value="NV">Nevada</option>
-          <option value="LA">Louisiana</option>
-        </select>
-      </div>
+      <select className='dropdown-menu w-44' name="state" id="state" onChange={selectState}>
+        <option value="">Select State</option>
+        <option value="NV">Nevada</option>
+        <option value="LA">Louisiana</option>
+      </select>
     </nav>
   )
 }

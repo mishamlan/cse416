@@ -1,12 +1,12 @@
-import "@/styles/globals.css";
 import Nav from "@/components/Nav";
+import "@/styles/globals.css";
 
 const RootLayout = ({children}) => {
   return (
-    <html>
+    <html className="w-screen h-screen" lang="en">
       <body>
         <Nav />
-        <main>{children}</main>
+        <main className="content">{children}</main>
       </body>
     </html>
   )

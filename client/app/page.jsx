@@ -1,13 +1,11 @@
 'use client'
 
-import Map from "@/components/Map"
+import USMap from "@/components/USMap"
 
 const Home = () => {
 
   return (
-    <div>
-      <Map />
-    </div>
+    <USMap />
   )
 }
 
