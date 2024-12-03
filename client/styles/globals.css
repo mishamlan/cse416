@@ -1,140 +1,51 @@
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* #region Layout */
 
 .content {
+  width: 100%;
+  height: calc(100vh - 48px);
   position: absolute;
-  top: 50px;
-  width: 100vw;
-  height: calc(100vh - 50px);
-  display: flex;
-  justify-content: flex-start;
+  top: 48px;
+}
+
+.flex-btw {
+  @apply flex justify-between
+}
+
+/* #endregion layout */
+
+.dropdown-menu {
+  @apply rounded-lg text-slate-500 my-2 cursor-pointer shadow-md border
 }
 
 .menu {
-  width: calc((100vw - 100vh) * 0.3);
-  padding: 20px 20px;
-  display: flex;
-  flex-direction: column;
+  @apply w-full h-4/5 pt-8
 }
 
-.menu h2 {
-  margin-bottom: 20px;
+.title {
+  @apply text-white text-5xl font-extrabold h-full pt-0 cursor-pointer
 }
 
-.data-sect {
-  width: calc((100vw - 100vh) * 0.7);
-  overflow-y: auto;
+.state-content {
+  @apply w-full h-full flex-btw
 }
 
-.main-data {
-  padding: 20px 20px;
-}
-
-.tabs {
-  height: 40px;
-  background-color: #a0a0a0;
+.tab-selected {
+  @apply inline-block p-2 text-black border-b-8 border-black rounded-t-lg hover:border-gray-300 hover:text-gray-600
 }
 
 .tab {
-  display: inline-block;
-  font-size: 25px;
-  font-weight: bold;
-  width: 50%;
-  height: 100%;
-  text-align: center;
+  @apply inline-block p-2 border-b-8 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300
 }
 
-.tab:hover {
-  cursor: pointer;
+.democrats {
+  @apply text-blue-500
 }
 
-
-.state-container {
-  height: calc(100vh - 50px);
-  width: 100vh;
-  border: 1px solid black;
-}
-
-.map-container {
-  height: 100vh;
-}
-
-.legend-container {
-  padding: 10px;
-  background-color: white;
-  box-shadow: 0px 0px 5px 2px #a0a0a0;
-  position: absolute;
-  left: 15px;
-  bottom: 30px;
-  z-index: 1;
-}
-
-.legend {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.line-legend {
-  height: 100px;
-  width: 180px;
-}
-
-.demo-legend {
-  height: 200px;
-  width: 180px;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-.demo-legend>div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-#black-line {
-  background-color: #000000;
-  height: 5px;
-  width: 20px;
-  display: inline-block;
-  vertical-align: middle;
-  margin-bottom: 10px;
-}
-
-#green-line {
-  background-color: #00ff4c;
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  vertical-align: middle;
-  margin-bottom: 10px;
-}
-
-#purple-line {
-  background-color: purple;
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.about {
-  display: block;
-  padding: 20px;
+.republican {
+  @apply text-red-500
 }
