@@ -19,12 +19,10 @@ import java.util.stream.Collectors;
 @RestController
 
 public class Service {
-    // Class-level fields
     private static final Map<String, Ensemble> ensembleCache = new HashMap<>();
     private static final Map<String, DistrictPlan> districtPlanCache = new HashMap<>();
     private final static ObjectMapper objectMapper = new ObjectMapper();
     
-        // Data access methods
         public static Ensemble loadEnsembleData(String state, String type, Integer number) throws IOException {
             String ensembleKey = String.format("%s-%s-%d", state, type, number);
             

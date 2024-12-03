@@ -22,4 +22,5 @@ public class BoxWhisker {
     private Double med;
     private Double q3;
     private Double max;
+    private DistrictPlan plan;
 }

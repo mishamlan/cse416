@@ -1,15 +1,18 @@
 package com.example.cse416.model;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.Map;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.example.cse416.constants.Group;
+import com.example.cse416.constants.StateID;
+
+import lombok.Getter;
+
+@Document(collection = "state-info")
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class State {
-    private State name;
+    private StateID name;
     private Ensemble ensemble;
     private Integer population;
+    private Map<Group, Integer> demographics;
 }
