@@ -23,32 +23,58 @@ public class Service {
     private static final Map<String, DistrictPlan> districtPlanCache = new HashMap<>();
     private final static ObjectMapper objectMapper = new ObjectMapper();
     
-        public static Ensemble loadEnsembleData(String state, String type) throws IOException {
-            String ensembleKey = String.format("%s-%s-%d", state, type);
-            
-            if (ensembleCache.containsKey(ensembleKey)) {
-                return ensembleCache.get(ensembleKey);
-            }
-    
-            try {
-                String filePath = String.format("/ensemble/%s/%s/.json", 
-                    state.toLowerCase(), 
-                    type.toLowerCase());
-                
-                Resource resource = new ClassPathResource(filePath);
-                
-                if (resource.exists()) {
-                    Ensemble ensemble = objectMapper.readValue(resource.getInputStream(), Ensemble.class);
-                ensembleCache.put(ensembleKey, ensemble);
-                return ensemble;
-            } else {
-                throw new FileNotFoundException("Ensemble data not found");
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading ensemble data: " + e.getMessage());
-            throw new IOException("Failed to load ensemble data", e);
+    public static Ensemble loadEnsembleData(String state, String type) throws IOException {
+        String ensembleKey = String.format("%s-%s", state, type);
+        
+        if (ensembleCache.containsKey(ensembleKey)) {
+            return ensembleCache.get(ensembleKey);
         }
+
+        try {
+            String filePath = String.format("/ensemble/data/%s/%s/.json", 
+                state.toLowerCase(), 
+                type.toLowerCase());
+            
+            Resource resource = new ClassPathResource(filePath);
+            
+            if (resource.exists()) {
+                Ensemble ensemble = objectMapper.readValue(resource.getInputStream(), Ensemble.class);
+            ensembleCache.put(ensembleKey, ensemble);
+            return ensemble;
+        } else {
+            throw new FileNotFoundException("Ensemble data not found");
+        }
+    } catch (Exception e) {
+        System.err.println("Error loading ensemble data: " + e.getMessage());
+        throw new IOException("Failed to load ensemble data", e);
     }
+}
+public static Ensemble loadEnsembleSummary(String state, String type) throws IOException {
+    String ensembleKey = String.format("%s-%s", state, type);
+    
+    if (ensembleCache.containsKey(ensembleKey)) {
+        return ensembleCache.get(ensembleKey);
+    }
+
+    try {
+        String filePath = String.format("/ensemble/summary/%s/%s/.json", 
+            state.toLowerCase(), 
+            type.toLowerCase());
+        
+        Resource resource = new ClassPathResource(filePath);
+        
+        if (resource.exists()) {
+            Ensemble ensemble = objectMapper.readValue(resource.getInputStream(), Ensemble.class);
+        ensembleCache.put(ensembleKey, ensemble);
+        return ensemble;
+    } else {
+        throw new FileNotFoundException("Ensemble data not found");
+    }
+} catch (Exception e) {
+    System.err.println("Error loading ensemble data: " + e.getMessage());
+    throw new IOException("Failed to load ensemble data", e);
+}
+}
 
     public static DistrictPlan getDistrictPlanData(String state, String type, Integer number) throws IOException {
         System.out.println("entered service layer");
@@ -80,7 +106,6 @@ public class Service {
         }
     }
 
-    // Calculation helper methods
     public static double calculateAverageMinorityReps(Ensemble ensemble) {
         return ensemble.getPlans().stream()
             .mapToDouble(plan -> countMinorityReps(plan))
