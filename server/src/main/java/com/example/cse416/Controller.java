@@ -87,13 +87,15 @@ public class Controller {
     }
 
     // GUI-11: Display district plan summary
-    @GetMapping("/dplan/{state}/{type}/")
+    @GetMapping("/dplan/{state}/{type}/{number}")
     public ResponseEntity<Map<String, Object>> getDistrictPlan(
             @PathVariable String state,
-            @PathVariable String type) {
+            @PathVariable String type,
+            @PathVariable Integer number) {
         
         try {
-            DistrictPlan plan = Service.getDistrictPlanData(state, type);
+            System.out.println("entered controller layer");
+            DistrictPlan plan = Service.getDistrictPlanData(state, type, number);
             Map<String, Object> planSummary = new HashMap<>();
             
             planSummary.put("numDistricts", plan.getDistricts().size());
@@ -125,7 +127,7 @@ public class Controller {
         }
     }
 
-    @GetMapping("/boxwhisker/{state}/{type}/")
+    @GetMapping("/boxwhisker/{state}/{type}/{number}")
     public ResponseEntity<Map<String, Object>> getBoxWhiskerData(
             @PathVariable String state,
             @PathVariable String type) {

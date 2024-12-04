@@ -50,23 +50,26 @@ public class Service {
         }
     }
 
-    public static DistrictPlan getDistrictPlanData(String state, String type) throws IOException {
-        String planKey = String.format("%s-%s", state, type);
+    public static DistrictPlan getDistrictPlanData(String state, String type, Integer number) throws IOException {
+        System.out.println("entered service layer");
+        String planKey = String.format("%s-%s-%d", state, type, number);
         
         if (districtPlanCache.containsKey(planKey)) {
             return districtPlanCache.get(planKey);
         }
 
         try {
-            String filePath = String.format("/districtplan/%s/%s/%d.json", 
+            String filePath = String.format("/dplan/%s/%s/%d.json", 
                 state.toLowerCase(), 
-                type.toLowerCase());
+                type.toLowerCase(), 
+                number);
             
             Resource resource = new ClassPathResource(filePath);
             
             if (resource.exists()) {
                 DistrictPlan plan = objectMapper.readValue(resource.getInputStream(), DistrictPlan.class);
                 districtPlanCache.put(planKey, plan);
+                System.out.println("entered here 71");
                 return plan;
             } else {
                 throw new FileNotFoundException("District plan data not found");
