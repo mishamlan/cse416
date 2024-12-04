@@ -1,0 +1,52 @@
+{
+    "planSummary": {
+        "id": "plan123",
+        "state": "la",
+        "type": "smd",
+        "numDistricts": 15,
+        "totalPopulation": 4500000,
+        "equalPopulationMeasure": 0.98,
+        "totalOpportunityDistricts": 3,
+        "opportunityThreshold": 0.5,
+        "safeDistricts": 11,
+        "competitiveDistricts": 4,
+        "electionYearUsed": 2020
+    },
+    "districts": [
+        {
+            "districtNumber": 1,
+            "population": 300000,
+            "demographics": {
+                "asian": 15000,
+                "black": 90000,
+                "white": 180000,
+                "latino": 15000
+            },
+            "electionResults": {
+                "winner": {
+                    "name": "John Doe",
+                    "party": "democrat",
+                    "isIncumbent": true,
+                    "isMinorityCandidate": true
+                },
+                "voteTotals": {
+                    "democratic": 160000,
+                    "republican": 140000
+                },
+                "marginOfVictory": 15.5,
+                "isSafe": true,
+                "isOpportunityDistrict": true
+            },
+            "compactness": 0.85
+        }
+    ],
+    "overallResults": {
+        "democraticWins": 7,
+        "republicanWins": 8,
+        "opportunityDistrictsAchieved": 3,
+        "partyVoteShare": {
+            "democratic": 0.48,
+            "republican": 0.52
+        }
+    }
+}

@@ -1,7 +1,7 @@
 "use client";  
 import { useEffect, useState } from 'react';
 import StatePage from "@/components/StatePage";
-import { getGeoJson, getDistrictPlan } from '@/app/api/utils';
+import { getGeoJson } from '@/app/api/utils';
 
 const LA = () => {
   const stateName = 'la';
@@ -17,32 +17,19 @@ const LA = () => {
 
 
   useEffect(() => {
-    // const fetchDistrictData = async () => {
-    //   try {
-    //     const response = await fetch('/geojson/louisiana-congress.geojson');
-    //             if (response.ok) {
-    //       const data = await response.json();
-    //       console.log(data)
-    //       setDistrictData(data); // Set the fetched data to state
-    //     } else {
-    //       console.error('Failed to fetch the GeoJSON data');
-    //     }
-    //   } catch (error) {
-    //     console.error('Error fetching the GeoJSON data:', error);
-    //   }
-    // };
-    // if(districtData==null)
-    // fetchDistrictData();
+    const fetchGeojson = async () => {
+      const data = await getGeoJson(stateName, 'louisiana-congress');
+      console.log(data);;
+      setDistrictData(data);
+    }
 
-    // const res = getGeoJson('la', 'louisiana-congress.geojson');
-    // setDistrictData(res);
+    if (districtData == null) fetchGeojson();
 
-    // console.log(districtData)
   }, []);
 
   return (
     <StatePage 
-        stateName={stateName} 
+        state={stateName} 
         center={center}
         bound={bound}
         districtJSON={louisianaDistricts}

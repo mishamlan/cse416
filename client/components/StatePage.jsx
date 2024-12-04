@@ -5,20 +5,18 @@ import mapboxgl from 'mapbox-gl';
 import Summary from '@/components/Summary';
 import ViewElection from './ViewElection';
 import Compare from '@/components/Compare';
-import { getDistrictPlan,  } from '@/app/api/utils';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const StatePage = ({stateName, center, bound, districtJSON,
+const StatePage = ({state, center, bound, districtJSON,
 }) => {
-  // console.log(districtJSON)
     const mapContainerRef = useRef();
     const stateRef = useRef();
 
     const [displayDistricts, setDisplayDistricts] = useState(true);
     const [displayPrecincts, setDispPrecincts] = useState(false);
+    const [tab, setTab] = useState('summary');
     const [ensemble, setEnsemble] = useState('smd');
     const [districtPlan, setDistrictPlan] = useState('1');
-    const [tab, setTab] = useState('summary');
     
     let hoverPolyongId = null;
 
@@ -43,45 +41,35 @@ const StatePage = ({stateName, center, bound, districtJSON,
           });
   
           stateRef.current.on('load', () => {
-            addMapLayer(`${stateName}-district`, districtJSON, '#00ff4c', '#96ffb7');
+            addMapLayer(`${state}-district`, districtJSON, '#00ff4c', '#96ffb7');
 
-            highlightLayer(stateName, 'district');
+            highlightLayer(state, 'district');
           });
           
       } else {
           if(displayDistricts) {
-            showMapLayer(`${stateName}-district-lines`);
-            showMapLayer(`${stateName}-district-fills`);
+            showMapLayer(`${state}-district-lines`);
+            showMapLayer(`${state}-district-fills`);
           } else {
-            hideMapLayer(`${stateName}-district-lines`);
-            hideMapLayer(`${stateName}-district-fills`);
+            hideMapLayer(`${state}-district-lines`);
+            hideMapLayer(`${state}-district-fills`);
           }
   
           if(displayPrecincts) {
-            // showMapLayer(`${stateName}-precincts`);
+            // showMapLayer(`${state}-precincts`);
           } else {
-            // hideMapLayer(`${stateName}-precincts`);
+            // hideMapLayer(`${state}-precincts`);
           }
 
       }
 
-      const fetchDistrictPlan = async () => {
-        console.log(stateName)
-        console.log(ensemble)
-        console.log(districtPlan)
-        const data = await getDistrictPlan(stateName, ensemble, districtPlan);
-        console.log(data);
-      }
+    },[displayDistricts, displayPrecincts]);
 
-      fetchDistrictPlan();
-
-    },[displayDistricts, displayPrecincts, districtPlan]);
-
-    const addMapLayer = (id, path, fillColor, highlightColor) => {
+    const addMapLayer = (id, geojson, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
         stateRef.current.addSource(id, {
           type: 'geojson',
-          data: path,  // path -> public/geoJSON/...
+          data: geojson,
           generateId: true,
         });
     
@@ -142,29 +130,29 @@ const StatePage = ({stateName, center, bound, districtJSON,
     //   stateRef.current.setLayoutProperty(id, 'visibility', 'visible');
     }
 
-    const highlightLayer = (stateName, boundary) => {
-      stateRef.current.on('mousemove', `${stateName}-${boundary}-fills`, (e) => {
+    const highlightLayer = (state, boundary) => {
+      stateRef.current.on('mousemove', `${state}-${boundary}-fills`, (e) => {
         stateRef.current.getCanvas().style.cursor = 'pointer';
         if (e.features.length > 0) {
           if (hoverPolyongId) {
             stateRef.current.removeFeatureState(
-              {source: `${stateName}-${boundary}`, id: hoverPolyongId},
+              {source: `${state}-${boundary}`, id: hoverPolyongId},
             );
           }
 
           hoverPolyongId = e.features[0].id;
 
           stateRef.current.setFeatureState(
-            {source: `${stateName}-${boundary}`, id: hoverPolyongId},
+            {source: `${state}-${boundary}`, id: hoverPolyongId},
             {hover: true}
           );
         }
       });
       
-      stateRef.current.on('mouseleave', `${stateName}-${boundary}-fills`, () => {
+      stateRef.current.on('mouseleave', `${state}-${boundary}-fills`, () => {
         if (hoverPolyongId !== null) {
           stateRef.current.setFeatureState(
-            {source: `${stateName}-${boundary}`, id: hoverPolyongId},
+            {source: `${state}-${boundary}`, id: hoverPolyongId},
             {hover: false}
           );
         }
@@ -174,18 +162,18 @@ const StatePage = ({stateName, center, bound, districtJSON,
   
     return (
       <div className='state-content'>
-        <div className="w-7/12 h-full border-r-2 border-black">
+        <div className="left-panel">
           <div className="w-full h-1/5">
             <h1 className='text-2xl ml-4 pt-8 font-bold'>Settings</h1>
             <div className="flex">
-              <div className='w-60 h-20 flex flex-col mx-4 my-8'>
+              <div className='setting-dropdown mx-4 my-8'>
                 <span>District Type</span>
                 <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectEnsemble}>
                   <option value="SMD">SMD</option>
                   <option value="MMD">MMD</option>
                 </select>
               </div>
-              <div className='w-60 h-20 flex flex-col mx-4 my-8'>
+              <div className='setting-dropdown mx-4 my-8'>
                 <span>District Plan</span>
                 <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrictPlan}>
                   <option value="1">Test Plan</option>
@@ -196,10 +184,10 @@ const StatePage = ({stateName, center, bound, districtJSON,
             </div>
           </div>
           <div className="menu">
-            <div className="text-lg font-bold text-center text-gray-500 border-b-8 border-gray-200">
+            <div className="tabs">
               <ul className="flex flex-wrap -mb-2 pl-2">
                 <li className="me-8">
-                  <button className={tab == 'summary' ? 'tab-selected' : 'tab'} value={'summary'} onClick={(e) => setTab(e.target.value)}>District Plan Summary</button>
+                  <button className={tab == 'summary' ? 'tab-selected' : 'tab'} value={'summary'} onClick={(e) => setTab(e.target.value)}>Summary</button>
                 </li>
                 <li className="me-8">
                   <button className={tab == 'view-election' ? 'tab-selected' : 'tab'} value={'view-election'} onClick={(e) => setTab(e.target.value)}>View Election(s)</button>
@@ -209,17 +197,12 @@ const StatePage = ({stateName, center, bound, districtJSON,
                 </li>
               </ul>
             </div>
-            <Summary tab={tab} ensemble={ensemble} districtPlan={districtPlan} />
-            <ViewElection tab={tab} districtPlan={districtPlan} />
-            <Compare tab={tab} />
+            <Summary tab={tab} state={state} ensemble={ensemble} districtPlan={districtPlan} />
+            <ViewElection tab={tab} state={state} ensemble={ensemble} districtPlan={districtPlan} />
+            <Compare tab={tab} state={state} ensemble={ensemble} />
           </div>
         </div>
-        <div ref={mapContainerRef} className="w-5/12 h-full">
-          <div className="flex flex-col w-28 h-28 bg-white absolute bottom-8 left-3 z-10 p-5 shadow-lg border-2 invisible">
-            <div className='flex '><div className='w-5 h-1 bg-black'></div> State</div>
-            <div className='flex '><div className='w-5 h-1 bg-green-500'></div> District</div>
-            <div className='flex '><div className='w-5 h-1 bg-purple-500'></div> Precinct</div>
-          </div>
+        <div ref={mapContainerRef} className="right-panel">
         </div>
       </div>
     )
