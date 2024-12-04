@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import DemographicItem from './DemographicItem';
 
-const Summary = ({tab}) => {
+const Summary = ({tab, demographics}) => {
 
   const [summaryData, setSummaryData] = useState(
     {
@@ -22,15 +22,15 @@ const Summary = ({tab}) => {
     setDistrict(e.target.value);
   };
 
-  const [demographics, setDemographics] = useState(
-    {
-      white: 20000,
-      Asian: 10000,
-      Hispanic: 10000,
-      Black: 10000,
-      Other: 10000,
-    }
-  );
+  // const [demographics, setDemographics] = useState(
+  //   {
+  //     white: 20000,
+  //     Asian: 10000,
+  //     Hispanic: 10000,
+  //     Black: 10000,
+  //     Other: 10000,
+  //   }
+  // );
 
   const displayDemo = () => {
     let list = [];

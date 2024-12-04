@@ -10,15 +10,21 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 const StatePage = ({stateName, center, bound, districtJSON,
 }) => {
-  // console.log(districtJSON)
     const mapContainerRef = useRef();
     const stateRef = useRef();
 
     const [displayDistricts, setDisplayDistricts] = useState(true);
     const [displayPrecincts, setDispPrecincts] = useState(false);
+    const [tab, setTab] = useState('summary');
     const [ensemble, setEnsemble] = useState('smd');
     const [districtPlan, setDistrictPlan] = useState('1');
-    const [tab, setTab] = useState('summary');
+    const [demographics, setDemographics] = useState({
+      white: 20000,
+      Asian: 10000,
+      Hispanic: 10000,
+      Black: 10000,
+      Other: 10000,
+    });
     
     let hoverPolyongId = null;
 
@@ -66,22 +72,23 @@ const StatePage = ({stateName, center, bound, districtJSON,
       }
 
       const fetchDistrictPlan = async () => {
-        console.log(stateName)
-        console.log(ensemble)
-        console.log(districtPlan)
+        // console.log(stateName)
+        // console.log(ensemble)
+        // console.log(districtPlan)
         const data = await getDistrictPlan(stateName, ensemble, districtPlan);
         console.log(data);
+        setDemographics(data.demographics.totals);
       }
 
       fetchDistrictPlan();
 
     },[displayDistricts, displayPrecincts, districtPlan]);
 
-    const addMapLayer = (id, path, fillColor, highlightColor) => {
+    const addMapLayer = (id, geojson, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
         stateRef.current.addSource(id, {
           type: 'geojson',
-          data: path,  // path -> public/geoJSON/...
+          data: geojson,
           generateId: true,
         });
     
@@ -209,7 +216,7 @@ const StatePage = ({stateName, center, bound, districtJSON,
                 </li>
               </ul>
             </div>
-            <Summary tab={tab} ensemble={ensemble} districtPlan={districtPlan} />
+            <Summary tab={tab} ensemble={ensemble} districtPlan={districtPlan} demographics={demographics}/>
             <ViewElection tab={tab} districtPlan={districtPlan} />
             <Compare tab={tab} />
           </div>
