@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST="{\"components\\\\Compare.jsx -> react-plotly.js\":{\"id\":\"components\\\\Compare.jsx -> react-plotly.js\",\"files\":[\"static/chunks/_app-pages-browser_node_modules_react-plotly_js_react-plotly_js.js\"]}}"

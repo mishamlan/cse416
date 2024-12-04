@@ -5,9 +5,10 @@ import mapboxgl from 'mapbox-gl';
 import Summary from '@/components/Summary';
 import ViewElection from './ViewElection';
 import Compare from '@/components/Compare';
+import { getDistrictPlan,  } from '@/app/api/utils';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
+const StatePage = ({stateName, center, bound, districtJSON,
 }) => {
   // console.log(districtJSON)
     const mapContainerRef = useRef();
@@ -15,8 +16,8 @@ const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
 
     const [displayDistricts, setDisplayDistricts] = useState(true);
     const [displayPrecincts, setDispPrecincts] = useState(false);
-    const [ensemble, setEnsemble] = useState('SMD');
-    const [districtPlan, setDistrictPlan] = useState('current');
+    const [ensemble, setEnsemble] = useState('smd');
+    const [districtPlan, setDistrictPlan] = useState('plan123');
     const [tab, setTab] = useState('summary');
     
     let hoverPolyongId = null;
@@ -43,7 +44,6 @@ const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
   
           stateRef.current.on('load', () => {
             addMapLayer(`${stateName}-district`, districtJSON, '#00ff4c', '#96ffb7');
-            addLineLayer(`${stateName}-outline`, stateJSON, '#000000');
 
             highlightLayer(stateName, 'district');
           });
@@ -64,7 +64,20 @@ const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
           }
 
       }
-    },[displayDistricts, displayPrecincts]);
+
+      const fetchDistrictPlan = async () => {
+        /*
+          stateName = la
+          ensemble = smd
+          districtPlan = plan123
+        */
+        const data = await getDistrictPlan(stateName, ensemble, districtPlan);
+        console.log(data);
+      }
+
+      fetchDistrictPlan();
+
+    },[displayDistricts, displayPrecincts, districtPlan]);
 
     const addMapLayer = (id, path, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
@@ -96,7 +109,7 @@ const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
           source: id,
           layout: {},
           paint: {
-            'line-color': 'White',
+            'line-color': 'black',
             'line-width': 2
           }
         });
@@ -178,6 +191,7 @@ const StatePage = ({stateName, center, bound, districtJSON, stateJSON,
                 <span>District Plan</span>
                 <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrictPlan}>
                   <option value="2020-enact">2020 Enacted Plan</option>
+                  <option value="plan123">Test Plan</option>
                   <option value="other">other</option>
                 </select>
               </div>
