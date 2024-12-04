@@ -37,8 +37,8 @@ const StatePage = ({stateName, center, bound, districtJSON,
             container: mapContainerRef.current, // container ID
             style: 'mapbox://styles/nz31/cm1mpjkcf004101p36vrw409x/draft', // style URL
             center: center, // starting position [lng, lat]
-            zoom: 5.5,
-            minZoom: 5.5,
+            zoom: 4.5,
+            minZoom: 4.5,
             maxBounds: bound,
           });
   
@@ -66,11 +66,6 @@ const StatePage = ({stateName, center, bound, districtJSON,
       }
 
       const fetchDistrictPlan = async () => {
-        /*
-          stateName = la
-          ensemble = smd
-          districtPlan = plan123
-        */
         console.log(stateName)
         console.log(ensemble)
         console.log(districtPlan)
@@ -112,7 +107,7 @@ const StatePage = ({stateName, center, bound, districtJSON,
           source: id,
           layout: {},
           paint: {
-            'line-color': 'black',
+            'line-color': 'green',
             'line-width': 2
           }
         });
@@ -193,8 +188,8 @@ const StatePage = ({stateName, center, bound, districtJSON,
               <div className='w-60 h-20 flex flex-col mx-4 my-8'>
                 <span>District Plan</span>
                 <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrictPlan}>
-                  <option value="2020-enact">2020 Enacted Plan</option>
                   <option value="1">Test Plan</option>
+                  <option value="2020-enact">2020 Enacted Plan</option>
                   <option value="other">other</option>
                 </select>
               </div>

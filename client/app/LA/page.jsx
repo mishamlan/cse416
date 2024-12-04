@@ -5,8 +5,8 @@ import { getGeoJson, getDistrictPlan } from '@/app/api/utils';
 
 const LA = () => {
   const stateName = 'la';
-  const center = [-92.530767,31.029098];
-  const bound = [[-95.869350,28.233563],[-88.359821,33.563892]];
+  const center = [-91.602700,30.998882];
+  const bound = [[-94.152325,28.374421],[-88.785689,33.415371]];
   const louisianaDistricts = '/geoJSON/louisiana-congress.geojson';
 
   const SMDEnsemble = {

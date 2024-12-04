@@ -23,6 +23,12 @@
       "static/chunks/main-app.js",
       "static/css/app/LA/page.css",
       "static/chunks/app/LA/page.js"
+    ],
+    "/NV/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/NV/page.css",
+      "static/chunks/app/NV/page.js"
     ]
   }
 }
