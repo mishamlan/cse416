@@ -18,6 +18,14 @@
 
 /* #endregion layout */
 
+.left-panel {
+  @apply w-7/12 h-full border-r-2 border-black
+}
+
+.right-panel {
+  @apply w-5/12 h-full
+}
+
 .dropdown-menu {
   @apply rounded-lg text-slate-500 my-2 cursor-pointer shadow-md border
 }
@@ -32,6 +40,14 @@
 
 .state-content {
   @apply w-full h-full flex-btw
+}
+
+.setting-dropdown {
+  @apply w-60 h-20 flex flex-col
+}
+
+.tabs {
+  @apply text-lg font-bold text-center text-gray-500 border-b-8 border-gray-200
 }
 
 .tab-selected {

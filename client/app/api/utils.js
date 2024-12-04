@@ -52,10 +52,9 @@ export const PLAN_TYPES = {
    * Fetches ensemble summary data
    * @param {string} state - State identifier
    * @param {string} type - Plan type (SMD/MMD)
-   * @param {number} number - Ensemble number
    */
-  export const getEnsembleSummary = (state, type, number) => {
-    return fetchData(`/ensemble/summary/${state}/${type}/${number}`);
+  export const getEnsembleSummary = (state, type) => {
+    return fetchData(`/ensemble/summary/${state}/${type}`);
   };
   
   /**

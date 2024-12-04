@@ -17,7 +17,6 @@ const NV = () => {
   useEffect(() => {
     const fetchGeojson = async () => {
       const data = await getGeoJson(stateName, 'districts');
-      console.log(data);;
       setDistrictData(data);
     }
 
@@ -33,7 +32,6 @@ const NV = () => {
         const res = await fetch('http://localhost:8080/demographic/nv/nv_racial_data');
         if (res.ok) {
           const data = await res.json();
-          console.log(data);
           setRacialData(data);
           localStorage.setItem('nv_racial_data', JSON.stringify(data))
         } else {
@@ -49,7 +47,7 @@ const NV = () => {
 
   return (
     <StatePage 
-      stateName={stateName} 
+      state={stateName} 
       center={center}
       bound={bound}
       districtJSON={districtJSON}

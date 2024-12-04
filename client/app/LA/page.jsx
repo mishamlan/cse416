@@ -29,7 +29,7 @@ const LA = () => {
 
   return (
     <StatePage 
-        stateName={stateName} 
+        state={stateName} 
         center={center}
         bound={bound}
         districtJSON={louisianaDistricts}
