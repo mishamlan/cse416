@@ -58,7 +58,7 @@ public class Service {
         }
 
         try {
-            String filePath = String.format("/districtplan/%s/%s/%d.json", 
+            String filePath = String.format("/dplan/%s/%s/%d.json", 
                 state.toLowerCase(), 
                 type.toLowerCase());
             
