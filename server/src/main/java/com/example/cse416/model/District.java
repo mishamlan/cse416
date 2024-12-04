@@ -23,5 +23,8 @@ public class District extends Election{
    private String boundary;
    private HashMap<Group, Integer> demographics;
    private Integer threshold;
+   private Integer districtNumber; // Add this field
+   private Double compactness;
+   private ElectionResults electionResults;
 
 }

@@ -94,7 +94,8 @@ public class Controller {
             @PathVariable Integer number) {
         
         try {
-            DistrictPlan plan = Service.getDistrictPlanData(state, type);
+            System.out.println("entered controller layer");
+            DistrictPlan plan = Service.getDistrictPlanData(state, type, number);
             Map<String, Object> planSummary = new HashMap<>();
             
             planSummary.put("numDistricts", plan.getDistricts().size());
