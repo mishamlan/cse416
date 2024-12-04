@@ -17,7 +17,6 @@ import com.example.cse416.model.Ensemble;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import com.example.cse416.Service;
 
 @SpringBootApplication
 @RestController
@@ -63,16 +62,15 @@ public class Controller {
         }
     }
         // GUI-4: Display summary of SMD/MMD ensembles
-    @GetMapping("/ensemble/summary/{state}/{type}/{number}")
+    @GetMapping("/ensemble/summary/{state}/{type}/")
     public ResponseEntity<Map<String, Object>> getEnsembleSummary(
             @PathVariable String state,
-            @PathVariable String type,
-            @PathVariable Integer number) {
+            @PathVariable String type) {
         
         Map<String, Object> summary = new HashMap<>();
         
         try {
-            Ensemble ensemble = Service.loadEnsembleData(state, type, number);
+            Ensemble ensemble = Service.loadEnsembleData(state, type);
             
             summary.put("numPlans", ensemble.getPlans().size());
             summary.put("averageMinorityReps", Service.calculateAverageMinorityReps(ensemble));
@@ -89,14 +87,13 @@ public class Controller {
     }
 
     // GUI-11: Display district plan summary
-    @GetMapping("/dplan/{state}/{type}/{number}")
+    @GetMapping("/dplan/{state}/{type}/")
     public ResponseEntity<Map<String, Object>> getDistrictPlan(
             @PathVariable String state,
-            @PathVariable String type,
-            @PathVariable Integer number) {
+            @PathVariable String type) {
         
         try {
-            DistrictPlan plan = Service.getDistrictPlanData(state, type, number);
+            DistrictPlan plan = Service.getDistrictPlanData(state, type);
             Map<String, Object> planSummary = new HashMap<>();
             
             planSummary.put("numDistricts", plan.getDistricts().size());
@@ -110,14 +107,13 @@ public class Controller {
     }
 
     // GUI-15 & GUI-16: Display ensemble data and box & whisker
-    @GetMapping("/ensemble/data/{state}/{type}/{number}")
+    @GetMapping("/ensemble/data/{state}/{type}/")
     public ResponseEntity<Map<String, Object>> getEnsembleData(
             @PathVariable String state,
-            @PathVariable String type,
-            @PathVariable Integer number) {
+            @PathVariable String type) {
         
         try {
-            Ensemble ensemble = Service.loadEnsembleData(state, type, number);
+            Ensemble ensemble = Service.loadEnsembleData(state, type);
             Map<String, Object> data = new HashMap<>();
             
             data.put("opportunityDistrictRange", Service.calculateOpportunityRange(ensemble));
@@ -129,14 +125,13 @@ public class Controller {
         }
     }
 
-    @GetMapping("/boxwhisker/{state}/{type}/{number}")
+    @GetMapping("/boxwhisker/{state}/{type}/")
     public ResponseEntity<Map<String, Object>> getBoxWhiskerData(
             @PathVariable String state,
-            @PathVariable String type,
-            @PathVariable Integer number) {
+            @PathVariable String type) {
         
         try {
-            Ensemble ensemble = Service.loadEnsembleData(state, type, number);
+            Ensemble ensemble = Service.loadEnsembleData(state, type);
             Map<String, Object> data = new HashMap<>();
             
             data.put("boxAndWhisker", Service.calculateBoxAndWhisker(ensemble));

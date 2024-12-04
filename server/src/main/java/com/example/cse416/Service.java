@@ -23,18 +23,17 @@ public class Service {
     private static final Map<String, DistrictPlan> districtPlanCache = new HashMap<>();
     private final static ObjectMapper objectMapper = new ObjectMapper();
     
-        public static Ensemble loadEnsembleData(String state, String type, Integer number) throws IOException {
-            String ensembleKey = String.format("%s-%s-%d", state, type, number);
+        public static Ensemble loadEnsembleData(String state, String type) throws IOException {
+            String ensembleKey = String.format("%s-%s-%d", state, type);
             
             if (ensembleCache.containsKey(ensembleKey)) {
                 return ensembleCache.get(ensembleKey);
             }
     
             try {
-                String filePath = String.format("/ensemble/%s/%s/%d.json", 
+                String filePath = String.format("/ensemble/%s/%s/.json", 
                     state.toLowerCase(), 
-                    type.toLowerCase(), 
-                    number);
+                    type.toLowerCase());
                 
                 Resource resource = new ClassPathResource(filePath);
                 
@@ -51,8 +50,8 @@ public class Service {
         }
     }
 
-    public static DistrictPlan getDistrictPlanData(String state, String type, Integer number) throws IOException {
-        String planKey = String.format("%s-%s-%d", state, type, number);
+    public static DistrictPlan getDistrictPlanData(String state, String type) throws IOException {
+        String planKey = String.format("%s-%s", state, type);
         
         if (districtPlanCache.containsKey(planKey)) {
             return districtPlanCache.get(planKey);
@@ -61,8 +60,7 @@ public class Service {
         try {
             String filePath = String.format("/districtplan/%s/%s/%d.json", 
                 state.toLowerCase(), 
-                type.toLowerCase(), 
-                number);
+                type.toLowerCase());
             
             Resource resource = new ClassPathResource(filePath);
             
