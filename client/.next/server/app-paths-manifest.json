@@ -1,4 +1,10 @@
 {
+<<<<<<< HEAD
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/LA/page": "app/LA/page.js"
+=======
+  "/LA/page": "app/LA/page.js",
+  "/NV/page": "app/NV/page.js",
+  "/page": "app/page.js"
+>>>>>>> 91d3e23e0c2fb1aa7ba7a009b1cef5b77f89adb0
 }
