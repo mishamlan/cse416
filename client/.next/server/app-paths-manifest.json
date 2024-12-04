@@ -1,12 +1,5 @@
 {
-<<<<<<< HEAD
-  "/NV/page": "app/NV/page.js",
-  "/LA/page": "app/LA/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
-=======
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js",
-  "/NV/page": "app/NV/page.js"
->>>>>>> ec3152900c0e1814edd7fdfe52a3a34dba9c944f
+  "/NV/page": "app/NV/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

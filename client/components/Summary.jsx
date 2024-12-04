@@ -84,6 +84,8 @@ const Summary = ({state, tab, ensemble, districtPlan}) => {
         avgPartySplit: {democratic: int, republican: int},
       }
       */
+     console.log(state)
+     console.log(ensemble)
       const data = await getEnsembleSummary(state, ensemble);
       console.log(data);
     }

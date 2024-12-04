@@ -19,15 +19,17 @@ import java.util.stream.Collectors;
 @RestController
 
 public class Service {
-    private static final Map<String, Ensemble> ensembleCache = new HashMap<>();
+    private static final Map<String, EnsembleSummary> ensembleSummaryCache = new HashMap<>();
+    private static final Map<String, EnsembleData> ensembleDataCache = new HashMap<>();
+
     private static final Map<String, DistrictPlan> districtPlanCache = new HashMap<>();
     private final static ObjectMapper objectMapper = new ObjectMapper();
     
-    public static Ensemble loadEnsembleData(String state, String type) throws IOException {
+    public static EnsembleData loadEnsembleData(String state, String type) throws IOException {
         String ensembleKey = String.format("%s-%s", state, type);
         
-        if (ensembleCache.containsKey(ensembleKey)) {
-            return ensembleCache.get(ensembleKey);
+        if (ensembleDataCache.containsKey(ensembleKey)) {
+            return ensembleDataCache.get(ensembleKey);
         }
 
         try {
@@ -38,8 +40,8 @@ public class Service {
             Resource resource = new ClassPathResource(filePath);
             
             if (resource.exists()) {
-                Ensemble ensemble = objectMapper.readValue(resource.getInputStream(), Ensemble.class);
-            ensembleCache.put(ensembleKey, ensemble);
+                EnsembleData ensemble = objectMapper.readValue(resource.getInputStream(), EnsembleData.class);
+            ensembleDataCache.put(ensembleKey, ensemble);
             return ensemble;
         } else {
             throw new FileNotFoundException("Ensemble data not found");
@@ -49,23 +51,23 @@ public class Service {
         throw new IOException("Failed to load ensemble data", e);
     }
 }
-public static Ensemble loadEnsembleSummary(String state, String type) throws IOException {
+public static EnsembleSummary loadEnsembleSummary(String state, String type) throws IOException {
     String ensembleKey = String.format("%s-%s", state, type);
-    
-    if (ensembleCache.containsKey(ensembleKey)) {
-        return ensembleCache.get(ensembleKey);
+    System.out.println("summary service entered");
+    if (ensembleSummaryCache.containsKey(ensembleKey)) {
+        return ensembleSummaryCache.get(ensembleKey);
     }
 
     try {
-        String filePath = String.format("/ensemble/summary/%s/%s/.json", 
+        String filePath = String.format("/ensemble/summary/%s/%s/summary.json", 
             state.toLowerCase(), 
             type.toLowerCase());
         
         Resource resource = new ClassPathResource(filePath);
         
         if (resource.exists()) {
-            Ensemble ensemble = objectMapper.readValue(resource.getInputStream(), Ensemble.class);
-        ensembleCache.put(ensembleKey, ensemble);
+            EnsembleSummary ensemble = objectMapper.readValue(resource.getInputStream(), EnsembleSummary.class);
+        ensembleSummaryCache.put(ensembleKey, ensemble);
         return ensemble;
     } else {
         throw new FileNotFoundException("Ensemble data not found");
@@ -77,7 +79,7 @@ public static Ensemble loadEnsembleSummary(String state, String type) throws IOE
 }
 
     public static DistrictPlan getDistrictPlanData(String state, String type, Integer number) throws IOException {
-        System.out.println("entered service layer");
+        // System.out.println("entered service layer");
         String planKey = String.format("%s-%s-%d", state, type, number);
         
         if (districtPlanCache.containsKey(planKey)) {
@@ -106,7 +108,7 @@ public static Ensemble loadEnsembleSummary(String state, String type) throws IOE
         }
     }
 
-    public static double calculateAverageMinorityReps(Ensemble ensemble) {
+    public static double calculateAverageMinorityReps(EnsembleSummary ensemble) {
         return ensemble.getPlans().stream()
             .mapToDouble(plan -> countMinorityReps(plan))
             .average()
@@ -128,7 +130,7 @@ public static Ensemble loadEnsembleSummary(String state, String type) throws IOE
         return (double) totalMinority / district.getPopulation() > threshold;
     }
 
-    public static Map<String, Double> calculatePartySplit(Ensemble ensemble) {
+    public static Map<String, Double> calculatePartySplit(EnsembleSummary ensemble) {
         Map<String, Double> split = new HashMap<>();
         double demCount = 0;
         double repCount = 0;
@@ -148,7 +150,7 @@ public static Ensemble loadEnsembleSummary(String state, String type) throws IOE
         return split;
     }
 
-    public static List<Integer> getMmdLayout(Ensemble ensemble) {
+    public static List<Integer> getMmdLayout(EnsembleSummary ensemble) {
         return ensemble.getPlans().get(0).getDistricts().stream()
             .map(district -> district.getPopulation())
             .collect(Collectors.toList());

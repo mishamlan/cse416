@@ -1,5 +1,11 @@
 {
   "pages": {
+    "/NV/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/NV/page.css",
+      "static/chunks/app/NV/page.js"
+    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -11,12 +17,6 @@
       "static/chunks/main-app.js",
       "static/css/app/page.css",
       "static/chunks/app/page.js"
-    ],
-    "/NV/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/NV/page.css",
-      "static/chunks/app/NV/page.js"
     ]
   }
 }

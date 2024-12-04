@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cse416.model.DistrictPlan;
 import com.example.cse416.model.Ensemble;
+import com.example.cse416.model.EnsembleData;
+import com.example.cse416.model.EnsembleSummary;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -70,7 +72,8 @@ public class Controller {
         Map<String, Object> summary = new HashMap<>();
         
         try {
-            Ensemble ensemble = Service.loadEnsembleData(state, type);
+            System.out.println("Endpoint hit with state: " + state + " and type: " + type);
+            EnsembleSummary ensemble = Service.loadEnsembleSummary(state, type);
             
             summary.put("numPlans", ensemble.getPlans().size());
             summary.put("averageMinorityReps", Service.calculateAverageMinorityReps(ensemble));
@@ -94,7 +97,7 @@ public class Controller {
             @PathVariable Integer number) {
         
         try {
-            System.out.println("entered controller layer");
+            // System.out.println("entered controller layer");
             DistrictPlan plan = Service.getDistrictPlanData(state, type, number);
             Map<String, Object> planSummary = new HashMap<>();
             
@@ -109,40 +112,40 @@ public class Controller {
     }
 
     // GUI-15 & GUI-16: Display ensemble data and box & whisker
-    @GetMapping("/ensemble/data/{state}/{type}/")
-    public ResponseEntity<Map<String, Object>> getEnsembleData(
-            @PathVariable String state,
-            @PathVariable String type) {
+    // @GetMapping("/ensemble/data/{state}/{type}/")
+    // public ResponseEntity<Map<String, Object>> getEnsembleData(
+    //         @PathVariable String state,
+    //         @PathVariable String type) {
         
-        try {
-            Ensemble ensemble = Service.loadEnsembleData(state, type);
-            Map<String, Object> data = new HashMap<>();
+    //     try {
+    //         EnsembleData ensemble = Service.loadEnsembleData(state, type);
+    //         Map<String, Object> data = new HashMap<>();
             
-            data.put("opportunityDistrictRange", Service.calculateOpportunityRange(ensemble));
-            data.put("partySplitRange", Service.calculatePartySplitRange(ensemble));
+    //         data.put("opportunityDistrictRange", Service.calculateOpportunityRange(ensemble));
+    //         data.put("partySplitRange", Service.calculatePartySplitRange(ensemble));
             
-            return ResponseEntity.ok(data);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    //         return ResponseEntity.ok(data);
+    //     } catch (Exception e) {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
 
-    @GetMapping("/boxwhisker/{state}/{type}/{number}")
-    public ResponseEntity<Map<String, Object>> getBoxWhiskerData(
-            @PathVariable String state,
-            @PathVariable String type) {
+    // @GetMapping("/boxwhisker/{state}/{type}/{number}")
+    // public ResponseEntity<Map<String, Object>> getBoxWhiskerData(
+    //         @PathVariable String state,
+    //         @PathVariable String type) {
         
-        try {
-            Ensemble ensemble = Service.loadEnsembleData(state, type);
-            Map<String, Object> data = new HashMap<>();
+    //     try {
+    //         Ensemble ensemble = Service.loadEnsembleData(state, type);
+    //         Map<String, Object> data = new HashMap<>();
             
-            data.put("boxAndWhisker", Service.calculateBoxAndWhisker(ensemble));
+    //         data.put("boxAndWhisker", Service.calculateBoxAndWhisker(ensemble));
             
-            return ResponseEntity.ok(data);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }   
+    //         return ResponseEntity.ok(data);
+    //     } catch (Exception e) {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }   
 
     
 }

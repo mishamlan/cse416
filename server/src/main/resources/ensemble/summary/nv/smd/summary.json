@@ -1,0 +1,9 @@
+{
+    "numOfPlans": 5000,
+    "state": "nv",
+    "plans": [], 
+    "avgMinorityReps": 2.5,
+    "avgEqualPop": 0.98,
+    "avgRepDemSplit": 0.53,
+    "type": "smd"
+}

@@ -54,7 +54,7 @@ export const PLAN_TYPES = {
    * @param {string} type - Plan type (SMD/MMD)
    */
   export const getEnsembleSummary = (state, type) => {
-    return fetchData(`/ensemble/summary/${state}/${type}`);
+    return fetchData(`/ensemble/summary/${state}/${type}/`);
   };
   
   /**
