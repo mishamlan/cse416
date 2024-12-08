@@ -44,8 +44,8 @@ export const PLAN_TYPES = {
    * @param {string} state - State identifier
    * @param {string} type - Data type
    */
-  export const getDemographic = (state, type) => {
-    return fetchData(`/demographic/${state}/${type}`);
+  export const getDemographic = (state) => {
+    return fetchData(`/demographic/${state}/`);
   };
   
   /**

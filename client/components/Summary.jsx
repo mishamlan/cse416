@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import DemographicItem from './DemographicItem';
-import { getEnsembleSummary, getDistrictPlan } from '@/app/api/utils';
+import { getEnsembleSummary, getDistrictPlan, getDemographic } from '@/app/api/utils';
 
 const Summary = ({state, tab, ensemble, districtPlan}) => {
 
   const [display, setDisplay] = useState('ensemble');
   const [district, setDistrict] = useState('dist-1');
+  const [racialData, setracialData] = useState(null);
 
   const [ensembleSummary, setEnsembleSummary] = useState({
     numDistrictPlans: 5000,
@@ -73,8 +74,6 @@ const Summary = ({state, tab, ensemble, districtPlan}) => {
     calcTotalPopulation();
     
     const fetchEnsembleSummary = async () => {
-     console.log(state)
-     console.log(ensemble)
       const data = await getEnsembleSummary(state, ensemble);
       console.log(data);
     }
@@ -83,7 +82,17 @@ const Summary = ({state, tab, ensemble, districtPlan}) => {
       const data = await getDistrictPlan(state, ensemble, districtPlan);
       setDemographics(data.demographics.totals);
     }
+    const fetchDemographics = async ()=>{
+      const data = await getDemographic(state)
+      setracialData(data)
+      console.log(data)
+    }
+    fetchDemographics();
     if (display == 'district') fetchDistrictPlan();
+    if (racialData == null) {
+      fetchDemographics();
+    }
+
   }, [demographics, ensemble, districtPlan, state, display]);
 
   return (

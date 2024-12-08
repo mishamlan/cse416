@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.cse416.model.BoxWhisker;
 import com.example.cse416.model.DistrictPlan;
+import com.example.cse416.model.EnsembleData;
 import com.example.cse416.model.EnsembleSummary;
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,9 +39,9 @@ public class Controller {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("/demographic/{state}/{type}")
-    public ResponseEntity<Resource> getDemographic(@PathVariable String state, @PathVariable String type) throws IOException {
-        String filePath = "/demographic/" + state.toLowerCase() + "/" + type.toLowerCase() + ".json";
+    @GetMapping("/demographic/{state}/")
+    public ResponseEntity<Resource> getDemographic(@PathVariable String state) throws IOException {
+        String filePath = "/demographic/" + state.toLowerCase() + "/" + "racial_data.json";
         Resource resource = new ClassPathResource(filePath);
         if (resource.exists()) {
             return ResponseEntity.ok()
@@ -49,71 +52,51 @@ public class Controller {
         }
     }
     @GetMapping("/ensemble/summary/{state}/{type}/")
-    public ResponseEntity<Map<String, Object>> getEnsembleSummary(
+    public ResponseEntity<EnsembleSummary> getEnsembleSummary(
             @PathVariable String state,
             @PathVariable String type) {
-        Map<String, Object> summary = new HashMap<>();
         try {
-            System.out.println("Endpoint hit with state: " + state + " and type: " + type);
             EnsembleSummary ensemble = Service.loadEnsembleSummary(state, type);
-            summary.put("numPlans", ensemble.getPlans().size());
-            summary.put("averageMinorityReps", Service.calculateAverageMinorityReps(ensemble));
-            summary.put("partySplit", Service.calculatePartySplit(ensemble));
-            if (type.equals("mmd")) {
-                summary.put("mmdLayout", Service.getMmdLayout(ensemble));
-            }
-            return ResponseEntity.ok(summary);
+            return ResponseEntity.ok(ensemble);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
     @GetMapping("/dplan/{state}/{type}/{number}")
-    public ResponseEntity<Map<String, Object>> getDistrictPlan(
+    public ResponseEntity<DistrictPlan> getDistrictPlan(
             @PathVariable String state,
             @PathVariable String type,
             @PathVariable Integer number) {
         try {
-            // System.out.println("entered controller layer");
             DistrictPlan plan = Service.getDistrictPlanData(state, type, number);
-            Map<String, Object> planSummary = new HashMap<>();
             
-            planSummary.put("numDistricts", plan.getDistricts().size());
-            planSummary.put("demographics", Service.summarizeDemographics(plan));
-            planSummary.put("electionResults", Service.summarizeElectionResults(plan));
-            
-            return ResponseEntity.ok(planSummary);
+            return ResponseEntity.ok(plan);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
-    // @GetMapping("/ensemble/data/{state}/{type}/")
-    // public ResponseEntity<Map<String, Object>> getEnsembleData(
-    //         @PathVariable String state,
-    //         @PathVariable String type) {
+    @GetMapping("/ensemble/data/{state}/{type}/")
+    public ResponseEntity<EnsembleData> getEnsembleData(
+            @PathVariable String state,
+            @PathVariable String type) {
         
-    //     try {
-    //         EnsembleData ensemble = Service.loadEnsembleData(state, type);
-    //         Map<String, Object> data = new HashMap<>();
+        try {
+            EnsembleData ensemble = Service.loadEnsembleData(state, type);
             
-    //         data.put("opportunityDistrictRange", Service.calculateOpportunityRange(ensemble));
-    //         data.put("partySplitRange", Service.calculatePartySplitRange(ensemble));
-            
-    //         return ResponseEntity.ok(data);
-    //     } catch (Exception e) {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    // }
+            return ResponseEntity.ok(ensemble);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     // @GetMapping("/boxwhisker/{state}/{type}/{number}")
-    // public ResponseEntity<Map<String, Object>> getBoxWhiskerData(
+    // public ResponseEntity<BoxWhisker> getBoxWhiskerData(
     //         @PathVariable String state,
     //         @PathVariable String type) {
         
     //     try {
-    //         EnsembleData ensemble = Service.loadEnsembleData(state, type);
-    //         Map<String, Object> data = new HashMap<>();
+    //         BoxWhisker bw = Service.loadEnsembleData(state, type);
             
-    //         data.put("boxAndWhisker", Service.calculateBoxAndWhisker(ensemble));
             
     //         return ResponseEntity.ok(data);
     //     } catch (Exception e) {

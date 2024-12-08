@@ -85,7 +85,6 @@ public class Service {
             if (resource.exists()) {
                 DistrictPlan plan = objectMapper.readValue(resource.getInputStream(), DistrictPlan.class);
                 districtPlanCache.put(planKey, plan);
-                System.out.println("entered here 71");
                 return plan;
             } else {
                 throw new FileNotFoundException("District plan data not found");
