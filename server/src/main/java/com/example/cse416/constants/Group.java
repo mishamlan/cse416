@@ -4,6 +4,6 @@ public enum Group {
     asian,
     black,
     white,
-    latino,
+    hispanic,
     other
 }

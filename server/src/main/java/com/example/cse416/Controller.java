@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cse416.model.BoxWhisker;
+import com.example.cse416.model.Demographics;
 import com.example.cse416.model.DistrictPlan;
 import com.example.cse416.model.EnsembleData;
 import com.example.cse416.model.EnsembleSummary;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootApplication
@@ -40,15 +42,17 @@ public class Controller {
         }
     }
     @GetMapping("/demographic/{state}/")
-    public ResponseEntity<Resource> getDemographic(@PathVariable String state) throws IOException {
-        String filePath = "/demographic/" + state.toLowerCase() + "/" + "racial_data.json";
-        Resource resource = new ClassPathResource(filePath);
-        if (resource.exists()) {
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(resource);
-        } else {
+    public ResponseEntity<List<Demographics>> getDemographic(@PathVariable String state) throws IOException {
+        System.out.println("entered demographics controller layer");
+
+        try{
+            List<Demographics> dem = Service.getDemographicsData(state);
+            return ResponseEntity.ok(dem);
+        }
+        catch(Exception e){
+            System.out.println("entered error statement");
             return ResponseEntity.notFound().build();
+
         }
     }
     @GetMapping("/ensemble/summary/{state}/{type}/")

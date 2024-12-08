@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.cse416.model.*;
 import com.example.cse416.constants.*;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.FileNotFoundException;
@@ -22,6 +23,8 @@ public class Service {
     private static final Map<String, EnsembleSummary> ensembleSummaryCache = new HashMap<>();
     private static final Map<String, EnsembleData> ensembleDataCache = new HashMap<>();
     private static final Map<String, DistrictPlan> districtPlanCache = new HashMap<>();
+    private static final Map<String, List<Demographics>> demographicsCache = new HashMap<>();
+
     private final static ObjectMapper objectMapper = new ObjectMapper();
     
     public static EnsembleData loadEnsembleData(String state, String type) throws IOException {
@@ -92,6 +95,37 @@ public class Service {
         } catch (Exception e) {
             System.err.println("Error loading district plan data: " + e.getMessage());
             throw new IOException("Failed to load district plan data", e);
+        }
+    }
+    public static List<Demographics> getDemographicsData(String state) throws IOException {
+        System.out.println("Entered demographics service layer");
+        String planKey = state.toLowerCase();
+
+        // Return cached data if it exists
+        if (demographicsCache.containsKey(planKey)) {
+            return demographicsCache.get(planKey);
+        }
+        try {
+            // Construct file path
+            String filePath = String.format("/demographic/%s/racial_data.json", planKey);
+            Resource resource = new ClassPathResource(filePath);
+
+            if (resource.exists()) {
+                // Deserialize into a List<Demographics>
+                List<Demographics> plan = objectMapper.readValue(
+                        resource.getInputStream(),
+                        new TypeReference<List<Demographics>>() {}
+                );
+
+                // Cache the data
+                demographicsCache.put(planKey, plan);
+                return plan;
+            } else {
+                throw new FileNotFoundException("District demographic data not found for state: " + state);
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading demographic data: " + e.getMessage());
+            throw new IOException("Failed to load demographic data", e);
         }
     }
     // public static double calculateAverageMinorityReps(EnsembleSummary ensemble) {

@@ -1,6 +1,6 @@
 [    {
         "district": 1,
-        "2020_population": 776153,
+        "total_population": 776153,
         "white": {
             "population": 354538,
             "percent": 0.4568
@@ -26,7 +26,7 @@
 
     {
         "district": 2,
-        "2020_population": 776154,
+        "total_population": 776154,
         "white": {
             "population": 525157,
             "percent": 0.6766
@@ -51,7 +51,7 @@
 
     {
         "district": 3,
-        "2020_population": 776153,
+        "total_population": 776153,
         "white": {
             "population": 373902,
             "percent": 0.4817
@@ -75,7 +75,7 @@
     },
     {
         "district": 4,
-        "2020_population": 776154,
+        "total_population": 776154,
         "white": {
             "population": 334866,
             "percent": 0.4314
