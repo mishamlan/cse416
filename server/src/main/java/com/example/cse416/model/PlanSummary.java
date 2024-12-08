@@ -1,6 +1,4 @@
 package com.example.cse416.model;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

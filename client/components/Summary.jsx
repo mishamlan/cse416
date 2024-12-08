@@ -63,7 +63,6 @@ const Summary = ({state, tab, ensemble, districtPlan}) => {
   };
 
   useEffect(() => {
-    // temp solution
     const calcTotalPopulation = () => {
       let count = 0;
       for (const [race, vap] of Object.entries(demographics)) {
@@ -71,58 +70,20 @@ const Summary = ({state, tab, ensemble, districtPlan}) => {
       }
       setPopulation(count);
     }
-
     calcTotalPopulation();
-
+    
     const fetchEnsembleSummary = async () => {
-      /*
-      Expected:
-      {
-        numDistrictPlans: int,
-        avgMinorityReps: int
-        avgEqualPopulationMeasure: int
-        avgPartySplit: {democratic: int, republican: int},
-      }
-      */
      console.log(state)
      console.log(ensemble)
       const data = await getEnsembleSummary(state, ensemble);
       console.log(data);
     }
-
     if (display == 'ensemble') fetchEnsembleSummary();
-
     const fetchDistrictPlan = async () => {
-      /*
-      Expected:
-      {
-        numDistricts: int,
-        opportunityDistricts: int,
-        threshold: int,
-        safeDistricts: int,
-        partySplit: {democratic: int, republican: int},
-        electionPreference: string,
-        districts: [
-          {
-            districtNumber: int
-            population: int,
-            demographics: {
-              white: int,
-              black: int,
-              hispanic: int,
-              asian: int,
-              others: int,
-            }
-          }
-        ],
-      }
-      */
       const data = await getDistrictPlan(state, ensemble, districtPlan);
       setDemographics(data.demographics.totals);
     }
-
     if (display == 'district') fetchDistrictPlan();
-
   }, [demographics, ensemble, districtPlan, state, display]);
 
   return (
