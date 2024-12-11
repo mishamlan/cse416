@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import ElectionResultsItem from './ElectionResultsItem';
 
-const ViewElection = ({tab}) => {
+const ViewElection = ({tab, state, ensemble, districtPlan, numDistricts}) => {
   const numberOfRepresentatives = 1;
   const winner = 'Democratic';
 
@@ -36,6 +36,14 @@ const ViewElection = ({tab}) => {
     setElection(e.target.value);
   };
 
+  const listDistrict = () => {
+    let list = [];
+    for (let i = 1; i <= numDistricts; i++) {
+      list.push(<option key={ensemble+districtPlan+i} value={`dist-${i}`}>District {i}</option>);
+    }
+    return list;
+  }
+
   const displayResults = () => {
     let list = [];
     results.forEach(candidate => {
@@ -52,14 +60,13 @@ const ViewElection = ({tab}) => {
   return (
     <div className={tab == 'view-election' ? 'p-4' : 'hidden'}>
       <div className='flex'>
-        <div className='w-60 h-20 flex flex-col my-8 mr-8'>
+        <div className='setting-dropdown flex flex-col mb-4 mr-8'>
           <span>District</span>
           <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrict}>
-            <option value="district1">District 1</option>
-            <option value="other">other</option>
+            {listDistrict()}
           </select>
         </div>
-        <div className='w-60 h-20 flex flex-col my-8'>
+        <div className='setting-dropdown flex flex-col mb-4'>
           <span>Election</span>
           <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectElection}>
             <option value="2020-house">2020 house of Rep.</option>
@@ -67,17 +74,17 @@ const ViewElection = ({tab}) => {
           </select>
         </div>
       </div>
-      <ul className='flex mb-16'>
+      <ul className='results flex mb-4'>
         <li className='flex flex-col mr-8'>
-          <span className='text-base'>Number of Representative(s)</span>
-          <span className='text-3xl'>{numberOfRepresentatives}</span>
+          <span className='text-xs'>Number of Representative(s)</span>
+          <span className='text-base'>{numberOfRepresentatives}</span>
         </li>
         <li className='flex flex-col mr-8'>
-          <span className='text-base'>Winning Party</span>
-          <span className={winner == 'Democratic' ? 'text-3xl democrats' : 'text-3xl republican'}>{winner}</span>
+          <span className='text-xs'>Winning Party</span>
+          <span className={winner == 'Democratic' ? 'text-base democrats' : 'text-base republican'}>{winner}</span>
         </li>
       </ul>
-      <div className="flex-col">
+      <div className="flex-col text-sm">
         <h2 className='mb-1'>Results</h2>
         <div className="rounded-lg border-2 border-black p-2 shadow-md">
           <table>

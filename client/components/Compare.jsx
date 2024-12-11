@@ -1,53 +1,82 @@
-import {  useState } from 'react';
-import dynamic from 'next/dynamic'
-// import Plot from 'react-plotly.js';
+import {  useState, useEffect } from 'react';
 
-// const Plot = dynamic(import('react-plotly.js'), {ssr: false});
+const Compare = ({tab, state}) => {
 
-const Compare = ({tab}) => {
+  const [data, setData] = useState({
+    enacted: {
+      partySplit: {
+        democratic: 0,
+        republican: 0,
+      },
+      opportunityDistricts: 1,
+      demoVoteShare: 2,
+      repuVoteShare: 3,
+      demoSeatShare: 4,
+      repuSeatShare: 5,
+    },
+    avgMmd: {
+      partySplit: {
+        democratic: 0,
+        republican: 0,
+      },
+      opportunityDistricts: 0,
+      demoVoteShare: 0,
+      repuVoteShare: 0,
+      demoSeatShare: 0,
+      repuSeatShare: 0,
+    }
+  });
 
-//   const [demographic, setDemographic] = useState('African-American');
-
-//   const boxwhisker = [
-//     { y: [10, 15, 20], name: 'District 1', type: 'box' },
-//     { y: [30, 35, 40], name: 'District 2', type: 'box' },
-//     { y: [45, 50, 55], name: 'District 3', type: 'box' },
-//     { y: [65, 70, 75], name: 'District 4', type: 'box' },
-//     { y: [45, 55, 65], name: 'Multi-Member District', type: 'box' }
-
-//   ];
-
-//   // const compareComponent = () => {
-//   //   const [demographic, setDemographic] = useState('African-American');
-//   // }
+  useEffect(() => {
+    // fetch data
+  }, [state])
 
   return (
-    <div></div>
-    // <div className={tab == 'compare' ? 'mt-8 p-4 ' : 'hidden'} >
-    //       <h3>Box and Whisker Analysis</h3>
-
-    //       <select className='dropdown-menu h-8 w-40' value={demographic} onChange={(e) => setDemographic(e.target.value)} >
-    //         <option value="White">White</option>
-    //         <option value="African-American">African-American</option>
-    //         <option value="Asian">Asian</option>
-    //         <option value="Hispanic">Hispanic</option>
-    //         <option value="Others">Others</option>
-    //       </select>
-    //         <Plot
-    //           data={boxwhisker}
-    //           layout={{ 
-    //             title: 'Distribution of Race', 
-    //             yaxis: { 
-    //               title: 'Percentage (%)', 
-    //               range: [0, 100],
-    //               dtick: 10        
-    //             }, 
-    //             width: 380,
-    //             showlegend: false
-    //           }}
-    //         />
-
-    //     </div>
+    <div className={tab == 'compare' ? 'p-4' : 'hidden'} >
+      <div className="panel">
+        <table className='w-full'>
+          <thead className='mb-2'>
+            <tr className='w-full'>
+              <th className='text-left'>Metric</th>
+              <th className='text-right'>Enacted Plan</th>
+              <th className='text-right'>Avg. MMD Plan</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr className='compare-row'>
+            <td className='py-1 px-2 text-left'>Party Split</td>
+            <td className='py-1 px-2 text-right'><span className='democrats'>{data.enacted.partySplit.democratic}</span>:<span className='republican'>{data.enacted.partySplit.republican}</span></td>
+            <td className='py-1 px-2 text-right'><span className='democrats'>{data.avgMmd.partySplit.democratic}</span>:<span className='republican'>{data.avgMmd.partySplit.republican}</span></td>
+          </tr>
+          <tr className='compare-row'>
+            <td className='py-1 px-2 text-left'>Opportunity Districts</td>
+            <td className='py-1 px-2 text-right'>{data.enacted.opportunityDistricts}</td>
+            <td className='py-1 px-2 text-right'>{data.avgMmd.opportunityDistricts}</td>
+          </tr>
+          <tr className='compare-row'>
+            <td className='py-1 px-2 text-left'>Democratic Vote Share</td>
+            <td className='py-1 px-2 text-right'>{data.enacted.demoVoteShare}</td>
+            <td className='py-1 px-2 text-right'>{data.avgMmd.demoVoteShare}</td>
+          </tr>
+          <tr className='compare-row'>
+            <td className='py-1 px-2 text-left'>Republican Vote Share</td>
+            <td className='py-1 px-2 text-right'>{data.enacted.repuVoteShare}</td>
+            <td className='py-1 px-2 text-right'>{data.avgMmd.repuVoteShare}</td>
+          </tr>
+          <tr className='compare-row'>
+            <td className='py-1 px-2 text-left'>Democratic Seat Share</td>
+            <td className='py-1 px-2 text-right'>{data.enacted.demoSeatShare}</td>
+            <td className='py-1 px-2 text-right'>{data.avgMmd.demoSeatShare}</td>
+          </tr>
+          <tr className='compare-row'>
+            <td className='py-1 px-2 text-left'>Republican Seat Share</td>
+            <td className='py-1 px-2 text-right'>{data.enacted.repuSeatShare}</td>
+            <td className='py-1 px-2 text-right'>{data.avgMmd.repuSeatShare}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 }
 
