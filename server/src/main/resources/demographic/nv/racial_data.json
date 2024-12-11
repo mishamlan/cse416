@@ -1,0 +1,100 @@
+[    {
+        "district": 1,
+        "total_population": 776153,
+        "white": {
+            "population": 354538,
+            "percent": 0.4568
+        },
+        "black": {
+            "population": 100814,
+            "percent": 0.1299
+        },
+        "other": {
+            "population": 297793,
+            "percent": 0.3837
+        },
+        "asian": {
+            "population": 79806,
+            "percent": 0.1028
+        },
+        "hispanic": {
+            "population": 278903,
+            "percent": 0.3593
+        }
+        
+    },
+
+    {
+        "district": 2,
+        "total_population": 776154,
+        "white": {
+            "population": 525157,
+            "percent": 0.6766
+        },
+        "black": {
+            "population": 25210,
+            "percent": 0.0325
+        },
+        "other": {
+            "population": 225933,
+            "percent": 0.291
+        },
+        "asian": {
+            "population": 48366,
+            "percent": 0.0623
+        },
+        "hispanic": {
+            "population": 179909,
+            "percent": 0.2318
+        }
+    },
+
+    {
+        "district": 3,
+        "total_population": 776153,
+        "white": {
+            "population": 373902,
+            "percent": 0.4817
+        },
+        "black": {
+            "population": 98120,
+            "percent": 0.1264
+        },
+        "other": {
+            "population": 209996,
+            "percent": 0.2705
+        },
+        "asian": {
+            "population": 163953,
+            "percent": 0.2112
+        },
+        "hispanic": {
+            "population": 164069,
+            "percent": 0.2114
+        }
+    },
+    {
+        "district": 4,
+        "total_population": 776154,
+        "white": {
+            "population": 334866,
+            "percent": 0.4314
+        },
+        "black": {
+            "population": 151054,
+            "percent": 0.1946
+        },
+        "other": {
+            "population": 294366,
+            "percent": 0.3793
+        },
+        "asian": {
+            "population": 61468,
+            "percent": 0.0792
+        },
+        "hispanic": {
+            "population": 267376,
+            "percent": 0.3445
+        }
+    }
+]

@@ -1,9 +1,6 @@
 package com.example.cse416.model;
-
 import java.util.HashMap;
-
 import org.springframework.data.annotation.Id;
-
 import com.example.cse416.constants.Group;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

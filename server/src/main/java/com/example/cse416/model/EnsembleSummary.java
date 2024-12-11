@@ -1,10 +1,7 @@
 package com.example.cse416.model;
-
 import java.util.List;
-
 import com.example.cse416.constants.StateID;
 import com.example.cse416.constants.Type;
-
 import lombok.Getter;
 import lombok.Setter;
 
