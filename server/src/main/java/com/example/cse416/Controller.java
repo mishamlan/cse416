@@ -1,4 +1,5 @@
 package com.example.cse416;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.io.ClassPathResource;
@@ -14,14 +15,16 @@ import com.example.cse416.model.Demographics;
 import com.example.cse416.model.DistrictPlan;
 import com.example.cse416.model.EnsembleData;
 import com.example.cse416.model.EnsembleSummary;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.repository.DemographicRepo;
 
-@SpringBootApplication
+import java.io.IOException;
+import java.util.List;
+
+@SpringBootApplication(scanBasePackages = {"com.example.cse416", "com.repository"})
 @RestController
 public class Controller {
+    @Autowired
+    DemographicRepo demographicRepo;
     public static void main(String[] args) {
         SpringApplication.run(Controller.class, args);
     }
@@ -43,6 +46,8 @@ public class Controller {
     }
     @GetMapping("/demographic/{state}/")
     public ResponseEntity<List<Demographics>> getDemographic(@PathVariable String state) throws IOException {
+        Demographics d = demographicRepo.findByState(state);
+        System.out.println(d);
         System.out.println("entered demographics controller layer");
 
         try{
