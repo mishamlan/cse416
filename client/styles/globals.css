@@ -26,12 +26,16 @@
   @apply w-5/12 h-full
 }
 
+.panel {
+  @apply rounded border-2 p-2 shadow
+}
+
 .dropdown-menu {
   @apply rounded-lg text-slate-500 my-2 cursor-pointer shadow-md border
 }
 
 .menu {
-  @apply w-full h-4/5 pt-8
+  @apply w-full
 }
 
 .title {
@@ -42,12 +46,16 @@
   @apply w-full h-full flex-btw
 }
 
+.setting {
+  @apply w-full flex justify-between hover:bg-gray-100 hover:cursor-pointer
+}
+
 .setting-dropdown {
-  @apply w-60 h-20 flex flex-col
+  @apply w-40 h-16 flex flex-col text-sm
 }
 
 .tabs {
-  @apply text-lg font-bold text-center text-gray-500 border-b-8 border-gray-200
+  @apply text-base font-bold text-center text-gray-500 border-b-8 border-gray-200
 }
 
 .tab-selected {
@@ -64,4 +72,16 @@
 
 .republican {
   @apply text-red-500
+}
+
+.precinct-checkbox {
+  @apply mx-4 mt-4 flex items-center
+}
+
+.reset {
+  @apply m-4 border-2 rounded-md shadow-sm w-20 h-10 hover:bg-gray-100 hover:cursor-pointer
+}
+
+.compare-row {
+  @apply border-y border-black text-sm
 }

@@ -6,7 +6,7 @@ const ElectionResultsItem = ({rank, name, party, votes, percent, isWinner}) => {
       <td className='px-8 text-center'>{rank}</td>
       <td className='px-8 text-center'>{name}</td>
       <td className={party == 'Democratic' ? 'px-8 text-center democrats' : 'px-8 text-center republican'}>{party}</td>
-      <td className='px-8 text-center'>{votes.toLocaleString()}</td>
+      <td className='px-8 text-right'>{votes.toLocaleString()}</td>
       <td className='px-8 text-center'>{percent * 100}%</td>
       {
         isWinner ?

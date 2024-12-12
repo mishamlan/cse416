@@ -1,10 +1,11 @@
 'use client'
 
-import { useRef, useEffect} from 'react';
+import { useRef, useEffect, useContext} from 'react';
 import { useRouter } from 'next/navigation';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import "@/styles/globals.css";
+import { SelectContext } from '@/app/layout';
 
 
 const USMap = () => {
@@ -23,6 +24,8 @@ const USMap = () => {
   ];
 
   const stateColor = 'Black';
+
+  let {setOption} = useContext(SelectContext);
 
   useEffect(() => {
     if (!mapRef.current) {
@@ -76,6 +79,7 @@ const USMap = () => {
 
       mapRef.current.on('click', `${id}-fill`, (e) => {
         let state = id == 'nevada' ? 'NV' : 'LA';
+        setOption(state);
         router.push(`/${state}`);
       });
 
