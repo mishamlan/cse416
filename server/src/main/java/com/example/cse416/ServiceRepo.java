@@ -1,13 +1,16 @@
 package com.example.cse416;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import com.example.cse416.constants.StateID;
 import com.example.cse416.model.*;
-import com.example.cse416.constants.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,117 +19,102 @@ import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@SpringBootApplication
-@RestController
+@Service
+public class ServiceRepo {
+    @Autowired
+    private DemographicRepo demographicRepo;
 
-public class Service {
-    private static final Map<String, EnsembleSummary> ensembleSummaryCache = new HashMap<>();
-    private static final Map<String, EnsembleData> ensembleDataCache = new HashMap<>();
-    private static final Map<String, DistrictPlan> districtPlanCache = new HashMap<>();
-    private static final Map<String, List<Demographics>> demographicsCache = new HashMap<>();
+    // @Autowired
+    // public ServiceRepo(DemographicRepo demographicRepo) {
+    //     this.demographicRepo = demographicRepo;
+    // }
 
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+    // private static final Map<String, EnsembleSummary> ensembleSummaryCache = new HashMap<>();
+    // private static final Map<String, EnsembleData> ensembleDataCache = new HashMap<>();
+    // private static final Map<String, DistrictPlan> districtPlanCache = new HashMap<>();
+    // private static final Map<String, List<Demographics>> demographicsCache = new HashMap<>();
+
+    // private final static ObjectMapper objectMapper = new ObjectMapper();
     
-    public static EnsembleData loadEnsembleData(String state, String type) throws IOException {
-        String ensembleKey = String.format("%s-%s", state, type);
+    // public EnsembleData loadEnsembleData(String state, String type) throws IOException {
+    //     String ensembleKey = String.format("%s-%s", state, type);
         
-        if (ensembleDataCache.containsKey(ensembleKey)) {
-            return ensembleDataCache.get(ensembleKey);
-        }
-        try {
-            String filePath = String.format("/ensemble/data/%s/%s/.json", 
-                state.toLowerCase(), 
-                type.toLowerCase());
-            Resource resource = new ClassPathResource(filePath);
-            if (resource.exists()) {
-                EnsembleData ensemble = objectMapper.readValue(resource.getInputStream(), EnsembleData.class);
-            ensembleDataCache.put(ensembleKey, ensemble);
-            return ensemble;
-        } else {
-            throw new FileNotFoundException("Ensemble data not found");
-        }
-    } catch (Exception e) {
-        System.err.println("Error loading ensemble data: " + e.getMessage());
-        throw new IOException("Failed to load ensemble data", e);
-        }
-    }
-    public static EnsembleSummary loadEnsembleSummary(String state, String type) throws IOException {
-        String ensembleKey = String.format("%s-%s", state, type);
-        if (ensembleSummaryCache.containsKey(ensembleKey)) {
-            return ensembleSummaryCache.get(ensembleKey);
-        }
-        try {
-            String filePath = String.format("/ensemble/summary/%s/%s/summary.json", 
-                state.toLowerCase(), 
-                type.toLowerCase());
-            Resource resource = new ClassPathResource(filePath);
-            if (resource.exists()) {
-                EnsembleSummary ensemble = objectMapper.readValue(resource.getInputStream(), EnsembleSummary.class);
-            ensembleSummaryCache.put(ensembleKey, ensemble);
-            return ensemble;
-        } else {
-            throw new FileNotFoundException("Ensemble data not found");
-        }
-    } catch (Exception e) {
-        System.err.println("Error loading ensemble data: " + e.getMessage());
-        throw new IOException("Failed to load ensemble data", e);
-        }
-    }
-    public static DistrictPlan getDistrictPlanData(String state, String type, Integer number) throws IOException {
+    //     if (ensembleDataCache.containsKey(ensembleKey)) {
+    //         return ensembleDataCache.get(ensembleKey);
+    //     }
+    //     try {
+    //         String filePath = String.format("/ensemble/data/%s/%s/.json", 
+    //             state.toLowerCase(), 
+    //             type.toLowerCase());
+    //         Resource resource = new ClassPathResource(filePath);
+    //         if (resource.exists()) {
+    //             EnsembleData ensemble = objectMapper.readValue(resource.getInputStream(), EnsembleData.class);
+    //         ensembleDataCache.put(ensembleKey, ensemble);
+    //         return ensemble;
+    //     } else {
+    //         throw new FileNotFoundException("Ensemble data not found");
+    //     }
+    // } catch (Exception e) {
+    //     System.err.println("Error loading ensemble data: " + e.getMessage());
+    //     throw new IOException("Failed to load ensemble data", e);
+    //     }
+    // }
+    // public EnsembleSummary loadEnsembleSummary(String state, String type) throws IOException {
+    //     String ensembleKey = String.format("%s-%s", state, type);
+    //     if (ensembleSummaryCache.containsKey(ensembleKey)) {
+    //         return ensembleSummaryCache.get(ensembleKey);
+    //     }
+    //     try {
+    //         String filePath = String.format("/ensemble/summary/%s/%s/summary.json", 
+    //             state.toLowerCase(), 
+    //             type.toLowerCase());
+    //         Resource resource = new ClassPathResource(filePath);
+    //         if (resource.exists()) {
+    //             EnsembleSummary ensemble = objectMapper.readValue(resource.getInputStream(), EnsembleSummary.class);
+    //         ensembleSummaryCache.put(ensembleKey, ensemble);
+    //         return ensemble;
+    //     } else {
+    //         throw new FileNotFoundException("Ensemble data not found");
+    //     }
+    // } catch (Exception e) {
+    //     System.err.println("Error loading ensemble data: " + e.getMessage());
+    //     throw new IOException("Failed to load ensemble data", e);
+    //     }
+    // }
+    // public DistrictPlan getDistrictPlanData(String state, String type, Integer number) throws IOException {
         // System.out.println("entered service layer");
-        String planKey = String.format("%s-%s-%d", state, type, number);
+    //     String planKey = String.format("%s-%s-%d", state, type, number);
         
-        if (districtPlanCache.containsKey(planKey)) {
-            return districtPlanCache.get(planKey);
-        }
+    //     if (districtPlanCache.containsKey(planKey)) {
+    //         return districtPlanCache.get(planKey);
+    //     }
+    //     try {
+    //         String filePath = String.format("/dplan/%s/%s/%d.json", 
+    //             state.toLowerCase(), 
+    //             type.toLowerCase(), 
+    //             number);
+    //         Resource resource = new ClassPathResource(filePath);
+    //         if (resource.exists()) {
+    //             DistrictPlan plan = objectMapper.readValue(resource.getInputStream(), DistrictPlan.class);
+    //             districtPlanCache.put(planKey, plan);
+    //             return plan;
+    //         } else {
+    //             throw new FileNotFoundException("District plan data not found");
+    //         }
+    //     } catch (Exception e) {
+    //         System.err.println("Error loading district plan data: " + e.getMessage());
+    //         throw new IOException("Failed to load district plan data", e);
+    //     }
+    // }
+    public List<Demographics> getDemographicsData(StateID state) throws IOException {
         try {
-            String filePath = String.format("/dplan/%s/%s/%d.json", 
-                state.toLowerCase(), 
-                type.toLowerCase(), 
-                number);
-            Resource resource = new ClassPathResource(filePath);
-            if (resource.exists()) {
-                DistrictPlan plan = objectMapper.readValue(resource.getInputStream(), DistrictPlan.class);
-                districtPlanCache.put(planKey, plan);
-                return plan;
-            } else {
-                throw new FileNotFoundException("District plan data not found");
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading district plan data: " + e.getMessage());
-            throw new IOException("Failed to load district plan data", e);
-        }
-    }
-    public static List<Demographics> getDemographicsData(String state) throws IOException {
-        System.out.println("Entered demographics service layer");
-        String planKey = state.toLowerCase();
-
-        // Return cached data if it exists
-        if (demographicsCache.containsKey(planKey)) {
-            return demographicsCache.get(planKey);
-        }
-        try {
-            // Construct file path
-            String filePath = String.format("/demographic/%s/racial_data.json", planKey);
-            Resource resource = new ClassPathResource(filePath);
-
-            if (resource.exists()) {
-                // Deserialize into a List<Demographics>
-                List<Demographics> plan = objectMapper.readValue(
-                        resource.getInputStream(),
-                        new TypeReference<List<Demographics>>() {}
-                );
-
-                // Cache the data
-                demographicsCache.put(planKey, plan);
-                return plan;
-            } else {
-                throw new FileNotFoundException("District demographic data not found for state: " + state);
-            }
+            List<Demographics> d = demographicRepo.findByState(state);
+            return d;
         } catch (Exception e) {
             System.err.println("Error loading demographic data: " + e.getMessage());
             throw new IOException("Failed to load demographic data", e);
         }
+
     }
     // public static double calculateAverageMinorityReps(EnsembleSummary ensemble) {
     //     return ensemble.getPlans().stream()

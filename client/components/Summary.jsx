@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import DemographicItem from './DemographicItem';
 import EnsembleSummary from './EnsembleSummary';
 import InfoCard from './InfoCard';
-import {  getDistrictPlan, getEnsembleSummary } from '@/app/api/utils';
+import {  getDistrictPlan, getEnsembleSummary, getDemographic } from '@/app/api/utils';
 
 const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
 
@@ -142,9 +142,11 @@ const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
         ],
       }
       */
-      const data = await getDistrictPlan(state, ensemble, districtPlan);
-      setDemographics(data.demographics.totals);
-      setNumDistricts(dplanSummary.numDistricts);
+      // const data = await getDistrictPlan(state, ensemble, districtPlan);
+      const data2 = await getDemographic(state)
+      console.log(data2)
+      // setDemographics(data.demographics.totals);
+      // setNumDistricts(dplanSummary.numDistricts);
     }
 
     fetchDistrictPlan(state, ensemble, districtPlan);

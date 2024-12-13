@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-{}
-=======
 {
-  "/page": "app/page.js",
-  "/LA/page": "app/LA/page.js",
-  "/NV/page": "app/NV/page.js"
+  "/NV/page": "app/NV/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }
->>>>>>> 21d11071b014862fab96ff2ef9ae0f145887ba43
