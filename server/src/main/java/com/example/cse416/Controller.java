@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,27 +12,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cse416.constants.StateID;
 import com.example.cse416.model.Demographics;
+import com.example.cse416.model.DistrictBoundary;
 import com.example.cse416.model.DistrictPlan;
 import com.example.cse416.model.EnsembleData;
 import com.example.cse416.model.EnsembleSummary;
 
 import java.io.IOException;
 import java.util.List;
-@SpringBootApplication(scanBasePackages = "com")
+import org.springframework.web.bind.annotation.RequestParam;
+
+@SpringBootApplication
 @RestController
 public class Controller {
+    @Autowired
     private ServiceRepo service;
-
-    public Controller(ServiceRepo service) {
-        this.service = service;
-    }
-        public static void main(String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(Controller.class, args);
     }
-    @GetMapping("/")
-    public String root() {
-        return "Hello, World!";
+
+    @GetMapping("/demographic/{state}/")
+    public ResponseEntity<List<Demographics>> getDemographic(@PathVariable StateID state) throws IOException {
+        var res = service.getDemographicsData(state);
+        System.out.println(res);
+        return ResponseEntity.ok(res);
     }
+    @GetMapping("/boundary/{state}/")
+    public ResponseEntity<DistrictBoundary> getDistrictBoundary(@PathVariable StateID state) throws IOException {
+        System.out.println("inside controller");
+        var res = service.getDistrictBoundary(state);
+        return ResponseEntity.ok(res);
+    }
+
     // @GetMapping("/geojson/{state}/{type}")
     // public ResponseEntity<Resource> getGeoJson(@PathVariable String state, @PathVariable String type) throws IOException {
     //     String filePath = "/geojson/" + state.toLowerCase() + "/" + type.toLowerCase() + ".geojson";
@@ -46,13 +55,6 @@ public class Controller {
     //         return ResponseEntity.notFound().build();
     //     }
     // }
-    @GetMapping("/demographic/{state}/")
-    public ResponseEntity<List<Demographics>> getDemographic(@PathVariable StateID state) throws IOException {
-        System.out.println("controller enetered");
-        var res = service.getDemographicsData(state);
-        System.out.println(res);
-        return ResponseEntity.ok(res);
-    }
     // @GetMapping("/ensemble/summary/{state}/{type}/")
     // public ResponseEntity<EnsembleSummary> getEnsembleSummary(
     //         @PathVariable String state,

@@ -47,6 +47,13 @@ export const PLAN_TYPES = {
   export const getDemographic = (state) => {
     return fetchData(`/demographic/${state}/`);
   };
+    /**
+   * Fetches district boundary data for a state
+   * @param {string} state - State identifier
+   */
+    export const getDBoundary = (state) => {
+      return fetchData(`/boundary/${state}/`);
+    };
   
   /**
    * Fetches ensemble summary data
