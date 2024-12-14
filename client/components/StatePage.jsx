@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { SelectContext } from '@/app/layout';
 import mapboxgl from 'mapbox-gl';
+import Dashboard from './Dashboard';
 import Summary from '@/components/Summary';
 import ViewElection from './ViewElection';
 import Compare from '@/components/Compare';
@@ -17,11 +18,7 @@ const StatePage = ({state, center, bound, precinctData, districtJSON, smdEnsembl
     const router = useRouter();
 
     const [viewPrecincts, setViewPrecincts] = useState(false);
-    const [tab, setTab] = useState('summary');
-    const [hideSetting, setHideSetting] = useState(false);
-    const [ensemble, setEnsemble] = useState('smd');
-    const [districtPlan, setDistrictPlan] = useState('1');
-    const [numDistricts, setNumDistricts] = useState(0);
+    const [tab, setTab] = useState('dashboard');
     
     let {setOption} = useContext(SelectContext);
     let hoverPolyongId = null;
@@ -45,14 +42,6 @@ const StatePage = ({state, center, bound, precinctData, districtJSON, smdEnsembl
 
     const displayPrecincts = () => {
       setViewPrecincts(prev => {return !prev;});
-    }
-
-    const displayDistrictPlan = (ensemble) => {
-      let list = [];
-      Object.keys(ensemble).forEach(plan => {
-        list.push(<option key={ensemble+plan} value={plan}>{plan} Plan</option>);
-      })
-      return list;
     }
 
     useEffect(() => {
@@ -82,7 +71,7 @@ const StatePage = ({state, center, bound, precinctData, districtJSON, smdEnsembl
 
       }
 
-    },[viewPrecincts, ensemble, state]);
+    },[viewPrecincts]);
 
     const addMapLayer = (id, geojson, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
@@ -188,56 +177,26 @@ const StatePage = ({state, center, bound, precinctData, districtJSON, smdEnsembl
   
     return (
       <div className='state-content'>
-        <div className="left-panel">
-          <div className="w-full">
-            <button className="setting" onClick={displaySetting}>
-              <h1 className='text-xl pl-4 font-bold'>Settings</h1>
-              <div className='pr-4 pt-1'><img src="down-arrow.svg" alt="&#8595" className={hideSetting ? 'rotate-180' : ''} /></div>
-            </button>
-            <div className={hideSetting ? 'hidden' : "flex justify-between"}>
-              <div className='flex'>
-                <div className='setting-dropdown m-4'>
-                  <span>District Type</span>
-                  <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectEnsemble}>
-                    <option value="SMD">SMD</option>
-                    <option value="MMD">MMD</option>
-                  </select>
-                </div>
-                <div className='setting-dropdown m-4'>
-                  <span>District Plan</span>
-                  <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrictPlan}>
-                    {ensemble == 'smd'? displayDistrictPlan(smdEnsemble) : displayDistrictPlan(mmdEnsemble)}
-                  </select>
-                </div>
-                <div className="precinct-checkbox">
-                  <input type="checkbox" id='view-prec' className='hover:cursor-pointer h-5' onClick={displayPrecincts} />
-                  <label htmlFor="view-prec" className='text-sm hover:cursor-pointer' >Display Precincts</label>
-                </div>
-              </div>
-              <button className='reset' onClick={resetEvent}>Reset</button>
-            </div>
-          </div>
+        <div className="left-panel overflow-y-auto">
           <div className="menu">
-            <div className="tabs">
+            <div className="tabs flex justify-between">
               <ul className="flex flex-wrap -mb-2 pl-2">
                 <li className="me-8">
-                  <button className={tab == 'summary' ? 'tab-selected' : 'tab'} value={'summary'} onClick={(e) => setTab(e.target.value)}>Summary</button>
+                  <button className={tab == 'dashboard' ? 'tab-selected' : 'tab'} value={'dashboard'} onClick={(e) => setTab(e.target.value)}>Dashboard</button>
                 </li>
                 <li className="me-8">
-                  <button className={tab == 'view-election' ? 'tab-selected' : 'tab'} value={'view-election'} onClick={(e) => setTab(e.target.value)}>View Election(s)</button>
-                </li>
-                <li className="me-8">
-                  <button className={tab == 'compare' ? 'tab-selected' : 'tab'} value={'compare'} onClick={(e) => setTab(e.target.value)}>Compare</button>
+                  <button className={tab == 'summary' ? 'tab-selected' : 'tab'} value={'summary'} onClick={(e) => setTab(e.target.value)}>Plans</button>
                 </li>
                 <li className="me-8">
                   <button className={tab == 'box&whisker' ? 'tab-selected' : 'tab'} value={'box&whisker'} onClick={(e) => setTab(e.target.value)}>Box & Whisker</button>
                 </li>
               </ul>
+              <button className='reset mr-2 mt-1' onClick={resetEvent}><img src="reset.svg" alt="reset" /></button>
             </div>
-            <Summary tab={tab} state={state} ensemble={ensemble} districtPlan={districtPlan} setNumDistricts={setNumDistricts} />
-            <ViewElection tab={tab} state={state} ensemble={ensemble} districtPlan={districtPlan} numDistricts={numDistricts} />
-            <Compare tab={tab} state={state} ensemble={ensemble} />
-            <BoxNWhisker tab={tab} state={state} ensemble={ensemble} />
+            <Dashboard tab={tab} state={state} />
+            <Summary tab={tab} state={state} smdEnsemble={smdEnsemble} mmdEnsemble={mmdEnsemble} />
+            <Compare tab={tab} state={state} />
+            <BoxNWhisker tab={tab} state={state} />
           </div>
         </div>
         <div ref={mapContainerRef} className="right-panel">

@@ -2,30 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import DemographicItem from './DemographicItem';
-import EnsembleSummary from './EnsembleSummary';
-import InfoCard from './InfoCard';
+import ElectionResultsItem from './ElectionResultsItem';
 import {  getDistrictPlan, getEnsembleSummary } from '@/app/api/utils';
 
-const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
+const Summary = ({state, tab, setNumDistricts, smdEnsemble, mmdEnsemble}) => {
 
+  const [ensemble, setEnsemble] = useState('enacted');
+  const [districtPlan, setDistrictPlan] = useState('1');
   const [district, setDistrict] = useState('dist-1');
-
-  const [ensembleSummary, setEnsembleSummary] = useState(
-    {
-      smd: {
-        numDistrictPlans: 0,
-        avgMinorityReps: 0,
-        avgEqualPopulationMeasure: 0,
-        avgPartySplit: {democratic: 0, republican: 0},
-      },
-      mmd: {
-        numDistrictPlans: 0,
-        avgMinorityReps: 0,
-        avgEqualPopulationMeasure: 0,
-        avgPartySplit: {democratic: 0, republican: 0},
-      }
-    }
-  );
 
   const [dplanSummary, setDplanSummary] = useState(
     {
@@ -54,12 +38,32 @@ const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
     Asian: 10000,
     Hispanic: 10000,
     Black: 10000,
-    Other: 10000,
+    Others: 10000,
+    Total: 60000,
   });
   const [population, setPopulation] = useState(0);
 
+  const [results, setResults] = useState([
+    {
+      rank: 1,
+      name: 'John Doe',
+      party: 'Democratic',
+      votes: 100000,
+      percent: 0.66,
+      isWinner: true,
+    },
+    {
+      rank: 2,
+      name: 'John Doe',
+      party: 'Republican',
+      votes: 50000,
+      percent: 0.33,
+      isWinner: false,
+    }
+  ]);
+
   const selectSummary = (e) => {
-    setDisplay(e.target.value);
+    setSummary(e.target.value);
   };
 
   const selectDistrict = (e) => {
@@ -82,6 +86,31 @@ const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
     return list;
   };
 
+  const selectEnsemble = (e) => {
+    setEnsemble(e.target.value);
+  };
+
+  const selectDistrictPlan = (e) => {
+    setDistrictPlan(e.target.value);
+  };
+
+  const displayDistrictPlan = (ensemble) => {
+    let list = [];
+    Object.keys(ensemble).forEach(plan => {
+      list.push(<option key={ensemble+plan} value={plan}>{plan} Plan</option>);
+    })
+    return list;
+  }
+
+  const displayResults = () => {
+    let list = [];
+    results.forEach(candidate => {
+      const {rank, name, party, votes, percent, isWinner} = candidate;
+      list.push(<ElectionResultsItem key={district+rank} rank={rank} name={name} party={party} votes={votes} percent={percent} isWinner={isWinner} />);
+    });
+    return list;
+  };
+
   useEffect(() => {
     const calcTotalPopulation = () => {
       let count = 0;
@@ -91,31 +120,6 @@ const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
       setPopulation(count);
     }
     calcTotalPopulation();
-
-    const fetchEnsembleSummary = async (state, ensemble) => {
-      /*
-      Expected:
-      {
-        smd: {
-          numDistrictPlans: 5000,
-          avgMinorityReps: 2.5,
-          avgEqualPopulationMeasure: 0.98,
-          avgPartySplit: {democratic: 0.47, republican: 0.53},
-        },
-        mmd: {
-          numDistrictPlans: 5000,
-          avgMinorityReps: 2.5,
-          avgEqualPopulationMeasure: 0.98,
-          avgPartySplit: {democratic: 0.47, republican: 0.53},
-        }
-      }
-      */
-      console.log(state)
-      console.log(ensemble)
-      const data = await getEnsembleSummary(state, ensemble);
-      console.log(data);
-    }
-    if (!ensembleSummary) fetchEnsembleSummary(state, ensemble);
 
     const fetchDistrictPlan = async (state, ensemble, districtPlan) => {
       /*
@@ -152,60 +156,105 @@ const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
   }, [demographics, ensemble, districtPlan, state]);
 
   return (
-    <div className={tab == 'summary' ? 'p-4 flex justify-between' : 'hidden'}>
-      <div className='ensemble-summary panel'>
-        <EnsembleSummary type={'SMD'} 
-          numDistrictPlans={ensembleSummary.smd.numDistrictPlans} 
-          avgMinorityReps={ensembleSummary.smd.avgMinorityReps} 
-          avgEqualPopulationMeasure={ensembleSummary.smd.avgEqualPopulationMeasure} 
-          avgPartySplit={ensembleSummary.smd.avgPartySplit} />
-        <EnsembleSummary type={'MMD'} 
-          numDistrictPlans={ensembleSummary.mmd.numDistrictPlans} 
-          avgMinorityReps={ensembleSummary.mmd.avgMinorityReps} 
-          avgEqualPopulationMeasure={ensembleSummary.mmd.avgEqualPopulationMeasure} 
-          avgPartySplit={ensembleSummary.mmd.avgPartySplit} />
-      </div>
-      <div className='district-plan-summary panel basis-1/2'>
-        <h2 className='mb-4 font-bold'>District Plan Summary</h2>
-        <ul className='flex mb-6'>
-          <InfoCard title='Number of Districts' data={dplanSummary.numDistricts} />
-          <InfoCard title='Number of Opportunity Districts' data={dplanSummary.opportunityDistricts} />
-        </ul>
-        <ul className='flex mb-6'>
-          <InfoCard title='Threshold for Opportunity District' data={dplanSummary.threshold.toLocaleString()} />
-          <InfoCard title='Number of safe Districts' data={dplanSummary.safeDistricts} />
-        </ul>
-        <ul className='flex mb-6'>
-          <li className='flex flex-col mr-8 basis-1/2'>
-            <span className='text-xs'>Democratic:Republican Split</span>
-            <span className='text-base'><span className='democrats'>{dplanSummary.partySplit.democratic * 100}</span>:<span className='republican'>{dplanSummary.partySplit.republican * 100}</span></span>
-          </li>
-          <InfoCard title='Source of Election Preference' data={dplanSummary.electionPreference} />
-        </ul>
-        <div className="district-summary flex pt-4">
-          <div className='setting-dropdown flex flex-col basis-1/2'>
-            <span>District</span>
-            <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrict}>
-              {listDistrict()}
-            </select>
-          </div>
-          <div className="flex-col ml-8">
-            <h2 className="text-xs">Total Population</h2>
-            <span className="text-base">{population.toLocaleString()}</span>
-            <div className='rounded-md border-2 border-black shadow-md text-sm'>
-              <table className='border-collapse'>
-                <thead>
-                  <tr>
-                    <th className='py-1 px-2 text-left'>Race</th>
-                    <th className='py-1 px-2 text-right'>VAP</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {displayDemo()}
-                </tbody>
-              </table>
+    <div className={tab == 'summary' ? 'p-4' : 'hidden'}>
+      <div className="panel mb-4">
+        <div className="flex justify-between">
+          <div className='flex'>
+            <div className='setting-dropdown m-1'>
+              <span>District Type</span>
+              <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectEnsemble}>
+                <option value="enacted">Enacted</option>
+                <option value="SMD">SMD</option>
+                <option value="MMD">MMD</option>
+              </select>
+            </div>
+            <div className='setting-dropdown m-1'>
+              <span>District Plan</span>
+              <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrictPlan} disabled={ensemble == 'enacted'}>
+                {ensemble == 'MMD'? displayDistrictPlan(mmdEnsemble) : displayDistrictPlan(smdEnsemble)}
+              </select>
+            </div>
+            <div className='setting-dropdown m-1'>
+              <span>District</span>
+              <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrict}>
+                {listDistrict()}
+              </select>
             </div>
           </div>
+        </div>
+      </div>
+      <div className='district-plan-summary panel'>
+        <h2 className='panel-title'>District Plan Summary</h2>
+        <ul className='pt-2 text-xs flex'>
+          <li className='basis-1/2'>
+            <span className='font-semibold'>Number of Districts: </span>
+            <span>{dplanSummary.numDistricts}</span>
+          </li>
+          <li className='basis-1/2'>
+            <span className='font-semibold'>Number of Opportunity Districts: </span>
+            <span>{dplanSummary.opportunityDistricts}</span>
+          </li>
+        </ul>
+        <ul className='pt-2 text-xs flex'>
+          <li className='basis-1/2'>
+            <span className='font-semibold'>Threshold for Opportunity District: </span>
+            <span>{dplanSummary.threshold * 100}%</span>
+          </li>
+          <li className='basis-1/2'>
+            <span className='font-semibold'>Number of safe Districts: </span>
+            <span>{dplanSummary.safeDistricts}</span>
+          </li>
+        </ul>
+        <ul className='pt-2 text-xs flex'>
+          <li className='basis-1/2'>
+            <span className='font-semibold'>Party Split: </span>
+            <span className='democrats'>{dplanSummary.partySplit.democratic * 100}</span>:<span className='republican'>{dplanSummary.partySplit.republican * 100}</span>
+          </li>
+        </ul>
+        <div className="mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table className="w-full text-xs text-left rtl:text-right text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase">
+              <tr>
+                <th scope="col" className="px-6 py-1 bg-gray-100">Total Population</th>
+                <th scope="col" className="px-6 py-1">White</th>
+                <th scope="col" className="px-6 py-1 bg-gray-100">Black</th>
+                <th scope="col" className="px-6 py-1">Asian</th>
+                <th scope="col" className="px-6 py-1 bg-gray-100">Hispanic</th>
+                <th scope="col" className="px-6 py-1">Others</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-gray-200">
+                <td className="px-6 py-1 bg-gray-100">{demographics.Total.toLocaleString()}</td>
+                <td className="px-6 py-1">{demographics.white.toLocaleString()}</td>
+                <td className="px-6 py-1 bg-gray-100">{demographics.Black.toLocaleString()}</td>
+                <td className="px-6 py-1">{demographics.Asian.toLocaleString()}</td>
+                <td className="px-6 py-1 bg-gray-100">{demographics.Hispanic.toLocaleString()}</td>
+                <td className="px-6 py-1">{demographics.Others.toLocaleString()}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div className="flex-col text-sm panel mt-4">
+        <h2 className='panel-title mb-2'>Election Results</h2>
+        <div className="rounded-lg border-2 border-black p-2 shadow-md">
+          <table>
+            <thead className='mb-2'>
+              <tr>
+                <th className='px-8'>Rank</th>
+                <th className='px-8'>Name</th>
+                <th className='px-8'>Party</th>
+                <th className='px-8'>Votes</th>
+                <th className='px-8'>Percentage</th>
+                <th className='px-8'>Winner?</th>
+              </tr>
+            </thead>
+            <tbody>
+              {displayResults()}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
