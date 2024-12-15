@@ -3,21 +3,16 @@ package com.example.cse416.model;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.cse416.constants.StateID;
 import com.example.cse416.constants.Type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Document("district-plan")
 public class DistrictPlan {
     @Id
     private String id;

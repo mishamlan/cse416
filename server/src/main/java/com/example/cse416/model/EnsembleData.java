@@ -9,10 +9,8 @@ import com.example.cse416.constants.StateID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-@Document
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Document("ensemble-data")
 public class EnsembleData {
     @Id
     private String id;

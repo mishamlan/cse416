@@ -142,11 +142,11 @@ const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
         ],
       }
       */
-      // const data = await getDistrictPlan(state, ensemble, districtPlan);
+      const data = await getDistrictPlan(state, ensemble, -1);
       console.log("fetching db");
       try{
-      const data2 = await getDBoundary(state);
-      console.log(data2);
+      // const data2 = await getDBoundary(state);
+      console.log(data);
       }catch(e){
         console.error(e)
       }

@@ -91,7 +91,7 @@ export const PLAN_TYPES = {
    * @param {number} number - Plan number
    */
   export const getDistrictPlan = (state, type, number) => {
-    return fetchData(`/dplan/${state}/${type}/${number}`);
+    return fetchData(`/dplan/${state}/${type}/${number}/`);
   };
   
   /**
