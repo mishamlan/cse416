@@ -87,7 +87,7 @@
 }
 
 .compare-row {
-  @apply border-y border-black text-sm
+  @apply border-y border-black
 }
 
 .ensemble-summary {
@@ -104,4 +104,8 @@
 
 .display-tabs {
   @apply w-2/3 mt-2 text-xs font-medium text-center text-gray-500 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400
+}
+
+.result-row {
+  width: calc(100%/7);
 }

@@ -3,7 +3,7 @@ const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, });
 
 const BWChart = ({data, selectBasis}) => {
   return (
-    <div className="panel basis-1/2">
+    <div>
       <div className='setting-dropdown'>
         <span>Basis</span>
         <select name="basis" id="basis" className='dropdown-menu w-full h-full' onChange={selectBasis}>
@@ -17,8 +17,7 @@ const BWChart = ({data, selectBasis}) => {
       </div>
       <Plot
         data={data}
-        layout={{
-          width: 400,  
+        layout={{  
           yaxis: { 
             title: 'Percentage (%)', 
             range: [0, 100],

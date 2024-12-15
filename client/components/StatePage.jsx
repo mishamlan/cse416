@@ -5,19 +5,16 @@ import { useRouter } from 'next/navigation';
 import { SelectContext } from '@/app/layout';
 import mapboxgl from 'mapbox-gl';
 import Dashboard from './Dashboard';
-import Summary from '@/components/Summary';
-import ViewElection from './ViewElection';
-import Compare from '@/components/Compare';
+import Plans from '@/components/Plans';
 import BoxNWhisker from './BoxNWhisker';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const StatePage = ({state, center, bound, precinctData, districtJSON, smdEnsemble, mmdEnsemble
+const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
 }) => {
     const mapContainerRef = useRef();
     const stateRef = useRef();
     const router = useRouter();
 
-    const [viewPrecincts, setViewPrecincts] = useState(false);
     const [tab, setTab] = useState('dashboard');
     
     let {setOption} = useContext(SelectContext);
@@ -26,22 +23,6 @@ const StatePage = ({state, center, bound, precinctData, districtJSON, smdEnsembl
     const resetEvent = (e) => {
       setOption('default');
       router.push('/');
-    }
-
-    const selectEnsemble = (e) => {
-      setEnsemble(e.target.value);
-    }
-
-    const selectDistrictPlan = (e) => {
-      setDistrictPlan(e.target.value);
-    }
-
-    const displaySetting = () => {
-      setHideSetting(prev => {return !prev;});
-    }
-
-    const displayPrecincts = () => {
-      setViewPrecincts(prev => {return !prev;});
     }
 
     useEffect(() => {
@@ -62,16 +43,16 @@ const StatePage = ({state, center, bound, precinctData, districtJSON, smdEnsembl
           });
           
       } else {
-          if(viewPrecincts) {
-            if (stateRef.current.getLayer(`${state}-precinct`)) showMapLayer(`${state}-precinct`);
-            else addLineLayer(`${state}-precinct`, precinctData, 'purple');
-          } else {
-            if (stateRef.current.getLayer(`${state}-precinct`)) hideMapLayer(`${state}-precinct`);
-          }
+          // if(viewPrecincts) {
+          //   if (stateRef.current.getLayer(`${state}-precinct`)) showMapLayer(`${state}-precinct`);
+          //   else addLineLayer(`${state}-precinct`, precinctData, 'purple');
+          // } else {
+          //   if (stateRef.current.getLayer(`${state}-precinct`)) hideMapLayer(`${state}-precinct`);
+          // }
 
       }
 
-    },[viewPrecincts]);
+    },[]);
 
     const addMapLayer = (id, geojson, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
@@ -105,26 +86,6 @@ const StatePage = ({state, center, bound, precinctData, districtJSON, smdEnsembl
           paint: {
             'line-color': 'green',
             'line-width': 2
-          }
-        });
-      }
-    }
-
-    const addLineLayer = (id, geojson, color) => {
-      if(!stateRef.current.getSource(id)) {
-        stateRef.current.addSource(id, {
-          type: 'geojson',
-          data: geojson,  // geojson -> public/geoJSON/...
-        });
-  
-        stateRef.current.addLayer({
-          id: id,
-          type: 'line',
-          source: id,
-          layout: {},
-          paint: {
-            'line-color': color,
-            'line-width': 1
           }
         });
       }
@@ -194,8 +155,7 @@ const StatePage = ({state, center, bound, precinctData, districtJSON, smdEnsembl
               <button className='reset mr-2 mt-1' onClick={resetEvent}><img src="reset.svg" alt="reset" /></button>
             </div>
             <Dashboard tab={tab} state={state} />
-            <Summary tab={tab} state={state} smdEnsemble={smdEnsemble} mmdEnsemble={mmdEnsemble} />
-            <Compare tab={tab} state={state} />
+            <Plans tab={tab} state={state} smdEnsemble={smdEnsemble} mmdEnsemble={mmdEnsemble} />
             <BoxNWhisker tab={tab} state={state} />
           </div>
         </div>

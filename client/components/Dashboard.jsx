@@ -1,29 +1,26 @@
 import { useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
-import EnsembleSummary from './EnsembleSummary';
+import { getEnsembleSummary } from "@/app/api/utils";
 
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
+const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, });
 
-const Dashboard = ({tab}) => {
+const Dashboard = ({tab, state}) => {
   
   const [display, setDisplay] = useState('summary');
 
-  const [ensembleSummary, setEnsembleSummary] = useState(
-    {
-      smd: {
-        numDistrictPlans: 0,
-        avgMinorityReps: 0,
-        avgEqualPopulationMeasure: 0,
-        avgPartySplit: {democratic: 0, republican: 0},
-      },
-      mmd: {
-        numDistrictPlans: 0,
-        avgMinorityReps: 0,
-        avgEqualPopulationMeasure: 0,
-        avgPartySplit: {democratic: 0, republican: 0},
-      }
-    }
-  );
+  const [smdSummary, setSmdSummary] = useState({
+    numDistrictPlans: 0,
+    avgMinorityReps: 0,
+    avgEqualPopulationMeasure: 0,
+    avgPartySplit: {democratic: 0, republican: 0},
+  });
+
+  const [mmdSummary, setMmdSummary] = useState({
+    numDistrictPlans: 0,
+    avgMinorityReps: 0,
+    avgEqualPopulationMeasure: 0,
+    avgPartySplit: {democratic: 0, republican: 0},
+  });
 
   const [data, setData] = useState({
     enacted: {
@@ -66,6 +63,17 @@ const Dashboard = ({tab}) => {
     setDisplay(e.target.value);
   };
 
+  useEffect(() => {
+    const fetchEnsembleSummary = async (state) => {
+      const smd = await getEnsembleSummary(state, 'SMD');
+      const mmd = await getEnsembleSummary(state, 'MMD');
+      setSmdSummary(smd);
+      setMmdSummary(mmd);
+    };
+
+    fetchEnsembleSummary(state);
+  }, [state]);
+
   return (
     <div className={tab == 'dashboard' ? 'p-4' : 'hidden'}>
       <div className='panel mb-4'>
@@ -78,20 +86,43 @@ const Dashboard = ({tab}) => {
             <button className={display == 'oppoRep' ? "ensemble-display-selected border-r" : "ensemble-display border-r"} value={'oppoRep'} onClick={changeDisplay}>Opportunity Representatives</button>
           </li>
           <li className="w-full focus-within:z-10">
-            <button className={display == 'partySplit' ? "ensemble-display-selected rounded-e-lg" : "ensemble-display rounded-e-lg"} value={'partySplit'} onClick={changeDisplay}>Party Splits</button>
+            <button className={display == 'partySplit' ? "ensemble-display-selected rounded-e-lg" : "ensemble-display rounded-e-lg"} value={'partySplit'} onClick={changeDisplay}>DEM/REP Splits</button>
           </li>
         </ul>
         <div className={display == 'summary' ? "ensemble-summary" : 'hidden'}>
-          <EnsembleSummary type={'SMD'} 
-            numDistrictPlans={ensembleSummary.smd.numDistrictPlans} 
-            avgMinorityReps={ensembleSummary.smd.avgMinorityReps} 
-            avgEqualPopulationMeasure={ensembleSummary.smd.avgEqualPopulationMeasure} 
-            avgPartySplit={ensembleSummary.smd.avgPartySplit} />
-          <EnsembleSummary type={'MMD'} 
-            numDistrictPlans={ensembleSummary.mmd.numDistrictPlans} 
-            avgMinorityReps={ensembleSummary.mmd.avgMinorityReps} 
-            avgEqualPopulationMeasure={ensembleSummary.mmd.avgEqualPopulationMeasure} 
-            avgPartySplit={ensembleSummary.mmd.avgPartySplit} />
+          <div className="w-full mt-2 shadow-md sm:rounded-lg">
+            <table className="w-full text-xs text-left rtl:text-right text-gray-500">
+              <thead className="text-gray-700 uppercase bg-gray-50">
+                <tr>
+                  <th scope="col" className="px-6 py-2">Summary</th>
+                  <th scope="col" className="px-6 py-2">SMD</th>
+                  <th scope="col" className="px-6 py-2">MMD</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr className="odd:bg-white even:bg-gray-50">
+                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Number of District Plans</th>
+                    <td className="px-6 py-2">{smdSummary.numDistrictPlans}</td>
+                    <td className="px-6 py-2">{mmdSummary.numDistrictPlans}</td>
+                  </tr>
+                  <tr className="odd:bg-white even:bg-gray-50">
+                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. Number of Minority Representatives/Plan</th>
+                    <td className="px-6 py-2">{smdSummary.avgMinorityReps}</td>
+                    <td className="px-6 py-2">{mmdSummary.avgMinorityReps}</td>
+                  </tr>
+                  <tr className="odd:bg-white even:bg-gray-50">
+                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. Equal Population Measure</th>
+                    <td className="px-6 py-2">{smdSummary.avgEqualPopulationMeasure}</td>
+                    <td className="px-6 py-2">{mmdSummary.avgEqualPopulationMeasure}</td>
+                  </tr>
+                  <tr className="odd:bg-white even:bg-gray-50">
+                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. DEM/REP Split</th>
+                    <td className="px-6 py-2"><span className="democratic">{smdSummary.avgPartySplit.democratic}</span>:<span className="republican">{smdSummary.avgPartySplit.republican}</span></td>
+                    <td className="px-6 py-2"><span className="democratic">{mmdSummary.avgPartySplit.democratic}</span>:<span className="republican">{mmdSummary.avgPartySplit.republican}</span></td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div className={display == 'oppoRep' ? "" : 'hidden'}>
           <Plot
@@ -163,7 +194,7 @@ const Dashboard = ({tab}) => {
         </div>
       </div>
       <div className="panel">
-        <h2 className="panel-title">Enacted Plan VS. Average MMD Plan</h2>
+        <h2 className="panel-title">Enacted Plan VS. Avg. MMD Plan</h2>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-xs text-left rtl:text-right text-gray-500">
             <thead className="text-gray-700 uppercase bg-gray-50">
@@ -175,7 +206,7 @@ const Dashboard = ({tab}) => {
             </thead>
             <tbody>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Party Split</th>
+                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">DEM/REP Split</th>
                   <td className="px-6 py-2"><span className='democrats'>{data.enacted.partySplit.democratic}</span>:<span className='republican'>{data.enacted.partySplit.republican}</span></td>
                   <td className="px-6 py-2"><span className='democrats'>{data.avgMmd.partySplit.democratic}</span>:<span className='republican'>{data.avgMmd.partySplit.republican}</span></td>
                 </tr>
