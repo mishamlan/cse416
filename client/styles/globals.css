@@ -30,6 +30,10 @@
   @apply rounded border-2 p-2 shadow
 }
 
+.panel-title {
+  @apply text-base font-bold pb-2 border-b
+}
+
 .dropdown-menu {
   @apply rounded-lg text-slate-500 my-2 cursor-pointer shadow-md border
 }
@@ -79,9 +83,29 @@
 }
 
 .reset {
-  @apply m-4 border-2 rounded-md shadow-sm w-20 h-10 hover:bg-gray-100 hover:cursor-pointer
+  @apply border-2 rounded-full shadow-sm w-8 h-8 hover:bg-gray-100 hover:cursor-pointer
 }
 
 .compare-row {
-  @apply border-y border-black text-sm
+  @apply border-y border-black
+}
+
+.ensemble-summary {
+  @apply flex
+}
+
+.ensemble-display-selected {
+  @apply inline-block w-full p-1 text-gray-900 bg-gray-100 border-gray-200
+}
+
+.ensemble-display {
+  @apply inline-block w-full p-1 bg-white border-gray-200 hover:text-gray-700 hover:bg-gray-50
+}
+
+.display-tabs {
+  @apply w-2/3 mt-2 text-xs font-medium text-center text-gray-500 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400
+}
+
+.result-row {
+  width: calc(100%/7);
 }

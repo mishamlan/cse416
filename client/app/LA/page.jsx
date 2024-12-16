@@ -8,11 +8,11 @@ const LA = () => {
   const precinctJSON = '/geoJSON/la/la_prec_geo_elec.geojson';
 
   const smdEnsemble = {
-    smd0: '/geoJSON/la/smd_plan_0.geojson',
-    smd1: '/geoJSON/la/smd_plan_0.geojson',
-    smd2: '/geoJSON/la/smd_plan_0.geojson',
-    smd3: '/geoJSON/la/smd_plan_0.geojson',
-    smd4: '/geoJSON/la/smd_plan_0.geojson',
+    'Extreme 1': '/geoJSON/la/smd_plan_0.geojson',
+    'Extreme 2': '/geoJSON/la/smd_plan_0.geojson',
+    'Extreme 3': '/geoJSON/la/smd_plan_0.geojson',
+    'Extreme 4': '/geoJSON/la/smd_plan_0.geojson',
+    'Extreme 5': '/geoJSON/la/smd_plan_0.geojson',
   };
 
   const mmdEnsemble = {
