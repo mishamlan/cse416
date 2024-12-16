@@ -18,6 +18,7 @@ import com.example.cse416.repository.EnsembleDataRepo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 public class ServiceRepo {
     @Autowired
     private DemographicRepo demographicRepo;
+    CoordinatesConverter converter;
 
     @Autowired
     private DistrictBoundaryRepo districtBoundaryRepo;
@@ -71,6 +73,7 @@ public class ServiceRepo {
     public DistrictPlan getDistrictPlanData(StateID state, Type type, int number) throws IOException{
         try{
         DistrictPlan dp = districtPlanRepo.findByStateAndTypeAndNumber(state, type, number);
+        dp.features.geometry.coordinates = converter(dp.features.geometry);
         System.out.println("dp: "+dp);
         System.out.println("district plan returned");
         return dp;

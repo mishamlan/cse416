@@ -9,8 +9,10 @@ import com.example.cse416.constants.StateID;
 import com.example.cse416.constants.Type;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Document("district-plan")
 public class DistrictPlan {

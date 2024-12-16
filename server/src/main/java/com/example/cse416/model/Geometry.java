@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class Geometry {
     private String type;
-    private List<List<List<Double>>> coordinates;
+    private List<List<Double>> coordinates;
 }

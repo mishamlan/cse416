@@ -140,6 +140,10 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
     })
     return list;
   }
+  const func = async ()=>{
+    getDistrictPlan("la", "smd", 0)
+  }
+  func()
 
   const displayResults = () => {
     let list = [];
