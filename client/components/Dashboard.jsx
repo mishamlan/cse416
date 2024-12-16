@@ -48,7 +48,7 @@ const Dashboard = ({tab, state}) => {
   });
 
   const [oppoRepData, setOppoRepData] = useState({
-    ranges: ["0", "1-2", "3-5", "6-10", "11+"],
+    ranges: ["0", "1", "2", "3", "4"],
     smdCounts: [10, 20, 50, 15, 5],
     mmdCounts: [5, 25, 60, 20, 10],
   });
@@ -64,15 +64,15 @@ const Dashboard = ({tab, state}) => {
   };
 
   useEffect(() => {
-    const fetchEnsembleSummary = async (state) => {
-      const smd = await getEnsembleSummary(state, 'smd', 0);
-      const mmd = await getEnsembleSummary(state, 'mmd', 0);
-      console.log(smd)
-      setSmdSummary(smd);
-      setMmdSummary(mmd);
-    };
+    // const fetchEnsembleSummary = async (state) => {
+    //   const smd = await getEnsembleSummary(state, 'smd', 0);
+    //   const mmd = await getEnsembleSummary(state, 'mmd', 0);
+    //   console.log(smd)
+    //   setSmdSummary(smd);
+    //   setMmdSummary(mmd);
+    // };
 
-    fetchEnsembleSummary(state);
+    // fetchEnsembleSummary(state);
   }, [state]);
 
   return (
@@ -130,7 +130,7 @@ const Dashboard = ({tab, state}) => {
             </table>
           </div>
         </div>
-        <div className={display == 'oppoRep' ? "" : 'hidden'}>
+        <div className={display == 'oppoRep' ? "mt-2" : 'hidden'}>
           <Plot
             data={[
               {
@@ -161,7 +161,7 @@ const Dashboard = ({tab, state}) => {
             }}
           />
         </div>
-        <div className={display == 'partySplit' ? "" : 'hidden'}>
+        <div className={display == 'partySplit' ? "mt-2" : 'hidden'}>
           <Plot
             data={[
               {
@@ -222,22 +222,22 @@ const Dashboard = ({tab, state}) => {
                   <td className="px-6 py-2">{data.avgMmd.opportunityDistricts}</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Democratic Vote Share</th>
+                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">DEM Vote Share</th>
                   <td className="px-6 py-2">{data.enacted.demoVoteShare}</td>
                   <td className="px-6 py-2">{data.avgMmd.demoVoteShare}</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Republican Vote Share</th>
+                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">REP Vote Share</th>
                   <td className="px-6 py-2">{data.enacted.repuVoteShare}</td>
                   <td className="px-6 py-2">{data.avgMmd.repuVoteShare}</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Democratic Seat Share</th>
+                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">DEM Seat Share</th>
                   <td className="px-6 py-2">{data.enacted.demoSeatShare}</td>
                   <td className="px-6 py-2">{data.avgMmd.demoSeatShare}</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Republican Seat Share</th>
+                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">REP Seat Share</th>
                   <td className="px-6 py-2">{data.enacted.repuSeatShare}</td>
                   <td className="px-6 py-2">{data.avgMmd.repuSeatShare}</td>
                 </tr>

@@ -12,7 +12,6 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
   const [stop, setStop] = useState(false)
   const [ensemble, setEnsemble] = useState('enacted');
   const [districtPlan, setDistrictPlan] = useState('1');
-  const [district, setDistrict] = useState('dist-1');
   const [display, setDisplay] = useState('summary');
 
   const [dplanSummary, setDplanSummary] = useState(
@@ -82,23 +81,38 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
 
   const [results, setResults] = useState([
     {
-      rank: 1,
-      name: 'John Doe',
-      race: 'White',
-      party: 'Democratic',
-      votes: 100000,
-      percent: 0.66,
-      isWinner: true,
+      district: 1,
+      winner: 'John Doe',
+      winParty: 'DEM',
+      winVotes: 100000,
+      winPercent: 0.66,
+      loser: 'John Doe',
+      loseParty: 'REP',
+      loseVotes: 50000,
+      losePercent: 0.33,
     },
     {
-      rank: 2,
-      name: 'John Doe',
-      race: 'White',
-      party: 'Republican',
-      votes: 50000,
-      percent: 0.33,
-      isWinner: false,
-    }
+      district: 2,
+      winner: 'John Doe',
+      winParty: 'DEM',
+      winVotes: 100000,
+      winPercent: 0.66,
+      loser: 'John Doe',
+      loseParty: 'REP',
+      loseVotes: 50000,
+      losePercent: 0.33,
+    },
+    {
+      district: 3,
+      winner: 'John Doe',
+      winParty: 'DEM',
+      winVotes: 100000,
+      winPercent: 0.66,
+      loser: 'John Doe',
+      loseParty: 'REP',
+      loseVotes: 50000,
+      losePercent: 0.33,
+    },
   ]);
 
   const [curveData, setCurveData] = useState(null);
@@ -153,8 +167,8 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
   const displayResults = () => {
     let list = [];
     results.forEach(candidate => {
-      const {rank, name, race, party, votes, percent, isWinner} = candidate;
-      list.push(<ElectionResultsItem key={district+rank} rank={rank} name={name} race={race} party={party} votes={votes} percent={percent} isWinner={isWinner} />);
+      const {district, winner, winParty, winVotes, winPercent, loser, loseParty, loseVotes, losePercent} = candidate;
+      list.push(<ElectionResultsItem key={district} district={district} winner={winner} winParty={winParty} winVotes={winVotes} winPercent={winPercent} loser={loser} loseParty={loseParty} loseVotes={loseVotes} losePercent={losePercent} />);
     });
     return list;
   };
@@ -165,19 +179,19 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
 
   useEffect(() => {
 
-    const fetchDistrictPlan = async (state, ensemble, districtPlan) => {
-      console.log("fetching db");
-      try{
-      const data2 = await getDBoundary(state);
-      console.log(data2);
-      }catch(e){
-        console.error(e)
-      }
-      // setDemographics(data.demographics.totals);
-      // setNumDistricts(dplanSummary.numDistricts);
-    }
+    // const fetchDistrictPlan = async (state, ensemble, districtPlan) => {
+    //   console.log("fetching db");
+    //   try{
+    //   const data2 = await getDBoundary(state);
+    //   console.log(data2);
+    //   }catch(e){
+    //     console.error(e)
+    //   }
+    //   // setDemographics(data.demographics.totals);
+    //   // setNumDistricts(dplanSummary.numDistricts);
+    // }
 
-    fetchDistrictPlan(state, ensemble, districtPlan);
+    // fetchDistrictPlan(state, ensemble, districtPlan);
 
   }, [demographics, ensemble, districtPlan, state]);
 
@@ -217,33 +231,29 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
           </li>
         </ul>
         <div className={display == 'summary' ? '' : 'hidden'}>
-          <ul className='pt-2 text-xs flex'>
-            <li className='basis-1/2'>
-              <span className='font-semibold'>Number of Districts: </span>
+          <ul className='pt-2 text-xs flex flex-col'>
+            <li className='flex my-1'>
+              <span className='font-semibold basis-1/2'>Number of Districts: </span>
               <span>{dplanSummary.numDistricts}</span>
             </li>
-            <li className='basis-1/2'>
-              <span className='font-semibold'>Number of Opportunity Districts: </span>
+            <li className='flex my-1'>
+              <span className='font-semibold basis-1/2'>Number of Opportunity Districts: </span>
               <span>{dplanSummary.opportunityDistricts}</span>
             </li>
-          </ul>
-          <ul className='pt-2 text-xs flex'>
-            <li className='basis-1/2'>
-              <span className='font-semibold'>Threshold for Opportunity District: </span>
+            <li className='flex my-1'>
+              <span className='font-semibold basis-1/2'>Threshold for Opportunity District: </span>
               <span>{dplanSummary.threshold * 100}%</span>
             </li>
-            <li className='basis-1/2'>
-              <span className='font-semibold'>Number of safe Districts: </span>
+            <li className='flex my-1'>
+              <span className='font-semibold basis-1/2'>Number of safe Districts: </span>
               <span>{dplanSummary.safeDistricts}</span>
             </li>
-          </ul>
-          <ul className='pt-2 text-xs flex'>
-            <li className='basis-1/2'>
-              <span className='font-semibold'>DEM/REP Split: </span>
+            <li className='flex my-1'>
+              <span className='font-semibold basis-1/2'>DEM/REP Split: </span>
               <span className='democrats'>{dplanSummary.partySplit.democratic * 100}</span>:<span className='republican'>{dplanSummary.partySplit.republican * 100}</span>
             </li>
-            <li className='basis-1/2'>
-              <span className='font-semibold'>Election Used: </span>
+            <li className='flex my-1'>
+              <span className='font-semibold basis-1/2'>Election Used: </span>
               <span>{dplanSummary.electionPreference}</span>
             </li>
           </ul>
@@ -267,23 +277,19 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
           </div>
         </div>
         <div className={display == 'election' ? '' : 'hidden'}>
-          <div className='setting-dropdown mt-2'>
-            <span>District</span>
-            <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrict}>
-              {listDistrict()}
-            </select>
-          </div>
-          <div className="rounded-lg border-2 border-black mt-2 p-2 shadow-md">
-            <table className='w-full text-xs'>
-              <thead className='mb-2'>
+          <div className="mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-xs text-left rtl:text-right text-gray-500">
+              <thead className="text-xs text-gray-700 uppercase">
                 <tr>
-                  <th className='result-row'>Rank</th>
-                  <th className='result-row'>Name</th>
-                  <th className='result-row'>Race</th>
-                  <th className='result-row'>Party</th>
-                  <th className='result-row'>Votes</th>
-                  <th className='result-row'>Percentage</th>
-                  <th className='result-row'>Winner?</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">District</th>
+                  <th scope="col" className="px-6 py-1">Winner</th>
+                  <th scope="col" className="px-6 py-1">Party</th>
+                  <th scope="col" className="px-6 py-1">Votes</th>
+                  <th scope="col" className="px-6 py-1">Percent</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">Loser</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">Party</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">Votes</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">Percent</th>
                 </tr>
               </thead>
               <tbody>

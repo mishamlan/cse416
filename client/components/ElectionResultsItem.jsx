@@ -1,19 +1,17 @@
 import React from 'react'
 
-const ElectionResultsItem = ({rank, name, race, party, votes, percent, isWinner}) => {
+const ElectionResultsItem = ({district, winner, winParty, winVotes, winPercent, loser, loseParty, loseVotes, losePercent}) => {
   return (
     <tr>
-      <td className='result-row text-center'>{rank}</td>
-      <td className='result-row text-center'>{name}</td>
-      <td className='result-row text-center'>{race}</td>
-      <td className={party == 'Democratic' ? 'result-row text-center democrats' : 'result-row text-center republican'}>{party}</td>
-      <td className='result-row text-center'>{votes.toLocaleString()}</td>
-      <td className='result-row text-center'>{percent * 100}%</td>
-      {
-        isWinner ?
-        <td className='result-row text-center'><div className='flex justify-center items-center'><img className='scale-90' src="True.svg" alt="yes" /></div></td> : 
-        <td className='result-row text-center'><div className='flex justify-center items-center'><img className='scale-90' src="False.svg" alt="no" /></div></td>
-      }
+      <td className='px-6 py-1 bg-gray-100'>{district}</td>
+      <td className='px-6 py-1'>{winner}</td>
+      <td className={winParty == 'DEM' ? 'px-6 py-1 democrats' : 'px-6 py-1 republican'}>{winParty}</td>
+      <td className='px-6 py-1'>{winVotes.toLocaleString()}</td>
+      <td className='px-6 py-1'>{winPercent * 100}%</td>
+      <td className='px-6 py-1 bg-gray-100'>{loser}</td>
+      <td className={loseParty == 'DEM' ? 'px-6 py-1 bg-gray-100 democrats' : 'px-6 py-1 bg-gray-100 republican'}>{loseParty}</td>
+      <td className='px-6 py-1 bg-gray-100'>{loseVotes.toLocaleString()}</td>
+      <td className='px-6 py-1 bg-gray-100'>{losePercent * 100}%</td>
     </tr>
   )
 }
