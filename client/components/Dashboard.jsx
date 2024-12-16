@@ -102,14 +102,19 @@ const Dashboard = ({tab, state}) => {
               </thead>
               <tbody>
                   <tr className="odd:bg-white even:bg-gray-50">
-                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Number of District Plans</th>
-                    <td className="px-6 py-2">{smdSummary.numDistrictPlans}</td>
-                    <td className="px-6 py-2">{mmdSummary.numDistrictPlans}</td>
+                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Number of Districts</th>
+                    <td className="px-6 py-2">{smdSummary.number_of_districts}</td>
+                    <td className="px-6 py-2">{mmdSummary.number_of_districts}</td>
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. Number of Minority Representatives/Plan</th>
                     <td className="px-6 py-2">{smdSummary.minority_representation}</td>
                     <td className="px-6 py-2">{mmdSummary.minority_representation}</td>
+                  </tr>
+                  <tr className="odd:bg-white even:bg-gray-50">
+                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Opportunity threshold</th>
+                    <td className="px-6 py-2">{smdSummary.opportunity_threshold}</td>
+                    <td className="px-6 py-2">{mmdSummary.opportunity_threshold}</td>
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. Equal Population Measure</th>
