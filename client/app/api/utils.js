@@ -76,11 +76,20 @@ export const PLAN_TYPES = {
   
   /**
    * Fetches box and whisker plot data
-   * @param {string} group - racial group
+   * @param {string} group - demographic group
    * @param {string} type - Plan type (SMD/MMD)
    * @param {int} number - district number
-   * @param {int} index - index number
-
+   * @param {int} index - index number of disrict plan
+   * all the possible groups: {  
+    asian,
+    black,
+    white,
+    hispanic,
+    democrat,
+    republican, 
+    american_indian,
+    other
+  }
    */
   export const getBoxWhiskerData = (group, type, district, index) => {
     return fetchData(`/boxwhisker/${group}/${type}/${district}/${index}/`);
