@@ -142,16 +142,13 @@ const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
         ],
       }
       */
-      const data = await getBoxWhiskerData("asian", "mmd", 1, 1);
-      console.log(data)
+      console.log("inside fetch districts")
       try{
-      // const data2 = await getDBoundary(state);
-      console.log(data);
+        const data = await getDistrictPlan("la", "smd", 0);
+        console.log(data)
       }catch(e){
         console.error(e)
       }
-      // setDemographics(data.demographics.totals);
-      // setNumDistricts(dplanSummary.numDistricts);
     }
 
     fetchDistrictPlan(state, ensemble, districtPlan);

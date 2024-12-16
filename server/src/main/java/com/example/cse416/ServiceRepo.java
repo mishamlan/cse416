@@ -71,7 +71,7 @@ public class ServiceRepo {
     public DistrictPlan getDistrictPlanData(StateID state, Type type, int number) throws IOException{
         try{
         DistrictPlan dp = districtPlanRepo.findByStateAndTypeAndNumber(state, type, number);
-        System.out.println(dp);
+        System.out.println("dp: "+dp);
         System.out.println("district plan returned");
         return dp;
         }
