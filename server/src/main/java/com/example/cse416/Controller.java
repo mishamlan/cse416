@@ -3,17 +3,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.cse416.constants.StateID;
 import com.example.cse416.constants.Type;
+import com.example.cse416.constants.Group;
+import com.example.cse416.model.BoxWhisker;
 import com.example.cse416.model.Demographics;
 import com.example.cse416.model.DistrictBoundary;
 import com.example.cse416.model.DistrictPlan;
+import com.example.cse416.model.EnsembleData;
 
 import java.io.IOException;
 import java.util.List;
+
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 @SpringBootApplication
@@ -74,34 +80,61 @@ public class Controller {
             return ResponseEntity.notFound().build();
         }
     }
-    // @GetMapping("/ensemble/data/{state}/{type}/")
-    // public ResponseEntity<EnsembleData> getEnsembleData(
-    //         @PathVariable String state,
-    //         @PathVariable String type) {
+            //`/ensemble/data/${state}/${type}/${number}/`
+    @GetMapping("/ensemble/data/{state}/{type}/{number}/")
+    public ResponseEntity<EnsembleData> getEnsembleData(
+            @PathVariable StateID state,
+            @PathVariable String type, @PathVariable int number) {
         
-    //     try {
-    //         EnsembleData ensemble = service.loadEnsembleData(state, type);
-            
-    //         return ResponseEntity.ok(ensemble);
-    //     } catch (Exception e) {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    // }
+        try {
+            EnsembleData ensemble = service.loadEnsembleData(state, type, number);
+            return ResponseEntity.ok(ensemble);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-    // @GetMapping("/boxwhisker/{state}/{type}/{number}")
-    // public ResponseEntity<BoxWhisker> getBoxWhiskerData(
-    //         @PathVariable String state,
-    //         @PathVariable String type) {
-        
-    //     try {
-    //         BoxWhisker bw = Service.loadEnsembleData(state, type);
+    @GetMapping("/boxwhisker/{group}/{type}/{district}/{index}/")
+    public ResponseEntity<BoxWhisker> getBoxWhiskerData(
+            @PathVariable String group,
+            @PathVariable String type,
+            @PathVariable int district,
+            @PathVariable int index) {
+        try {
+            String groupName = mapEnumToGroup(group);
+            String indexVal= String.valueOf(index);
+            // System.out.println(groupName);
+            BoxWhisker bw = service.getBoxWhisker(groupName, type, indexVal, district);
             
-            
-    //         return ResponseEntity.ok(data);
-    //     } catch (Exception e) {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    // }   
+            return ResponseEntity.ok(bw);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    private String mapEnumToGroup(String group) {
+        switch (group) {
+            case "asian":
+                return "Asian Population";
+            case "black":
+                return "Black Population";
+            case "white":
+                return "White Population";
+            case "hispanic":
+                return "Hispanic Population";
+            case "democrat":
+                return "Democratic Population";
+            case "republican":
+                return "Republican Population";
+            case "american_indian":
+                return "American Indian Population";
+            case "other":
+                return "Other Population";  // You can handle this case if needed
+            default:
+                throw new IllegalArgumentException("Unknown group: " + group);
+        }
+    }
+     
 }
 
 

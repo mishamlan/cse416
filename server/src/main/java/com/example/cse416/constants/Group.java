@@ -5,5 +5,8 @@ public enum Group {
     black,
     white,
     hispanic,
+    democrat,
+    republican, 
+    american_indian,
     other
 }

@@ -1,4 +1,4 @@
-package com.example.cse416;
+package com.example.cse416.repository;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import DemographicItem from './DemographicItem';
 import EnsembleSummary from './EnsembleSummary';
 import InfoCard from './InfoCard';
-import {  getDistrictPlan, getEnsembleSummary, getDemographic, getDBoundary } from '@/app/api/utils';
+import {  getDistrictPlan, getEnsembleSummary, getDemographic, getBoxWhiskerData, getEnsembleData } from '@/app/api/utils';
 
 const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
 
@@ -112,7 +112,7 @@ const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
       */
       console.log(state)
       console.log(ensemble)
-      const data = await getEnsembleSummary(state, ensemble);
+
 
     }
     if (!ensembleSummary) fetchEnsembleSummary(state, ensemble);
@@ -142,8 +142,8 @@ const Summary = ({state, tab, ensemble, districtPlan, setNumDistricts}) => {
         ],
       }
       */
-      const data = await getDistrictPlan(state, ensemble, -1);
-      console.log("fetching db");
+      const data = await getBoxWhiskerData("asian", "mmd", 1, 1);
+      console.log(data)
       try{
       // const data2 = await getDBoundary(state);
       console.log(data);

@@ -5,9 +5,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import com.example.cse416.constants.Group;
 import com.example.cse416.constants.StateID;
 import com.example.cse416.constants.Type;
 import com.example.cse416.model.*;
+import com.example.cse416.repository.BoxWhiskerRepo;
+import com.example.cse416.repository.DemographicRepo;
+import com.example.cse416.repository.DistrictBoundaryRepo;
 import com.example.cse416.repository.DistrictPlanRepo;
 import com.example.cse416.repository.EnsembleDataRepo;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,6 +39,8 @@ public class ServiceRepo {
     private DistrictPlanRepo districtPlanRepo;
     @Autowired
     private EnsembleDataRepo ensembleDataRepo;
+    @Autowired
+    private BoxWhiskerRepo boxWhiskerRepo;
     // @Autowired
     // private EnsembleSummaryRepo ensembleSummaryRepo;
 
@@ -60,11 +67,12 @@ public class ServiceRepo {
             throw new IOException("Failed to load district boundary lines data", e);
         }
     }
-    @Cacheable(value = "districtPlans", key = "T(java.util.Objects).hash(#state, #type, #number)")
+    @Cacheable(value = "districtplans", key = "T(java.util.Objects).hash(#state, #type, #number)")
     public DistrictPlan getDistrictPlanData(StateID state, Type type, int number) throws IOException{
         try{
-        DistrictPlan dp = districtPlanRepo.findByStateAndType(state, type, number);
+        DistrictPlan dp = districtPlanRepo.findByStateAndTypeAndNumber(state, type, number);
         System.out.println(dp);
+        System.out.println("district plan returned");
         return dp;
         }
         catch(Exception e){
@@ -72,10 +80,23 @@ public class ServiceRepo {
             throw new IOException(e);
         }
     }
-    public EnsembleData loadEnsembleData(StateID state, Type type) throws IOException {
+    @Cacheable(value = "ensembledata", key = "T(java.util.Objects).hash(#state, #type, #number)")
+    public EnsembleData loadEnsembleData(StateID state, String type, int number) throws IOException {
         try {
-            EnsembleData ed = ensembleDataRepo.findByStateAndType(state, type);
+            EnsembleData ed = ensembleDataRepo.findByStateAndTypeAndNumber(state, type, number);
             return ed;
+    } catch (Exception e) {
+        System.err.println("Error loading ensemble data: " + e.getMessage());
+        throw new IOException("Failed to load ensemble data", e);
+        }
+    }
+
+    @Cacheable(value = "boxwhisker", key = "T(java.util.Objects).hash(#type, #number, #group, #index)")
+    public BoxWhisker getBoxWhisker(String group, String type, String index, int district) throws IOException {
+        try {          
+            BoxWhisker bw = boxWhiskerRepo.findBoxWhisker(group, type, index, district);
+            System.out.println(bw);
+            return bw;
     } catch (Exception e) {
         System.err.println("Error loading ensemble data: " + e.getMessage());
         throw new IOException("Failed to load ensemble data", e);
@@ -103,7 +124,6 @@ public class ServiceRepo {
     //     throw new IOException("Failed to load ensemble data", e);
     //     }
     // }
-
     // public static double calculateAverageMinorityReps(EnsembleSummary ensemble) {
     //     return ensemble.getPlans().stream()
     //         .mapToDouble(plan -> countMinorityReps(plan))
@@ -141,121 +161,7 @@ public class ServiceRepo {
     //     return split;
     // }
 
-    // public static List<Integer> getMmdLayout(EnsembleSummary ensemble) {
-    //     return ensemble.getPlans().get(0).getDistricts().stream()
-    //         .map(district -> district.getPopulation())
-    //         .collect(Collectors.toList());
-    // }
-    // public static Map<String, Object> summarizeDemographics(DistrictPlan plan) {
-    //     Map<String, Object> demographics = new HashMap<>();
-    //     Map<Group, Integer> totals = new HashMap<>();
-        
-    //     for (District district : plan.getDistricts()) {
-    //         district.getDemographics().forEach((group, count) -> 
-    //             totals.merge(group, count, Integer::sum));
-    //     }
-    //     demographics.put("totals", totals);
-        
-    //     return demographics;
-    // }
-    // public static Map<String, Object> summarizeElectionResults(DistrictPlan plan) {
-    //     Map<String, Object> results = new HashMap<>();
-        
-    //     int democraticWins = 0;
-    //     int republicanWins = 0;
-        
-    //     for (District district : plan.getDistricts()) {
-    //         if (district.getMajorityParty() == Party.democrat) {
-    //             democraticWins++;
-    //         } else {
-    //             republicanWins++;
-    //         }
-    //     }
-        
-    //     results.put("democraticWins", democraticWins);
-    //     results.put("republicanWins", republicanWins);
-        
-    //     return results;
-    // }
 
-    // public static Map<String, Object> calculateOpportunityRange(Ensemble ensemble) {
-    //     Map<String, Object> range = new HashMap<>();
-        
-    //     List<Integer> opportunityCounts = ensemble.getPlans().stream()
-    //         .map(plan -> (int) plan.getDistricts().stream()
-    //             .filter(district -> isMinorityOpportunityDistrict(district))
-    //             .count())
-    //         .collect(Collectors.toList());
-        
-    //     range.put("min", opportunityCounts.stream().mapToInt(i -> i).min().orElse(0));
-    //     range.put("max", opportunityCounts.stream().mapToInt(i -> i).max().orElse(0));
-    //     range.put("average", opportunityCounts.stream().mapToInt(i -> i).average().orElse(0.0));
-        
-    //     return range;
-    // }
-
-    // public static Map<String, Object> calculatePartySplitRange(Ensemble ensemble) {
-    //     Map<String, Object> range = new HashMap<>();
-        
-    //     List<Double> democraticSplits = ensemble.getPlans().stream()
-    //         .map(plan -> calculateDemocraticSplit(plan))
-    //         .collect(Collectors.toList());
-        
-    //     range.put("democratic", Map.of(
-    //         "min", democraticSplits.stream().mapToDouble(d -> d).min().orElse(0.0),
-    //         "max", democraticSplits.stream().mapToDouble(d -> d).max().orElse(0.0),
-    //         "average", democraticSplits.stream().mapToDouble(d -> d).average().orElse(0.0)
-    //     ));
-        
-    //     return range;
-    // }
-
-    // public static double calculateDemocraticSplit(DistrictPlan plan) {
-    //     long democraticDistricts = plan.getDistricts().stream()
-    //         .filter(district -> district.getMajorityParty() == Party.democrat)
-    //         .count();
-    //     return (double) democraticDistricts / plan.getDistricts().size();
-    // }
-
-    // public static Map<String, Object> calculateBoxAndWhisker(Ensemble ensemble) {
-    //     Map<String, Object> boxData = new HashMap<>();
-        
-    //     for (int i = 0; i < ensemble.getPlans().get(0).getDistricts().size(); i++) {
-    //         int districtIndex = i;
-    //         List<Double> values = ensemble.getPlans().stream()
-    //             .map(plan -> calculateMetric(plan.getDistricts().get(districtIndex)))
-    //             .sorted()
-    //             .collect(Collectors.toList());
-            
-    //         boxData.put("district" + (i+1), calculateBoxStats(values));
-    //     }
-        
-    //     return boxData;
-    // }
-
-    // public static Map<String, Double> calculateBoxStats(List<Double> values) {
-    //     Map<String, Double> stats = new HashMap<>();
-    //     stats.put("min", values.get(0));
-    //     stats.put("q1", calculateQuartile(values, 0.25));
-    //     stats.put("median", calculateQuartile(values, 0.5));
-    //     stats.put("q3", calculateQuartile(values, 0.75));
-    //     stats.put("max", values.get(values.size() - 1));
-    //     return stats;
-    // }
-
-    // public static double calculateQuartile(List<Double> values, double quartile) {
-    //     int index = (int) Math.ceil(quartile * values.size()) - 1;
-    //     return values.get(Math.max(0, index));
-    // }
-
-    // public static double calculateMetric(District district) {
-    //     // Example metric
-    //     return (double) district.getDemographics().get(Group.black) / district.getPopulation();
-    // }
-        // @Autowired
-    // public ServiceRepo(DistrictBoundaryRepo districtBoundaryRepo) {
-    //     this.districtBoundaryRepo = districtBoundaryRepo;
-    // }
 
     // private static final Map<String, EnsembleSummary> ensembleSummaryCache = new HashMap<>();
     // private static final Map<String, EnsembleData> ensembleDataCache = new HashMap<>();

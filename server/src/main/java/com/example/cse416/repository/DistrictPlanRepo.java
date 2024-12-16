@@ -9,5 +9,5 @@ import com.example.cse416.model.DistrictPlan;
 
 @Repository
 public interface DistrictPlanRepo extends MongoRepository<DistrictPlan, String>{
-    public DistrictPlan findByStateAndType(StateID state, Type type, int number);
+    public DistrictPlan findByStateAndTypeAndNumber(StateID state, Type type, int number);
 }

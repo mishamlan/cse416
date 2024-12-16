@@ -14,21 +14,8 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Document("district-plan")
 public class DistrictPlan {
-    @Id
-    private String id;
-    private StateID state;
-    private Integer districtNumber;
-    private Type type;
-    private Integer numDistricts;
-    private Long totalPopulation;
-    private Double equalPopulationMeasure;
-    private Integer totalOpportunityDistricts;
-    private Double opportunityThreshold;
-    private Integer safeDistricts;
-    private Integer competitiveDistricts;
-    private Integer electionYearUsed;
-    private PlanSummary summary;
-
-    private List<District> districts;
-    private OverallResults overallResults;
+    private String type; // Type of district plan, e.g., "smd" or "mmd"
+    private String state; // State abbreviation
+    private int number; // District number
+    private List<DistrictFeature> features;
 }

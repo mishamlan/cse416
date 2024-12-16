@@ -71,17 +71,19 @@ export const PLAN_TYPES = {
    * @param {number} number - Ensemble number
    */
   export const getEnsembleData = (state, type, number) => {
-    return fetchData(`/ensemble/data/${state}/${type}/${number}`);
+    return fetchData(`/ensemble/data/${state}/${type}/${number}/`);
   };
   
   /**
    * Fetches box and whisker plot data
-   * @param {string} state - State identifier
+   * @param {string} group - racial group
    * @param {string} type - Plan type (SMD/MMD)
-   * @param {number} number - Ensemble number
+   * @param {int} number - district number
+   * @param {int} index - index number
+
    */
-  export const getBoxWhiskerData = (state, type, number) => {
-    return fetchData(`/boxwhisker/${state}/${type}/${number}`);
+  export const getBoxWhiskerData = (group, type, district, index) => {
+    return fetchData(`/boxwhisker/${group}/${type}/${district}/${index}/`);
   };
   
   /**
@@ -106,7 +108,8 @@ export const PLAN_TYPES = {
       const fetchEnsemble = async () => {
         try {
           setLoading(true);
-          const result = await getEnsembleData(state, type, number);
+          const result = await getEnsembleData(state, "mmd", 0);
+          console.log(result)
           setData(result);
           setError(null);
         } catch (err) {

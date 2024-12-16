@@ -5,15 +5,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.cse416.constants.StateID;
 import com.example.cse416.constants.Type;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Document
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class EnsembleSummary {
     private int numOfPlans;
     private StateID state;

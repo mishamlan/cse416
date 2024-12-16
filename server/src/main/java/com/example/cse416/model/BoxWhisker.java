@@ -1,26 +1,40 @@
 package com.example.cse416.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import com.example.cse416.constants.Group;
-import com.example.cse416.constants.StateID;
+import lombok.Data;
 
-
-import lombok.Getter;
-import lombok.Setter;
-@Getter
-@Setter
+@Data
+@Document("box-whisker")
 public class BoxWhisker {
-    @Id
-    private String id;
+@JsonProperty("basis_of_comparison")
+    private String basisOfComparison;
 
-    private StateID state;
-    private Group group;
-    private Integer district;
-    private Double min;
-    private Double q1;
-    private Double med;
-    private Double q3;
-    private Double max;
-    private DistrictPlan plan;
+    @JsonProperty("plan_type")
+    private String planType;
+
+    @JsonProperty("plan_index")
+    private String planIndex;
+
+    private int district;
+
+    @JsonProperty("population_percent")
+    private double populationPercent;
+
+    @JsonProperty("min_population_percent")
+    private double minPopulationPercent;
+
+    @JsonProperty("q1_population_percent")
+    private double q1PopulationPercent;
+
+    @JsonProperty("median_population_percent")
+    private double medianPopulationPercent;
+
+    @JsonProperty("q3_population_percent")
+    private double q3PopulationPercent;
+
+    @JsonProperty("max_population_percent")
+    private double maxPopulationPercent;
 }

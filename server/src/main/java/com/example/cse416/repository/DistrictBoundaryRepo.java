@@ -1,4 +1,4 @@
-package com.example.cse416;
+package com.example.cse416.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;

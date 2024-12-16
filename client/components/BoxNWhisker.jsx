@@ -24,7 +24,7 @@ const BoxNWhisker = ({tab, state, ensemble}) => {
       fetch box & whisker data
     */
     const getData = async (state, ensemble, basis) => {
-      const data = await getBoxWhiskerData(state, ensemble, basis);
+      // const data = await getBoxWhiskerData(state, ensemble, basis);
       // setData(data);
     };
     getData(state, ensemble, basis);
