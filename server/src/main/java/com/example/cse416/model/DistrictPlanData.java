@@ -8,8 +8,8 @@ import com.example.cse416.constants.Type;
 import lombok.Data;
 
 @Data
-@Document("ensemble-summary")
-public class EnsembleSummary {
+@Document("district-plan-data")
+public class DistrictPlanData {
     private int plan;
     private int number_of_districts;
     private int minority_representation;

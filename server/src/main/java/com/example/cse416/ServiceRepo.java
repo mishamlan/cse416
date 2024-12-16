@@ -14,8 +14,8 @@ import com.example.cse416.repository.BoxWhiskerRepo;
 import com.example.cse416.repository.DemographicRepo;
 import com.example.cse416.repository.DistrictBoundaryRepo;
 import com.example.cse416.repository.DistrictPlanRepo;
-import com.example.cse416.repository.EnsembleDataRepo;
-import com.example.cse416.repository.EnsembleSummaryRepo;
+import com.example.cse416.repository.DPlanSummaryRepo;
+import com.example.cse416.repository.DPlanDataRepo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,12 +41,12 @@ public class ServiceRepo {
     @Autowired
     private DistrictPlanRepo districtPlanRepo;
     @Autowired
-    private EnsembleDataRepo ensembleDataRepo;
+    private DPlanSummaryRepo dps;
     @Autowired
     private BoxWhiskerRepo boxWhiskerRepo;
 
     @Autowired
-    private EnsembleSummaryRepo ensembleSummaryRepo;
+    private DPlanDataRepo dPlanDataRepo;
     // @Autowired
     // private EnsembleSummaryRepo ensembleSummaryRepo;
 
@@ -83,10 +83,11 @@ public class ServiceRepo {
             throw new IOException(e);
         }
     }
-    @Cacheable(value = "ensembledata", key = "T(java.util.Objects).hash(#state, #type, #number)")
-    public EnsembleData loadEnsembleData(StateID state, String type, int number) throws IOException {
+    @Cacheable(value = "dplansummary", key = "T(java.util.Objects).hash(#state, #type, #number)")
+    public DistrictPlanSummary getDPlanSummary(StateID state, String type, int number) throws IOException {
         try {
-            EnsembleData ed = ensembleDataRepo.findByStateAndTypeAndNumber(state, type, number);
+            System.out.println("inside dplan summary, point reached");
+            DistrictPlanSummary ed = dps.findByStateAndTypeAndNumber(state, type, number);
             return ed;
     } catch (Exception e) {
         System.err.println("Error loading ensemble data: " + e.getMessage());
@@ -104,12 +105,13 @@ public class ServiceRepo {
             throw new IOException("Failed to load ensemble data", e);
         }
     }
-    @Cacheable(value = "ensemblesummary", key = "T(java.util.Objects).hash(#state, #type, #number)")
-    public EnsembleSummary getEnsembleSummary(StateID state, Type type, int number) throws IOException{
+    @Cacheable(value = "dplandata", key = "T(java.util.Objects).hash(#state, #type, #number)")
+    public DistrictPlanData getDPlanData(StateID state, Type type, int number) throws IOException{
         try{
-        EnsembleSummary es = ensembleSummaryRepo.findByStateAndTypeAndPlan(state, type, number);
-        System.out.println("es: "+es);
-        System.out.println("es returned");
+            System.out.println("inside dplan, point reached");
+
+            DistrictPlanData es = dPlanDataRepo.findByStateAndTypeAndPlan(state, type, number);
+            System.out.println("es returned");
         return es;
         }
         catch(Exception e){

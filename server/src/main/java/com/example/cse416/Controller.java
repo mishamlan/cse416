@@ -14,14 +14,11 @@ import com.example.cse416.model.BoxWhisker;
 import com.example.cse416.model.Demographics;
 import com.example.cse416.model.DistrictBoundary;
 import com.example.cse416.model.DistrictPlan;
-import com.example.cse416.model.EnsembleData;
-import com.example.cse416.model.EnsembleSummary;
+import com.example.cse416.model.DistrictPlanData;
+import com.example.cse416.model.DistrictPlanSummary;
 
 import java.io.IOException;
 import java.util.List;
-
-
-import org.springframework.web.bind.annotation.RequestParam;
 
 @SpringBootApplication
 @RestController
@@ -56,12 +53,13 @@ public class Controller {
     //         return ResponseEntity.notFound().build();
     //     }
     // }
-    @GetMapping("/ensemble/summary/{state}/{type}/{plan}/")
-    public ResponseEntity<EnsembleSummary> getEnsembleSummary(
+    @GetMapping("/dplan/data/{state}/{type}/{plan}/")
+    public ResponseEntity<DistrictPlanData> getDPlanData(
             @PathVariable StateID state,
             @PathVariable Type type, @PathVariable int plan) {
         try {
-            EnsembleSummary ensemble = service.getEnsembleSummary(state, type, plan);
+            System.out.println("Entered dplan data");
+            DistrictPlanData ensemble = service.getDPlanData(state, type, plan);
             return ResponseEntity.ok(ensemble);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -81,13 +79,13 @@ public class Controller {
         }
     }
             //`/ensemble/data/${state}/${type}/${number}/`
-    @GetMapping("/ensemble/data/{state}/{type}/{number}/")
-    public ResponseEntity<EnsembleData> getEnsembleData(
+    @GetMapping("/dplan/summary/{state}/{type}/{number}/")
+    public ResponseEntity<DistrictPlanSummary> getEnsembleData(
             @PathVariable StateID state,
             @PathVariable String type, @PathVariable int number) {
         
         try {
-            EnsembleData ensemble = service.loadEnsembleData(state, type, number);
+            DistrictPlanSummary ensemble = service.getDPlanSummary(state, type, number);
             return ResponseEntity.ok(ensemble);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

@@ -47,6 +47,25 @@ export const PLAN_TYPES = {
   export const getDemographic = (state) => {
     return fetchData(`/demographic/${state}/`);
   };
+  /**
+   * Fetches district plan data for individual district, based on a state and type and its number
+   * @param {string} state - State identifier
+   * @param {string} type - Data type
+   * @param {int} number - district plan number
+   */
+  export const getDistrictPlanData = (state, type, number) => {
+    return fetchData(`/dplan/data/${state}/${type}/${number}/`);
+  };
+   /**
+   * Fetches district plan summary for individual district, based on a state and type and its number
+   * @param {string} state - State identifier
+   * @param {string} type - Data type
+   * @param {int} number - district plan number
+   */
+   export const getDistrictPlanSummary = (state, type, number) => {
+    return fetchData(`/dplan/summary/${state}/${type}/${number}/`);
+  };
+
     /**
    * Fetches district boundary data for a state
    * @param {string} state - State identifier
