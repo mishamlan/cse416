@@ -7,14 +7,20 @@ import com.example.cse416.constants.StateID;
 import com.example.cse416.constants.Type;
 import lombok.Data;
 
-@Document
 @Data
+@Document("ensemble-summary")
 public class EnsembleSummary {
-    private int numOfPlans;
+    private int plan;
+    private int number_of_districts;
+    private int minority_representation;
+    private int opportunity_districts;
+    private String opportunity_threshold;
+    private int R_wins;
+    private int D_wins;
+    private double R_seat_share;
+    private double D_seat_share;
+    private double R_vote_share;
+    private double D_vote_share;
     private StateID state;
-    private List<DistrictPlan> plans;
-    private double avgMinorityReps;
-    private double avgEqualPop;
-    private double avgRepDemSplit;
     private Type type;
 }

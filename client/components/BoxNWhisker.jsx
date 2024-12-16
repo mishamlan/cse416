@@ -5,7 +5,10 @@ import { getBoxWhiskerData } from '@/app/api/utils'
 const BoxNWhisker = ({tab, state}) => {
 
   const [ensemble, setEnsemble] = useState('smd');
-  const [basis, setBasis] = useState('white-population');
+  const [basis, setBasis] = useState('white');
+  const [plan_index, setPlanIndex] = useState(0);
+  const [district, setDistrictx] = useState(0);
+
 
   const [data, setData] = useState([
     { y: [10, 15, 20], name: 'District 1', type: 'box' },

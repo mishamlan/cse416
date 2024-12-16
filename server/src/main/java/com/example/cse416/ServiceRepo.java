@@ -15,6 +15,7 @@ import com.example.cse416.repository.DemographicRepo;
 import com.example.cse416.repository.DistrictBoundaryRepo;
 import com.example.cse416.repository.DistrictPlanRepo;
 import com.example.cse416.repository.EnsembleDataRepo;
+import com.example.cse416.repository.EnsembleSummaryRepo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -43,6 +44,9 @@ public class ServiceRepo {
     private EnsembleDataRepo ensembleDataRepo;
     @Autowired
     private BoxWhiskerRepo boxWhiskerRepo;
+
+    @Autowired
+    private EnsembleSummaryRepo ensembleSummaryRepo;
     // @Autowired
     // private EnsembleSummaryRepo ensembleSummaryRepo;
 
@@ -60,7 +64,6 @@ public class ServiceRepo {
     @Cacheable(value = "boundary", key = "#state")
     public DistrictBoundary getDistrictBoundary(StateID state) throws IOException{
         try{
-            System.out.println("inside service");
             DistrictBoundary db = districtBoundaryRepo.getDistrictBoundaries(state);
             System.out.println(db);
             return db;
@@ -73,9 +76,6 @@ public class ServiceRepo {
     public DistrictPlan getDistrictPlanData(StateID state, Type type, int number) throws IOException{
         try{
         DistrictPlan dp = districtPlanRepo.findByStateAndTypeAndNumber(state, type, number);
-        // dp.features.geometry.coordinates = converter(dp.features.geometry);
-        // System.out.println("dp: "+dp);
-        // System.out.println("district plan returned");
         return dp;
         }
         catch(Exception e){
@@ -97,38 +97,27 @@ public class ServiceRepo {
     @Cacheable(value = "boxwhisker", key = "T(java.util.Objects).hash(#type, #number, #group, #index)")
     public BoxWhisker getBoxWhisker(String group, String type, String index, int district) throws IOException {
         try {
-            System.out.println("Parameters: group=" + group + ", type=" + type + ", index=" + index + ", district=" + district);
             BoxWhisker bw = boxWhiskerRepo.findBoxWhisker(group, type, index, district);
-            System.out.println("Query Result: " + bw);
             return bw;
         } catch (Exception e) {
             System.err.println("Error loading ensemble data: " + e.getMessage());
             throw new IOException("Failed to load ensemble data", e);
         }
     }
-    
-    // public EnsembleSummary loadEnsembleSummary(String state, String type) throws IOException {
-    //     String ensembleKey = String.format("%s-%s", state, type);
-    //     if (ensembleSummaryCache.containsKey(ensembleKey)) {
-    //         return ensembleSummaryCache.get(ensembleKey);
-    //     }
-    //     try {
-    //         String filePath = String.format("/ensemble/summary/%s/%s/summary.json", 
-    //             state.toLowerCase(), 
-    //             type.toLowerCase());
-    //         Resource resource = new ClassPathResource(filePath);
-    //         if (resource.exists()) {
-    //             EnsembleSummary ensemble = objectMapper.readValue(resource.getInputStream(), EnsembleSummary.class);
-    //         ensembleSummaryCache.put(ensembleKey, ensemble);
-    //         return ensemble;
-    //     } else {
-    //         throw new FileNotFoundException("Ensemble data not found");
-    //     }
-    // } catch (Exception e) {
-    //     System.err.println("Error loading ensemble data: " + e.getMessage());
-    //     throw new IOException("Failed to load ensemble data", e);
-    //     }
-    // }
+    @Cacheable(value = "ensemblesummary", key = "T(java.util.Objects).hash(#state, #type, #number)")
+    public EnsembleSummary getEnsembleSummary(StateID state, Type type, int number) throws IOException{
+        try{
+        EnsembleSummary es = ensembleSummaryRepo.findByStateAndTypeAndPlan(state, type, number);
+        System.out.println("es: "+es);
+        System.out.println("es returned");
+        return es;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            throw new IOException(e);
+        }
+    }
+
     // public static double calculateAverageMinorityReps(EnsembleSummary ensemble) {
     //     return ensemble.getPlans().stream()
     //         .mapToDouble(plan -> countMinorityReps(plan))

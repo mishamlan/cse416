@@ -15,6 +15,7 @@ import com.example.cse416.model.Demographics;
 import com.example.cse416.model.DistrictBoundary;
 import com.example.cse416.model.DistrictPlan;
 import com.example.cse416.model.EnsembleData;
+import com.example.cse416.model.EnsembleSummary;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +40,6 @@ public class Controller {
     }
     @GetMapping("/boundary/{state}/")
     public ResponseEntity<DistrictBoundary> getDistrictBoundary(@PathVariable StateID state) throws IOException {
-        System.out.println("inside controller");
         var res = service.getDistrictBoundary(state);
         return ResponseEntity.ok(res);
     }
@@ -56,17 +56,17 @@ public class Controller {
     //         return ResponseEntity.notFound().build();
     //     }
     // }
-    // @GetMapping("/ensemble/summary/{state}/{type}/")
-    // public ResponseEntity<EnsembleSummary> getEnsembleSummary(
-    //         @PathVariable String state,
-    //         @PathVariable String type) {
-    //     try {
-    //         EnsembleSummary ensemble = service.loadEnsembleSummary(state, type);
-    //         return ResponseEntity.ok(ensemble);
-    //     } catch (Exception e) {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    // }
+    @GetMapping("/ensemble/summary/{state}/{type}/{plan}/")
+    public ResponseEntity<EnsembleSummary> getEnsembleSummary(
+            @PathVariable StateID state,
+            @PathVariable Type type, @PathVariable int plan) {
+        try {
+            EnsembleSummary ensemble = service.getEnsembleSummary(state, type, plan);
+            return ResponseEntity.ok(ensemble);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
     @GetMapping("/dplan/{state}/{type}/{number}/")
     public ResponseEntity<DistrictPlan> getDistrictPlan(
             @PathVariable StateID state,

@@ -65,8 +65,9 @@ const Dashboard = ({tab, state}) => {
 
   useEffect(() => {
     const fetchEnsembleSummary = async (state) => {
-      const smd = await getEnsembleSummary(state, 'SMD');
-      const mmd = await getEnsembleSummary(state, 'MMD');
+      const smd = await getEnsembleSummary(state, 'smd', 0);
+      const mmd = await getEnsembleSummary(state, 'mmd', 0);
+      console.log(smd)
       setSmdSummary(smd);
       setMmdSummary(mmd);
     };
@@ -107,8 +108,8 @@ const Dashboard = ({tab, state}) => {
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. Number of Minority Representatives/Plan</th>
-                    <td className="px-6 py-2">{smdSummary.avgMinorityReps}</td>
-                    <td className="px-6 py-2">{mmdSummary.avgMinorityReps}</td>
+                    <td className="px-6 py-2">{smdSummary.minority_representation}</td>
+                    <td className="px-6 py-2">{mmdSummary.minority_representation}</td>
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. Equal Population Measure</th>
@@ -117,8 +118,8 @@ const Dashboard = ({tab, state}) => {
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. DEM/REP Split</th>
-                    <td className="px-6 py-2"><span className="democratic">{smdSummary.avgPartySplit.democratic}</span>:<span className="republican">{smdSummary.avgPartySplit.republican}</span></td>
-                    <td className="px-6 py-2"><span className="democratic">{mmdSummary.avgPartySplit.democratic}</span>:<span className="republican">{mmdSummary.avgPartySplit.republican}</span></td>
+                    <td className="px-6 py-2"><span className="democratic">{smdSummary.D_seat_share}</span>:<span className="republican">{smdSummary.R_seat_share}</span></td>
+                    <td className="px-6 py-2"><span className="democratic">{mmdSummary.D_seat_share}</span>:<span className="republican">{mmdSummary.R_seat_share}</span></td>
                   </tr>
               </tbody>
             </table>
