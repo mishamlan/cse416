@@ -141,7 +141,9 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
     return list;
   }
   const func = async ()=>{
-    getDistrictPlan("la", "smd", 0)
+    const data = await getDistrictPlan("la", "smd", 0)
+    setDistrictPlan(data)
+    console.log(data)
   }
   func()
 

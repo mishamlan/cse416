@@ -99,7 +99,20 @@ export const PLAN_TYPES = {
    * @param {string} state - State identifier
    * @param {string} type - Plan type (SMD/MMD)
    * @param {number} number - Plan number
+   * to access fields:
+   * const precinctName = geojson.features[index].properties.PRECNAME; //precinct name
+   * const democraticCandidate = geojson.features[index].properties.DCAND; -> dem candidate
+   * const republicanCandidate = geojson.features[index].properties.RCAND; -> republican candidate
+   * const democraticVotes = geojson.features[index].properties.DVOTES; -> dem votes
+   * const republicanVotes = geojson.features[index].properties.RVOTES; -> rep votes
+   * const winningCandidate = geojson.features[index].properties.WCAND; -> winning candidate
+   * const winningParty = geojson.features[index].properties.WPARTY; -> winning party (will return as "R" or "D")
+   * const district = geojson.features[index].properties.DISTRICT;
+   * const totalVAP = geojson.features[index].properties.TOTVAP; -> total voting age population
+   * const hispanicVAP = geojson.features[index].properties.HVAP; -> hispanic votes
+   * const coordinates = geojson.features[index].geometry.coordinates; 
    */
+
   export const getDistrictPlan = (state, type, number) => {
     return fetchData(`/dplan/${state}/${type}/${number}/`);
   };

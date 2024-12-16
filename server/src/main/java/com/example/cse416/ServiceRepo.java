@@ -74,8 +74,8 @@ public class ServiceRepo {
         try{
         DistrictPlan dp = districtPlanRepo.findByStateAndTypeAndNumber(state, type, number);
         // dp.features.geometry.coordinates = converter(dp.features.geometry);
-        System.out.println("dp: "+dp);
-        System.out.println("district plan returned");
+        // System.out.println("dp: "+dp);
+        // System.out.println("district plan returned");
         return dp;
         }
         catch(Exception e){

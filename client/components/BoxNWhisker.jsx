@@ -26,12 +26,12 @@ const BoxNWhisker = ({tab, state}) => {
     /*
       fetch box & whisker data
     */
-    const getData = async (state, ensemble, basis) => {
-      const data = await getBoxWhiskerData("asian", "mmd", 1, 1);
+    const getData = async (group, type, plan_index, district) => {
+      const data = await getBoxWhiskerData(group, type, plan_index, 1, district);
       console.log(data)
       setData(data);
     };
-    getData(state, ensemble, basis);
+    getData(basis, ensemble, plan_index, district);
   },[state, ensemble, basis]);
 
   return (

@@ -8,5 +8,5 @@ import lombok.Setter;
 public class DistrictFeature {
     private String type; 
     private DistrictProperties properties; 
-    private Geometry geometry; 
+    private Object geometry; 
 }
