@@ -96,15 +96,17 @@ public class ServiceRepo {
 
     @Cacheable(value = "boxwhisker", key = "T(java.util.Objects).hash(#type, #number, #group, #index)")
     public BoxWhisker getBoxWhisker(String group, String type, String index, int district) throws IOException {
-        try {          
+        try {
+            System.out.println("Parameters: group=" + group + ", type=" + type + ", index=" + index + ", district=" + district);
             BoxWhisker bw = boxWhiskerRepo.findBoxWhisker(group, type, index, district);
-            System.out.println(bw);
+            System.out.println("Query Result: " + bw);
             return bw;
-    } catch (Exception e) {
-        System.err.println("Error loading ensemble data: " + e.getMessage());
-        throw new IOException("Failed to load ensemble data", e);
+        } catch (Exception e) {
+            System.err.println("Error loading ensemble data: " + e.getMessage());
+            throw new IOException("Failed to load ensemble data", e);
         }
     }
+    
     // public EnsembleSummary loadEnsembleSummary(String state, String type) throws IOException {
     //     String ensembleKey = String.format("%s-%s", state, type);
     //     if (ensembleSummaryCache.containsKey(ensembleKey)) {

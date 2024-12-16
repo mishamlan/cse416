@@ -10,31 +10,31 @@ import lombok.Data;
 @Document("box-whisker")
 public class BoxWhisker {
 @JsonProperty("basis_of_comparison")
-    private String basisOfComparison;
+    private String basis_of_comparison;
 
     @JsonProperty("plan_type")
-    private String planType;
+    private String plan_type;
 
     @JsonProperty("plan_index")
-    private String planIndex;
+    private String plan_index;
 
     private int district;
 
     @JsonProperty("population_percent")
-    private double populationPercent;
+    private double population_percent;
 
     @JsonProperty("min_population_percent")
-    private double minPopulationPercent;
+    private double minPopulation_percent;
 
     @JsonProperty("q1_population_percent")
-    private double q1PopulationPercent;
+    private double q1_population_percent;
 
     @JsonProperty("median_population_percent")
-    private double medianPopulationPercent;
+    private double median_population_percent;
 
     @JsonProperty("q3_population_percent")
-    private double q3PopulationPercent;
+    private double q3_population_percent;
 
     @JsonProperty("max_population_percent")
-    private double maxPopulationPercent;
+    private double max_population_percent;
 }
