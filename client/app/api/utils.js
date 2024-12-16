@@ -88,7 +88,6 @@ export const PLAN_TYPES = {
     democrat,
     republican, 
     american_indian,
-    other
   }
    */
   export const getBoxWhiskerData = (group, type, district, index) => {
