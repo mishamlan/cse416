@@ -30,7 +30,7 @@ const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
         mapboxgl.accessToken = 'pk.eyJ1IjoibnozMSIsImEiOiJjbTFlOWI3OXYxajJ3MnZvbmxndXQ2M2Z6In0.56ahjZJxD52t9UyCTlnm4Q';
           stateRef.current = new mapboxgl.Map({
             container: mapContainerRef.current, // container ID
-            style: 'mapbox://styles/nz31/cm1mpjkcf004101p36vrw409x/draft', // style URL
+            style: 'mapbox://styles/nz31/cm4rc98xq00c501qt7iaj0yr2', // style URL
             center: center, // starting position [lng, lat]
             zoom: 4.5,
             minZoom: 4.5,
@@ -74,7 +74,7 @@ const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
               highlightColor,
               fillColor
             ],
-            'fill-opacity': 1
+            'fill-opacity': 0.1
           }
         });
     
