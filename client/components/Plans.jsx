@@ -154,15 +154,6 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
     })
     return list;
   }
-  const func = async ()=>{
-    const data = await getDistrictPlanData("la", "smd", 0)
-    setDistrictPlan(data)
-    setStop(true)
-    const data2= await getDistrictPlanSummary("la", "mmd", 0);
-    console.log("Summary", data2)
-    console.log(data)
-  }
-  if(!stop) func()
 
   const displayResults = () => {
     let list = [];
@@ -193,7 +184,26 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
 
     // fetchDistrictPlan(state, ensemble, districtPlan);
 
+    const func = async ()=>{
+      const data = await getDistrictPlan("la", "smd", 0)
+      setDistrictPlan(data)
+      console.log(data)
+    }
+    func()
+
   }, [demographics, ensemble, districtPlan, state]);
+
+  // Simulated seat-share data for Republicans and Democrats
+  const voteShare = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+  const republicanSeatShare = [0, 5, 15, 30, 40, 50, 60, 70, 85, 95, 100];
+  const democraticSeatShare = [0, 10, 25, 35, 50, 60, 65, 75, 90, 100, 100];
+
+  // Markers for ensembles
+  const smdEnsembleRep = { vote: 45, seat: 30 };
+  const smdEnsembleDem = { vote: 55, seat: 75 };
+  const mmdEnsembleRep = { vote: 45, seat: 50 };
+  const mmdEnsembleDem = { vote: 55, seat: 65 };
 
   return (
     <div className={tab == 'summary' ? 'p-4' : 'hidden'}>
@@ -204,8 +214,8 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
               <span>District Type</span>
               <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectEnsemble}>
                 <option value="enacted">Enacted</option>
-                <option value="SMD">SMD</option>
-                <option value="MMD">MMD</option>
+                <option value="smd">SMD</option>
+                <option value="mmd">MMD</option>
               </select>
             </div>
             <div className='setting-dropdown m-1'>
@@ -244,7 +254,7 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
               <span className='font-semibold basis-1/2'>Threshold for Opportunity District: </span>
               <span>{dplanSummary.threshold * 100}%</span>
             </li>
-            <li className='flex my-1'>
+            <li className={ensemble == 'mmd' ? 'hidden' : 'flex my-1'}>
               <span className='font-semibold basis-1/2'>Number of safe Districts: </span>
               <span>{dplanSummary.safeDistricts}</span>
             </li>
@@ -298,8 +308,76 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
             </table>
           </div>
         </div>
-        <div className={display == 'plot' ? '' : 'hidden'}>
-          test
+        <div className={display == 'plot' ? 'mt-2' : 'hidden'}>
+          <Plot
+            data={[
+              // Republican Curve
+              {
+                x: voteShare,
+                y: republicanSeatShare,
+                type: "scatter",
+                mode: "lines",
+                name: "REP",
+                line: { color: "red", width: 2 },
+              },
+              // Democratic Curve
+              {
+                x: voteShare,
+                y: democraticSeatShare,
+                type: "scatter",
+                mode: "lines",
+                name: "DEM",
+                line: { color: "blue", width: 2 },
+              },
+              // Republican Marker
+              {
+                x: [smdEnsembleRep.vote],
+                y: [smdEnsembleRep.seat],
+                type: "scatter",
+                mode: "markers",
+                name: "SMD REP",
+                marker: { color: "orange", size: 10, symbol: "circle" },
+              },
+              {
+                x: [mmdEnsembleRep.vote],
+                y: [mmdEnsembleRep.seat],
+                type: "scatter",
+                mode: "markers",
+                name: "MMD REP",
+                marker: { color: "red", size: 10, symbol: "circle" },
+              },
+              // Democratic Marker
+              {
+                x: [smdEnsembleDem.vote],
+                y: [smdEnsembleDem.seat],
+                type: "scatter",
+                mode: "markers",
+                name: "SMD DEM",
+                marker: { color: "purple", size: 10, symbol: "circle" },
+              },
+              {
+                x: [mmdEnsembleDem.vote],
+                y: [mmdEnsembleDem.seat],
+                type: "scatter",
+                mode: "markers",
+                name: "MMD DEM",
+                marker: { color: "blue", size: 10, symbol: "circle" },
+              },
+            ]}
+            layout={{
+              width: 700,
+              height: 450,
+              xaxis: {
+                title: { text: "Vote Share (%)"},
+                range: [0, 100],
+              },
+              yaxis: {
+                title: { text: "Seat Share (%)"},
+                range: [0, 100],
+              },
+              showlegend: true,
+            }}
+          />
         </div>
       </div>
     </div>
