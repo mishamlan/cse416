@@ -7,20 +7,37 @@ const LA = () => {
   const precinctJSON = '/geoJSON/la/la_prec_geo_elec.geojson';
 
   const smdPlans = {
-    'Enacted': '/geoJSON/la/smd_plan_summary_0.geojson',
-    'Extreme 1': '/geoJSON/la/smd_plan_summary_0.geojson',
-    'Extreme 2': '/geoJSON/la/smd_plan_summary_0.geojson',
-    'Extreme 3': '/geoJSON/la/smd_plan_summary_0.geojson',
-    'Extreme 4': '/geoJSON/la/smd_plan_summary_0.geojson',
-    'Extreme 5': '/geoJSON/la/smd_plan_summary_0.geojson',
+    0: '/geoJSON/la/smd_plan_summary_0.geojson',
+    1: '/geoJSON/la/smd_plan_summary_0.geojson',
+    2: '/geoJSON/la/smd_plan_summary_0.geojson',
+    3: '/geoJSON/la/smd_plan_summary_0.geojson',
+    4: '/geoJSON/la/smd_plan_summary_0.geojson',
+    5: '/geoJSON/la/smd_plan_summary_0.geojson',
   };
 
   const mmdPlans = {
-    mmd0: '/geoJSON/la/smd_plan_summary_0.geojson',
-    mmd1: '/geoJSON/la/smd_plan_summary_0.geojson',
-    mmd2: '/geoJSON/la/smd_plan_summary_0.geojson',
-    mmd3: '/geoJSON/la/smd_plan_summary_0.geojson',
-    mmd4: '/geoJSON/la/smd_plan_summary_0.geojson',
+    1: '/geoJSON/la/smd_plan_summary_0.geojson',
+    2: '/geoJSON/la/smd_plan_summary_0.geojson',
+    3: '/geoJSON/la/smd_plan_summary_0.geojson',
+    4: '/geoJSON/la/smd_plan_summary_0.geojson',
+    5: '/geoJSON/la/smd_plan_summary_0.geojson',
+  }
+
+  const smdPlanNames = {
+    0: 'Enacted',
+    1: 'Exmtreme 1',
+    2: 'Exmtreme 1',
+    3: 'Exmtreme 1',
+    4: 'Exmtreme 1',
+    5: 'Exmtreme 1',
+  }
+
+  const mmdPlanNames = {
+    1: 'Exmtreme 1',
+    2: 'Exmtreme 1',
+    3: 'Exmtreme 1',
+    4: 'Exmtreme 1',
+    5: 'Exmtreme 1',
   }
 
   return (
@@ -31,6 +48,8 @@ const LA = () => {
       precinctData={precinctJSON}
       smdPlans={smdPlans}
       mmdPlans={mmdPlans}
+      smdPlanNames={smdPlanNames}
+      mmdPlanNames={mmdPlanNames}
     />
   )
 }

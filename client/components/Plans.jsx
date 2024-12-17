@@ -8,32 +8,11 @@ import {  getDistrictPlan, getDemographic, getDBoundary, getDistrictPlanSummary,
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
-const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan, smdPlans, mmdPlans}) => {
+const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan, smdPlans, mmdPlans, smdPlanNames, mmdPlanNames}) => {
   const [stop, setStop] = useState(false)
   const [display, setDisplay] = useState('summary');
 
-  const [dplanSummary, setDplanSummary] = useState(
-    {
-      numDistricts: 6,
-      opportunityDistricts: 0,
-      threshold: 0,
-      safeDistricts: 0,
-      partySplit: {democratic: 0, republican: 0},
-      electionPreference: "2020 H.O.R.",
-      districts: [
-        {
-          districtNumber: 1,
-          population: 300000,
-          demographics: {
-            asian: 15000,
-            black: 90000,
-            white: 180000,
-            hispanic: 15000
-          }
-        }
-      ]
-    }
-  );
+  const [dplanSummary, setDplanSummary] = useState({});
   const [demographics, setDemographics] = useState({
     district1: {
       white: 20000,
@@ -181,7 +160,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
   const selectEnsemble = (e) => {
     const ensType = e.target.value;
     setEnsemble(ensType);
-    if (ensType == 'smd') setDistrictPlan('Enacted');
+    if (ensType == 'smd') setDistrictPlan(0);
     else setDistrictPlan(Object.keys(mmdPlans)[0]);
   };
 
@@ -189,10 +168,10 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
     setDistrictPlan(e.target.value);
   };
 
-  const displayDistrictPlan = (plans) => {
+  const displayDistrictPlan = (plans, planNames) => {
     let list = [];
     Object.keys(plans).forEach(plan => {
-      list.push(<option key={plans+plan} value={plan}>{plan} Plan</option>);
+      list.push(<option key={plans+plan} value={plan}>{planNames[plan]} Plan</option>);
     })
     return list;
   }
@@ -229,8 +208,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
     const func = async ()=>{
       const data2 = await getDistrictPlanSummary("la", "smd", 0)  //summary for d plan
       const data = await getDistrictPlan("la", "smd", 0)  //geojson for d plan
-      setDistrictPlan(data)
-      console.log(data)
+      setDplanSummary(data2);
     }
     func()
 
@@ -263,7 +241,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
             <div className='setting-dropdown m-1'>
               <span>District Plan</span>
               <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrictPlan} value={districtPlan}>
-                {ensemble == 'mmd'? displayDistrictPlan(mmdPlans) : displayDistrictPlan(smdPlans)}
+                {ensemble == 'mmd'? displayDistrictPlan(mmdPlans, mmdPlanNames) : displayDistrictPlan(smdPlans, smdPlanNames)}
               </select>
             </div>
           </div>
@@ -283,50 +261,54 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
           </li>
         </ul>
         <div className={display == 'summary' ? '' : 'hidden'}>
-          <ul className='pt-2 text-xs flex flex-col'>
-            <li className='flex my-1'>
-              <span className='font-semibold basis-1/2'>Number of Districts: </span>
-              <span>{dplanSummary.numDistricts}</span>
-            </li>
-            <li className='flex my-1'>
-              <span className='font-semibold basis-1/2'>Number of Opportunity Districts: </span>
-              <span>{dplanSummary.opportunityDistricts}</span>
-            </li>
-            <li className='flex my-1'>
-              <span className='font-semibold basis-1/2'>Threshold for Opportunity District: </span>
-              <span>{dplanSummary.threshold * 100}%</span>
-            </li>
-            <li className={ensemble == 'mmd' ? 'hidden' : 'flex my-1'}>
-              <span className='font-semibold basis-1/2'>Number of safe Districts: </span>
-              <span>{dplanSummary.safeDistricts}</span>
-            </li>
-            <li className='flex my-1'>
-              <span className='font-semibold basis-1/2'>DEM/REP Split: </span>
-              <span className='democrats'>{dplanSummary.partySplit.democratic * 100}</span>:<span className='republican'>{dplanSummary.partySplit.republican * 100}</span>
-            </li>
-            <li className='flex my-1'>
-              <span className='font-semibold basis-1/2'>Election Used: </span>
-              <span>{dplanSummary.electionPreference}</span>
-            </li>
-          </ul>
-          <div className="mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-xs text-left rtl:text-right text-gray-500">
-              <thead className="text-xs text-gray-700 uppercase">
-                <tr>
-                  <th scope="col" className="px-6 py-1 bg-gray-100">District</th>
-                  <th scope="col" className="px-6 py-1">Total Population</th>
-                  <th scope="col" className="px-6 py-1 bg-gray-100">White</th>
-                  <th scope="col" className="px-6 py-1">Black</th>
-                  <th scope="col" className="px-6 py-1 bg-gray-100">Asian</th>
-                  <th scope="col" className="px-6 py-1">Hispanic</th>
-                  <th scope="col" className="px-6 py-1 bg-gray-100">Other</th>
-                </tr>
-              </thead>
-              <tbody>
-                {displayDemo()}
-              </tbody>
-            </table>
+          {Object.keys(dplanSummary).length == 0 ? <span>Loading...</span>:
+          <div>
+            <ul className='pt-2 text-xs flex flex-col'>
+              <li className='flex my-1'>
+                <span className='font-semibold basis-1/2'>Number of Districts: </span>
+                <span>{dplanSummary.number_of_districts}</span>
+              </li>
+              <li className='flex my-1'>
+                <span className='font-semibold basis-1/2'>Number of Opportunity Districts: </span>
+                <span>{dplanSummary.opportunity_districts}</span>
+              </li>
+              <li className='flex my-1'>
+                <span className='font-semibold basis-1/2'>Threshold for Opportunity District: </span>
+                <span>{dplanSummary.opportunity_threshold}</span>
+              </li>
+              <li className={ensemble == 'mmd' ? 'hidden' : 'flex my-1'}>
+                <span className='font-semibold basis-1/2'>Number of safe Districts: </span>
+                <span>{dplanSummary.number_of_districts - dplanSummary.opportunity_districts}</span>
+              </li>
+              <li className='flex my-1'>
+                <span className='font-semibold basis-1/2'>DEM/REP Split: </span>
+                <span className='democrats'>{dplanSummary.d_wins}</span>:<span className='republican'>{dplanSummary.r_wins}</span>
+              </li>
+              <li className='flex my-1'>
+                <span className='font-semibold basis-1/2'>Election Used: </span>
+                <span>{dplanSummary.electionPreference}</span>
+              </li>
+            </ul>
+            <div className="mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table className="w-full text-xs text-left rtl:text-right text-gray-500">
+                <thead className="text-xs text-gray-700 uppercase">
+                  <tr>
+                    <th scope="col" className="px-6 py-1 bg-gray-100">District</th>
+                    <th scope="col" className="px-6 py-1">Total Population</th>
+                    <th scope="col" className="px-6 py-1 bg-gray-100">White</th>
+                    <th scope="col" className="px-6 py-1">Black</th>
+                    <th scope="col" className="px-6 py-1 bg-gray-100">Asian</th>
+                    <th scope="col" className="px-6 py-1">Hispanic</th>
+                    <th scope="col" className="px-6 py-1 bg-gray-100">Other</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displayDemo()}
+                </tbody>
+              </table>
+            </div>
           </div>
+          }
         </div>
         <div className={display == 'election' ? '' : 'hidden'}>
           <div className="mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">

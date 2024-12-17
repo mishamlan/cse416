@@ -10,7 +10,7 @@ import BoxNWhisker from './BoxNWhisker';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { getDistrictPlan } from '@/app/api/utils';
 
-const StatePage = ({state, center, bound, smdPlans, mmdPlans
+const StatePage = ({state, center, bound, smdPlans, mmdPlans, smdPlanNames, mmdPlanNames,
 }) => {
     const mapContainerRef = useRef();
     const stateRef = useRef();
@@ -18,7 +18,7 @@ const StatePage = ({state, center, bound, smdPlans, mmdPlans
 
     const [tab, setTab] = useState('dashboard');
     const [ensemble, setEnsemble] = useState('smd');
-    const [districtPlan, setDistrictPlan] = useState('Enacted');
+    const [districtPlan, setDistrictPlan] = useState(0);
     
     let {setOption} = useContext(SelectContext);
     let hoverPolyongId = null;
@@ -178,7 +178,7 @@ const StatePage = ({state, center, bound, smdPlans, mmdPlans
               <button className='reset mr-2 mt-1' onClick={resetEvent}><img src="reset.svg" alt="reset" /></button>
             </div>
             <Dashboard tab={tab} state={state} />
-            <Plans tab={tab} state={state} setEnsemble={setEnsemble} setDistrictPlan={setDistrictPlan} ensemble={ensemble} districtPlan={districtPlan} smdPlans={smdPlans} mmdPlans={mmdPlans} />
+            <Plans tab={tab} state={state} setEnsemble={setEnsemble} setDistrictPlan={setDistrictPlan} ensemble={ensemble} districtPlan={districtPlan} smdPlans={smdPlans} mmdPlans={mmdPlans} smdPlanNames={smdPlanNames} mmdPlanNames={mmdPlanNames} />
             <BoxNWhisker tab={tab} state={state} />
           </div>
         </div>
