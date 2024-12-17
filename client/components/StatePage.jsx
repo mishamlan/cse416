@@ -146,7 +146,7 @@ const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
                   <button className={tab == 'dashboard' ? 'tab-selected' : 'tab'} value={'dashboard'} onClick={(e) => setTab(e.target.value)}>Dashboard</button>
                 </li>
                 <li className="me-8">
-                  <button className={tab == 'summary' ? 'tab-selected' : 'tab'} value={'summary'} onClick={(e) => setTab(e.target.value)}>Plans</button>
+                  <button className={tab == 'summary' ? 'tab-selected' : 'tab'} value={'summary'} onClick={(e) => setTab(e.target.value)}>Available Plans</button>
                 </li>
                 <li className="me-8">
                   <button className={tab == 'box&whisker' ? 'tab-selected' : 'tab'} value={'box&whisker'} onClick={(e) => setTab(e.target.value)}>Box & Whisker</button>

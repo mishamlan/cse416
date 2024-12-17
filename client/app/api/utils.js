@@ -43,56 +43,109 @@ export const PLAN_TYPES = {
    * Fetches demographic data for a state and type
    * @param {string} state - State identifier
    * @param {string} type - Data type
-   */
-  export const getDemographic = (state) => {
-    return fetchData(`/demographic/${state}/`);
+  */
+ export const getDemographic = (state) => {
+   return fetchData(`/demographic/${state}/`);
   };
-    /**
+  /**
    * Fetches district boundary data for a state
    * @param {string} state - State identifier
-   */
-    export const getDBoundary = (state) => {
-      return fetchData(`/boundary/${state}/`);
-    };
+  */
+ export const getDBoundary = (state) => {
+   return fetchData(`/boundary/${state}/`);
+  };
   
   /**
    * Fetches ensemble summary data
    * @param {string} state - State identifier
-   * @param {string} type - Plan type (SMD/MMD)
-   * @param {int} number - based on which ensemble picked ??
+   * @param {string} type - Data type  -> in this case "summary"
    */
-  export const getEnsembleSummary = (state, type, number) => {
-    return fetchData(`/ensemble/summary/${state}/${type}/${number}/`);
-  };
-  
   /**
-   * Fetches detailed ensemble data
-   * @param {string} state - State identifier
-   * @param {string} type - Plan type (SMD/MMD)
-   * @param {number} number - Ensemble number
+   * Expected data:
+   * -- Feel free to change field name
+    {
+      smd: {
+        numDistrictPlans: int,
+        avgMinorityReps: int,
+        avgDemSplit: int,
+        avgRepSplit: int,
+      },
+      mmd: {
+        // same as smd
+      }
+    }
    */
-  export const getEnsembleData = (state, type, number) => {
-    return fetchData(`/ensemble/data/${state}/${type}/${number}/`);
+  export const getEnsembleSummary = (state, type) => {
+    return fetchData(`/ensemble/summary/${state}/${type}/`);
+  };
+    
+  /**
+   * Fetches ensemble opportunity representatives data
+   * @param {string} state - State identifier
+   * @param {string} type - Data type  -> in this case "oppoReps"
+   */
+  /**
+   * Expected data:
+   * -- Fields are the range of opportunity reps
+   * {
+   *  smd: {
+   *    0: num_of_district_plans,
+   *    1: num_of_district_plans,
+   *    2: num_of_district_plans,
+   *    ...
+   *  },
+   *  mmd : {
+   *    // same as smd
+   *  }
+   * }
+   */
+  export const getEnsembleOppoReps = (state, type) => {
+    return fetchData(`/ensemble/summary/${state}/${type}/`);
+  };
+    
+  /**
+   * Fetches ensemble opportunity representatives data
+   * @param {string} state - State identifier
+   * @param {string} type - Data type  -> in this case "partySplit"
+   */
+  /**
+   * Expected data:
+   * -- Fields are the range of party splits
+   * {
+   *  smd: {
+   *    "0-20%": num_of_district_plans,
+   *    "21-40%": num_of_district_plans,
+   *    "41-60%": num_of_district_plans,
+   *    "61-80%": num_of_district_plans,
+   *    "81-100%": num_of_district_plans,
+   *    ...
+   *  },
+   *  mmd : {
+   *    // same as smd
+   *  }
+   * }
+   */
+  export const getEnsemblePartySplit = (state, type) => {
+    return fetchData(`/ensemble/summary/${state}/${type}/`);
   };
   
   /**
    * Fetches box and whisker plot data
+   * @param {string} state - state
    * @param {string} group - demographic group
-   * @param {string} type - Plan type (SMD/MMD)
-   * @param {int} number - district number
-   * @param {int} index - index number of disrict plan
-   * all the possible groups: {  
-    asian,
-    black,
-    white,
-    hispanic,
-    democrat,
-    republican, 
-    american_indian,
-  }
-   */
-  export const getBoxWhiskerData = (group, type, district, index) => {
-    return fetchData(`/boxwhisker/${group}/${type}/${district}/${index}/`);
+   * expected return data = {
+   *  smd: [
+   *    box: {...},
+   *    enacted: int,
+   *  ],
+   *  mmd: [
+   *    box {...},
+   *    enacted: int,
+   * ]
+   * }
+  */
+  export const getBoxWhiskerData = (state, group) => {
+    return fetchData(`/boxwhisker/${state}/${group}/`);
   };
   
   /**
