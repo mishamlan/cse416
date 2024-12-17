@@ -1,6 +1,6 @@
 {
   "/page": "app/page.js",
-  "/LA/page": "app/LA/page.js",
+  "/NV/page": "app/NV/page.js",
   "/about/page": "app/about/page.js",
-  "/NV/page": "app/NV/page.js"
+  "/LA/page": "app/LA/page.js"
 }

@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import DemographicItem from './DemographicItem';
 import ElectionResultsItem from './ElectionResultsItem';
-import {  getDistrictPlan, getDemographic, getDBoundary } from '@/app/api/utils';
+import {  getDistrictPlan, getDemographic, getDBoundary, getDistrictPlanSummary, getDistrictPlanData } from '@/app/api/utils';
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
 const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
-
+  const [stop, setStop] = useState(false)
   const [ensemble, setEnsemble] = useState('enacted');
   const [districtPlan, setDistrictPlan] = useState('1');
   const [display, setDisplay] = useState('summary');

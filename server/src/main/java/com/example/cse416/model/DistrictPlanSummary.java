@@ -8,14 +8,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.example.cse416.constants.StateID;
 import lombok.Data;
 @Data
-@Document("ensemble-data")
-public class EnsembleData {
+@Document("district-plan-summary")
+public class DistrictPlanSummary {
     @Id
     private String id;
     private int number;
     private StateID state;
     private String type;
-    private List<EDFeature> features;
-
-
+    private List<DPSFeature> features;
 }
