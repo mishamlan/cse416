@@ -11,15 +11,17 @@ const Dashboard = ({tab, state}) => {
   const [smdSummary, setSmdSummary] = useState({
     numDistrictPlans: 0,
     avgMinorityReps: 0,
-    avgEqualPopulationMeasure: 0,
-    avgPartySplit: {democratic: 0, republican: 0},
+    oppoThreshold: .5,
+    avgDemSplit: 0,
+    avgRepSplit: 0,
   });
 
   const [mmdSummary, setMmdSummary] = useState({
     numDistrictPlans: 0,
     avgMinorityReps: 0,
-    avgEqualPopulationMeasure: 0,
-    avgPartySplit: {democratic: 0, republican: 0},
+    oppoThreshold: .5,
+    avgDemSplit: 0,
+    avgRepSplit: 0,
   });
 
   const [data, setData] = useState({
@@ -148,23 +150,23 @@ const Dashboard = ({tab, state}) => {
               <tbody>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Number of Districts</th>
-                    <td className="px-6 py-2">{smdSummary.number_of_districts}</td>
-                    <td className="px-6 py-2">{mmdSummary.number_of_districts}</td>
+                    <td className="px-6 py-2">{smdSummary.numDistrictPlans}</td>
+                    <td className="px-6 py-2">{mmdSummary.numDistrictPlans}</td>
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. Number of Minority Reps. per Plan</th>
-                    <td className="px-6 py-2">{smdSummary.minority_representation}</td>
-                    <td className="px-6 py-2">{mmdSummary.minority_representation}</td>
+                    <td className="px-6 py-2">{smdSummary.avgMinorityReps}</td>
+                    <td className="px-6 py-2">{mmdSummary.avgMinorityReps}</td>
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Opportunity threshold</th>
-                    <td className="px-6 py-2">{smdSummary.opportunity_threshold}</td>
-                    <td className="px-6 py-2">{mmdSummary.opportunity_threshold}</td>
+                    <td className="px-6 py-2">{smdSummary.oppoThreshold * 100 }%</td>
+                    <td className="px-6 py-2">{mmdSummary.oppoThreshold * 100 }%</td>
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. DEM/REP Split</th>
-                    <td className="px-6 py-2"><span className="democratic">{smdSummary.D_seat_share}</span>:<span className="republican">{smdSummary.R_seat_share}</span></td>
-                    <td className="px-6 py-2"><span className="democratic">{mmdSummary.D_seat_share}</span>:<span className="republican">{mmdSummary.R_seat_share}</span></td>
+                    <td className="px-6 py-2"><span className="democratic">{smdSummary.avgDemSplit}</span>:<span className="republican">{smdSummary.avgRepSplit}</span></td>
+                    <td className="px-6 py-2"><span className="democratic">{mmdSummary.avgDemSplit}</span>:<span className="republican">{mmdSummary.avgRepSplit}</span></td>
                   </tr>
               </tbody>
             </table>

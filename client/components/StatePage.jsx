@@ -16,6 +16,7 @@ const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
     const router = useRouter();
 
     const [tab, setTab] = useState('dashboard');
+    const [dPlan, setDPlan] = useState();
     
     let {setOption} = useContext(SelectContext);
     let hoverPolyongId = null;
@@ -43,12 +44,6 @@ const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
           });
           
       } else {
-          // if(viewPrecincts) {
-          //   if (stateRef.current.getLayer(`${state}-precinct`)) showMapLayer(`${state}-precinct`);
-          //   else addLineLayer(`${state}-precinct`, precinctData, 'purple');
-          // } else {
-          //   if (stateRef.current.getLayer(`${state}-precinct`)) hideMapLayer(`${state}-precinct`);
-          // }
 
       }
 

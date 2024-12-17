@@ -11,12 +11,12 @@ const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
   const [stop, setStop] = useState(false)
   const [ensemble, setEnsemble] = useState('enacted');
-  const [districtPlan, setDistrictPlan] = useState('1');
+  const [districtPlan, setDistrictPlan] = useState(null);
   const [display, setDisplay] = useState('summary');
 
   const [dplanSummary, setDplanSummary] = useState(
     {
-      numDistricts: 5,
+      numDistricts: 6,
       opportunityDistricts: 0,
       threshold: 0,
       safeDistricts: 0,
@@ -77,6 +77,14 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
       other: 10000,
       total: 60000,
     },
+    district6: {
+      white: 20000,
+      asian: 10000,
+      hispanic: 10000,
+      black: 10000,
+      other: 10000,
+      total: 60000,
+    },
   });
 
   const [results, setResults] = useState([
@@ -104,6 +112,39 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
     },
     {
       district: 3,
+      winner: 'John Doe',
+      winParty: 'DEM',
+      winVotes: 100000,
+      winPercent: 0.66,
+      loser: 'John Doe',
+      loseParty: 'REP',
+      loseVotes: 50000,
+      losePercent: 0.33,
+    },
+    {
+      district: 4,
+      winner: 'John Doe',
+      winParty: 'DEM',
+      winVotes: 100000,
+      winPercent: 0.66,
+      loser: 'John Doe',
+      loseParty: 'REP',
+      loseVotes: 50000,
+      losePercent: 0.33,
+    },
+    {
+      district: 5,
+      winner: 'John Doe',
+      winParty: 'DEM',
+      winVotes: 100000,
+      winPercent: 0.66,
+      loser: 'John Doe',
+      loseParty: 'REP',
+      loseVotes: 50000,
+      losePercent: 0.33,
+    },
+    {
+      district: 6,
       winner: 'John Doe',
       winParty: 'DEM',
       winVotes: 100000,
