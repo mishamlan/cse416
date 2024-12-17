@@ -226,7 +226,8 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
     // fetchDistrictPlan(state, ensemble, districtPlan);
 
     const func = async ()=>{
-      const data = await getDistrictPlan("la", "smd", 0)
+      const data2 = await getDistrictPlanSummary("la", "smd", 0)  //summary for d plan
+      const data = await getDistrictPlan("la", "smd", 0)  //geojson for d plan
       setDistrictPlan(data)
       console.log(data)
     }
