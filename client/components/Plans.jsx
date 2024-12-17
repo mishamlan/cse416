@@ -8,10 +8,8 @@ import {  getDistrictPlan, getDemographic, getDBoundary, getDistrictPlanSummary,
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
-const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
+const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan, smdPlans, mmdPlans}) => {
   const [stop, setStop] = useState(false)
-  const [ensemble, setEnsemble] = useState('enacted');
-  const [districtPlan, setDistrictPlan] = useState(null);
   const [display, setDisplay] = useState('summary');
 
   const [dplanSummary, setDplanSummary] = useState(
@@ -181,17 +179,20 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
   };
 
   const selectEnsemble = (e) => {
-    setEnsemble(e.target.value);
+    const ensType = e.target.value;
+    setEnsemble(ensType);
+    if (ensType == 'smd') setDistrictPlan('Enacted');
+    else setDistrictPlan(Object.keys(mmdPlans)[0]);
   };
 
   const selectDistrictPlan = (e) => {
     setDistrictPlan(e.target.value);
   };
 
-  const displayDistrictPlan = (ensemble) => {
+  const displayDistrictPlan = (plans) => {
     let list = [];
-    Object.keys(ensemble).forEach(plan => {
-      list.push(<option key={ensemble+plan} value={plan}>{plan} Plan</option>);
+    Object.keys(plans).forEach(plan => {
+      list.push(<option key={plans+plan} value={plan}>{plan} Plan</option>);
     })
     return list;
   }
@@ -225,12 +226,12 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
 
     // fetchDistrictPlan(state, ensemble, districtPlan);
 
-    const func = async ()=>{
-      const data = await getDistrictPlan("la", "smd", 0)
-      setDistrictPlan(data)
-      console.log(data)
-    }
-    func()
+    // const func = async ()=>{
+    //   const data = await getDistrictPlan("la", "smd", 0)
+    //   setDistrictPlan(data)
+    //   console.log(data)
+    // }
+    // func()
 
   }, [demographics, ensemble, districtPlan, state]);
 
@@ -241,28 +242,27 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
   const democraticSeatShare = [0, 10, 25, 35, 50, 60, 65, 75, 90, 100, 100];
 
   // Markers for ensembles
-  const smdEnsembleRep = { vote: 45, seat: 30 };
-  const smdEnsembleDem = { vote: 55, seat: 75 };
-  const mmdEnsembleRep = { vote: 45, seat: 50 };
-  const mmdEnsembleDem = { vote: 55, seat: 65 };
+  const smdPlansRep = { vote: 45, seat: 30 };
+  const smdPlansDem = { vote: 55, seat: 75 };
+  const mmdPlansRep = { vote: 45, seat: 50 };
+  const mmdPlansDem = { vote: 55, seat: 65 };
 
   return (
-    <div className={tab == 'summary' ? 'p-4' : 'hidden'}>
+    <div className={tab == 'plans' ? 'p-4' : 'hidden'}>
       <div className="panel mb-4">
         <div className="flex justify-between">
           <div className='flex'>
             <div className='setting-dropdown m-1'>
               <span>District Type</span>
               <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectEnsemble}>
-                <option value="enacted">Enacted</option>
                 <option value="smd">SMD</option>
                 <option value="mmd">MMD</option>
               </select>
             </div>
             <div className='setting-dropdown m-1'>
               <span>District Plan</span>
-              <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrictPlan} disabled={ensemble == 'enacted'}>
-                {ensemble == 'MMD'? displayDistrictPlan(mmdEnsemble) : displayDistrictPlan(smdEnsemble)}
+              <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrictPlan} value={districtPlan}>
+                {ensemble == 'mmd'? displayDistrictPlan(mmdPlans) : displayDistrictPlan(smdPlans)}
               </select>
             </div>
           </div>
@@ -372,16 +372,16 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
               },
               // Republican Marker
               {
-                x: [smdEnsembleRep.vote],
-                y: [smdEnsembleRep.seat],
+                x: [smdPlansRep.vote],
+                y: [smdPlansRep.seat],
                 type: "scatter",
                 mode: "markers",
                 name: "SMD REP",
                 marker: { color: "orange", size: 10, symbol: "circle" },
               },
               {
-                x: [mmdEnsembleRep.vote],
-                y: [mmdEnsembleRep.seat],
+                x: [mmdPlansRep.vote],
+                y: [mmdPlansRep.seat],
                 type: "scatter",
                 mode: "markers",
                 name: "MMD REP",
@@ -389,16 +389,16 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
               },
               // Democratic Marker
               {
-                x: [smdEnsembleDem.vote],
-                y: [smdEnsembleDem.seat],
+                x: [smdPlansDem.vote],
+                y: [smdPlansDem.seat],
                 type: "scatter",
                 mode: "markers",
                 name: "SMD DEM",
                 marker: { color: "purple", size: 10, symbol: "circle" },
               },
               {
-                x: [mmdEnsembleDem.vote],
-                y: [mmdEnsembleDem.seat],
+                x: [mmdPlansDem.vote],
+                y: [mmdPlansDem.seat],
                 type: "scatter",
                 mode: "markers",
                 name: "MMD DEM",

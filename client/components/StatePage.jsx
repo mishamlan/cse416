@@ -9,14 +9,15 @@ import Plans from '@/components/Plans';
 import BoxNWhisker from './BoxNWhisker';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
+const StatePage = ({state, center, bound, districtJSON, smdPlans, mmdPlans
 }) => {
     const mapContainerRef = useRef();
     const stateRef = useRef();
     const router = useRouter();
 
     const [tab, setTab] = useState('dashboard');
-    const [dPlan, setDPlan] = useState();
+    const [ensemble, setEnsemble] = useState('smd');
+    const [districtPlan, setDistrictPlan] = useState('Enacted');
     
     let {setOption} = useContext(SelectContext);
     let hoverPolyongId = null;
@@ -39,15 +40,34 @@ const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
           });
   
           stateRef.current.on('load', () => {
-            addMapLayer(`${state}-district`, districtJSON, '#00ff4c', '#96ffb7');
-            clickLayer(state, 'district');
+            addMapLayer(`${ensemble}-${districtPlan}`, districtJSON, '#00ff4c', '#96ffb7');
+            clickLayer(ensemble, districtPlan);
           });
           
       } else {
-
+        const changeLayer = (ensemble, districtPlan) => {
+          for (const plan in smdPlans) {
+            hideMapLayer(`smd-${plan}-fills`);
+            hideMapLayer(`smd-${plan}-lines`);
+          }
+          for (const plan in mmdPlans) {
+            hideMapLayer(`mmd-${plan}-fills`);
+            hideMapLayer(`mmd-${plan}-lines`);
+          }
+          if (stateRef.current.getLayer(`${ensemble}-${districtPlan}-fills`)) {
+            showMapLayer(`${ensemble}-${districtPlan}-fills`);
+            showMapLayer(`${ensemble}-${districtPlan}-lines`);
+          }
+          else {
+            if (ensemble == 'smd') addMapLayer(`${ensemble}-${districtPlan}`, smdPlans[districtPlan], '#ff004c', '#9600b7');
+            else addMapLayer(`${ensemble}-${districtPlan}`, mmdPlans[districtPlan], '#ff004c', '#9600b7');
+            clickLayer(ensemble, districtPlan)
+          }
+        }
+        if (tab == 'plans') changeLayer(ensemble, districtPlan);
       }
 
-    },[]);
+    },[ensemble, districtPlan]);
 
     const addMapLayer = (id, geojson, fillColor, highlightColor) => {
       if(!stateRef.current.getSource(id)) {
@@ -87,43 +107,43 @@ const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
     }
   
     const hideMapLayer = (id) => {
-      stateRef.current.setLayoutProperty(id, 'visibility', 'none');
+      if (stateRef.current.getLayer(id)) stateRef.current.setLayoutProperty(id, 'visibility', 'none');
     }
     
     const showMapLayer = (id) => {
       stateRef.current.setLayoutProperty(id, 'visibility', 'visible');
     }
 
-    const clickLayer = (state, boundary) => {
-      stateRef.current.on('mousemove', `${state}-${boundary}-fills`, (e) => {
+    const clickLayer = (ensemble, districtPlan) => {
+      stateRef.current.on('mousemove', `${ensemble}-${districtPlan}-fills`, (e) => {
         stateRef.current.getCanvas().style.cursor = 'pointer';
         if (e.features.length > 0) {
           if (hoverPolyongId) {
             stateRef.current.removeFeatureState(
-              {source: `${state}-${boundary}`, id: hoverPolyongId},
+              {source: `${ensemble}-${districtPlan}`, id: hoverPolyongId},
             );
           }
 
           hoverPolyongId = e.features[0].id;
 
           stateRef.current.setFeatureState(
-            {source: `${state}-${boundary}`, id: hoverPolyongId},
+            {source: `${ensemble}-${districtPlan}`, id: hoverPolyongId},
             {hover: true}
           );
         }
       });
       
-      stateRef.current.on('mouseleave', `${state}-${boundary}-fills`, () => {
+      stateRef.current.on('mouseleave', `${ensemble}-${districtPlan}-fills`, () => {
         if (hoverPolyongId !== null) {
           stateRef.current.setFeatureState(
-            {source: `${state}-${boundary}`, id: hoverPolyongId},
+            {source: `${ensemble}-${districtPlan}`, id: hoverPolyongId},
             {hover: false}
           );
         }
         hoverPolyongId = null;
       });
 
-      stateRef.current.on('click', `${state}-${boundary}-fills`, (e) => {
+      stateRef.current.on('click', `${ensemble}-${districtPlan}-fills`, (e) => {
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
           .setHTML(`<div><span>District Number: ${e.features[0].properties.DISTRICT}</span><br/><span>Winner: ${e.features[0].properties.DIST_NAME}</span>`)
@@ -141,7 +161,7 @@ const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
                   <button className={tab == 'dashboard' ? 'tab-selected' : 'tab'} value={'dashboard'} onClick={(e) => setTab(e.target.value)}>Dashboard</button>
                 </li>
                 <li className="me-8">
-                  <button className={tab == 'summary' ? 'tab-selected' : 'tab'} value={'summary'} onClick={(e) => setTab(e.target.value)}>Available Plans</button>
+                  <button className={tab == 'plans' ? 'tab-selected' : 'tab'} value={'plans'} onClick={(e) => setTab(e.target.value)}>Available Plans</button>
                 </li>
                 <li className="me-8">
                   <button className={tab == 'box&whisker' ? 'tab-selected' : 'tab'} value={'box&whisker'} onClick={(e) => setTab(e.target.value)}>Box & Whisker</button>
@@ -150,7 +170,7 @@ const StatePage = ({state, center, bound, districtJSON, smdEnsemble, mmdEnsemble
               <button className='reset mr-2 mt-1' onClick={resetEvent}><img src="reset.svg" alt="reset" /></button>
             </div>
             <Dashboard tab={tab} state={state} />
-            <Plans tab={tab} state={state} smdEnsemble={smdEnsemble} mmdEnsemble={mmdEnsemble} />
+            <Plans tab={tab} state={state} setEnsemble={setEnsemble} setDistrictPlan={setDistrictPlan} ensemble={ensemble} districtPlan={districtPlan} smdPlans={smdPlans} mmdPlans={mmdPlans} />
             <BoxNWhisker tab={tab} state={state} />
           </div>
         </div>

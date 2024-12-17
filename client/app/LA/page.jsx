@@ -7,20 +7,21 @@ const LA = () => {
   const districtJSON = '/geoJSON/louisiana-congress.geojson';
   const precinctJSON = '/geoJSON/la/la_prec_geo_elec.geojson';
 
-  const smdEnsemble = {
-    'Extreme 1': '/geoJSON/la/smd_plan_0.geojson',
-    'Extreme 2': '/geoJSON/la/smd_plan_0.geojson',
-    'Extreme 3': '/geoJSON/la/smd_plan_0.geojson',
-    'Extreme 4': '/geoJSON/la/smd_plan_0.geojson',
-    'Extreme 5': '/geoJSON/la/smd_plan_0.geojson',
+  const smdPlans = {
+    'Enacted': '/geoJSON/louisiana-congress.geojson',
+    'Extreme 1': '/geoJSON/louisiana-congress.geojson',
+    'Extreme 2': '/geoJSON/louisiana-congress.geojson',
+    'Extreme 3': '/geoJSON/louisiana-congress.geojson',
+    'Extreme 4': '/geoJSON/louisiana-congress.geojson',
+    'Extreme 5': '/geoJSON/louisiana-congress.geojson',
   };
 
-  const mmdEnsemble = {
-    mmd0: '/geoJSON/la/smd_plan_0.geojson',
-    mmd1: '/geoJSON/la/smd_plan_0.geojson',
-    mmd2: '/geoJSON/la/smd_plan_0.geojson',
-    mmd3: '/geoJSON/la/smd_plan_0.geojson',
-    mmd4: '/geoJSON/la/smd_plan_0.geojson',
+  const mmdPlans = {
+    mmd0: '/geoJSON/louisiana-congress.geojson',
+    mmd1: '/geoJSON/louisiana-congress.geojson',
+    mmd2: '/geoJSON/louisiana-congress.geojson',
+    mmd3: '/geoJSON/louisiana-congress.geojson',
+    mmd4: '/geoJSON/louisiana-congress.geojson',
   }
 
   return (
@@ -30,8 +31,8 @@ const LA = () => {
       bound={bound}
       precinctData={precinctJSON}
       districtJSON={districtJSON}
-      smdEnsemble={smdEnsemble}
-      mmdEnsemble={mmdEnsemble}
+      smdPlans={smdPlans}
+      mmdPlans={mmdPlans}
     />
   )
 }
