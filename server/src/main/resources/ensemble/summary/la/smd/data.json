@@ -1,0 +1,16 @@
+{
+    "opportunity_districts": {
+        "1": 2,
+        "0": 48
+    },
+    "rep_seat_split": {
+        "81-100%": 47,
+        "61-80%": 3
+    },
+    "dem_seat_split": {
+        "0-20%": 47,
+        "21-40%": 3
+    },
+    "avg_rep_seat_share": 0.89,
+    "avg_dem_seat_share": 0.11
+}
