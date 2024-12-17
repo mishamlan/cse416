@@ -13,9 +13,9 @@ import lombok.Data;
 public class EnsembleSummary {
     private StateID state;
     private Type type;
-    private Map<String, Integer> opportunity_districts;
-    private Map<String, Integer> rep_seat_split;
-    private Map<String, Integer> dem_seat_split;
-    private double avg_rep_seat_share;
-    private double avg_dem_seat_share;
+    private Map<String, Integer> opportunityDistricts;
+    private Map<String, Integer> repSeatSplit;
+    private Map<String, Integer> demSeatSplit;
+    private double avgRepSplit;
+    private double avgDemSplit;
 }
