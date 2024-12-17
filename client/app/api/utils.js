@@ -148,6 +148,11 @@ export const PLAN_TYPES = {
     return fetchData(`/boxwhisker/${state}/${group}/`);
   };
   
+
+
+  export const getDistrictPlan = (state, type, number) => {
+    return fetchData(`/dplan/${state}/${type}/${number}/`);
+  };
   /**
    * Fetches district plan data
    * @param {string} state - State identifier
@@ -166,9 +171,8 @@ export const PLAN_TYPES = {
    * const hispanicVAP = geojson.features[index].properties.HVAP; -> hispanic votes
    * const coordinates = geojson.features[index].geometry.coordinates; 
    */
-
-  export const getDistrictPlan = (state, type, number) => {
-    return fetchData(`/dplan/${state}/${type}/${number}/`);
+  export const getDistrictPlanSummary = (state, type, number) => {
+    return fetchData(`/dplan/data/${state}/${type}/${number}/`);
   };
   
   /**

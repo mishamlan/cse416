@@ -226,12 +226,13 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
 
     // fetchDistrictPlan(state, ensemble, districtPlan);
 
-    // const func = async ()=>{
-    //   const data = await getDistrictPlan("la", "smd", 0)
-    //   setDistrictPlan(data)
-    //   console.log(data)
-    // }
-    // func()
+    const func = async ()=>{
+      const data2 = await getDistrictPlanSummary("la", "smd", 0)  //summary for d plan
+      const data = await getDistrictPlan("la", "smd", 0)  //geojson for d plan
+      setDistrictPlan(data)
+      console.log(data)
+    }
+    func()
 
   }, [demographics, ensemble, districtPlan, state]);
 
