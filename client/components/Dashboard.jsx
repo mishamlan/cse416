@@ -47,21 +47,66 @@ const Dashboard = ({tab, state}) => {
     }
   });
 
-  const [oppoRepData, setOppoRepData] = useState({
-    ranges: ["0", "1", "2", "3", "4"],
-    smdCounts: [10, 20, 50, 15, 5],
-    mmdCounts: [5, 25, 60, 20, 10],
+  const [oppoRepsData, setOppoRepsData] = useState({
+    smd: {
+      0: 10,
+      1: 20,
+      2: 50,
+      3: 15,
+      4: 5,
+    },
+    mmd: {
+      0: 5,
+      1: 25,
+      2: 60,
+      3: 20,
+      4: 10,
+    }
   });
 
   const [partySplitData, setPartySplitData] = useState({
-    ranges: ["0-10%", "11-20%", "21-30%", "31-40%", "41-50%"],
-    democraticSplits: [10, 20, 30, 25, 15],
-    republicanSplits: [5, 15, 25, 35, 20],
+    smd: {
+      "0-20%": 10,
+      "21-40%": 20,
+      "41-60%": 50,
+      "61-80%": 15,
+      "81-100%": 5,
+    },
+    mmd: {
+      "0-20%": 5,
+      "21-40%": 25,
+      "41-60%": 60,
+      "61-80%": 20,
+      "81-100%": 10,
+    }
   });
 
   const changeDisplay = (e) => {
     setDisplay(e.target.value);
   };
+
+  const oppoResTrace = (() => {
+    let ranges = [];
+    let smdCounts = [];
+    let mmdCounts = [];
+    for (let i = 0; i < Object.keys(oppoRepsData.smd).length; i++) {
+      ranges.push(i);
+      smdCounts.push(oppoRepsData.smd[i]);
+      mmdCounts.push(oppoRepsData.mmd[i]);
+    }
+    return {ranges, smdCounts, mmdCounts};
+  })();
+
+  const partySplitTrace = (() => {
+    let ranges = Object.keys(partySplitData.smd);
+    let democraticSplits = [];
+    let republicanSplits = [];
+    for (let i in ranges) {
+      democraticSplits.push(partySplitData.smd[ranges[i]]);
+      republicanSplits.push(partySplitData.mmd[ranges[i]]);
+    }
+    return {ranges, democraticSplits, republicanSplits};
+  })();
 
   useEffect(() => {
     // const fetchEnsembleSummary = async (state) => {
@@ -129,15 +174,15 @@ const Dashboard = ({tab, state}) => {
           <Plot
             data={[
               {
-                x: oppoRepData.ranges,
-                y: oppoRepData.smdCounts,
+                x: oppoResTrace.ranges,
+                y: oppoResTrace.smdCounts,
                 type: "bar",
                 name: "SMD",
                 marker: { color: "blue" },
               },
               {
-                x: oppoRepData.ranges,
-                y: oppoRepData.mmdCounts,
+                x: oppoResTrace.ranges,
+                y: oppoResTrace.mmdCounts,
                 type: "bar",
                 name: "MMD",
                 marker: { color: "orange" },
@@ -160,17 +205,17 @@ const Dashboard = ({tab, state}) => {
           <Plot
             data={[
               {
-                x: partySplitData.ranges,
-                y: partySplitData.republicanSplits,
+                x: partySplitTrace.ranges,
+                y: partySplitTrace.republicanSplits,
                 type: "bar",
-                name: "Republican Splits",
+                name: "REP Splits",
                 marker: { color: "red" },
               },
               {
-                x: partySplitData.ranges,
-                y: partySplitData.democraticSplits,
+                x: partySplitTrace.ranges,
+                y: partySplitTrace.democraticSplits,
                 type: "bar",
-                name: "Democratic Splits",
+                name: "DEM Splits",
                 marker: { color: "blue" },
               },
             ]}
