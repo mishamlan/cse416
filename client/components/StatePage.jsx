@@ -8,8 +8,9 @@ import Dashboard from './Dashboard';
 import Plans from '@/components/Plans';
 import BoxNWhisker from './BoxNWhisker';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { getDistrictPlan } from '@/app/api/utils';
 
-const StatePage = ({state, center, bound, districtJSON, smdPlans, mmdPlans
+const StatePage = ({state, center, bound, smdPlans, mmdPlans
 }) => {
     const mapContainerRef = useRef();
     const stateRef = useRef();
@@ -40,7 +41,7 @@ const StatePage = ({state, center, bound, districtJSON, smdPlans, mmdPlans
           });
   
           stateRef.current.on('load', () => {
-            addMapLayer(`${ensemble}-${districtPlan}`, districtJSON, '#00ff4c', '#96ffb7');
+            addMapLayer(`${ensemble}-${districtPlan}`, smdPlans[districtPlan], '#00ff4c', '#96ffb7');
             clickLayer(ensemble, districtPlan);
           });
           
@@ -66,6 +67,13 @@ const StatePage = ({state, center, bound, districtJSON, smdPlans, mmdPlans
         }
         if (tab == 'plans') changeLayer(ensemble, districtPlan);
       }
+
+      const func = async (ensemble, districtPlan)=>{
+        const data = await getDistrictPlan(state, ensemble, 0)
+        console.log(data)
+        console.log(districtPlan)
+      }
+      func(ensemble, districtPlan);
 
     },[ensemble, districtPlan]);
 
@@ -146,7 +154,7 @@ const StatePage = ({state, center, bound, districtJSON, smdPlans, mmdPlans
       stateRef.current.on('click', `${ensemble}-${districtPlan}-fills`, (e) => {
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
-          .setHTML(`<div><span>District Number: ${e.features[0].properties.DISTRICT}</span><br/><span>Winner: ${e.features[0].properties.DIST_NAME}</span>`)
+          .setHTML(`<div><span>District Number: ${e.features[0].properties.DISTRICT}</span><br/><span>Is Opportunity District: ${e.features[0].properties.OpportunityDistrict}</span><br/><span>DEM Votes: ${e.features[0].properties.DVOTES}</span><br/><span>REP Votes: ${e.features[0].properties.RVOTES}</span><br/><span>Minority Population Share: ${e.features[0].properties.MinorityPopulationShare}%</span><br/><span>DEM Candidate: ${e.features[0].properties.DCAND}</span><br/><span>REP Candidate: ${e.features[0].properties.RCAND}</span>`)
           .addTo(stateRef.current);
       });
     }
