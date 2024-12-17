@@ -14,6 +14,7 @@ import com.example.cse416.repository.BoxWhiskerRepo;
 import com.example.cse416.repository.DemographicRepo;
 import com.example.cse416.repository.DistrictBoundaryRepo;
 import com.example.cse416.repository.DistrictPlanRepo;
+import com.example.cse416.repository.EnsembleSummaryRepo;
 import com.example.cse416.repository.DPlanSummaryRepo;
 import com.example.cse416.repository.DPlanDataRepo;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -44,7 +45,8 @@ public class ServiceRepo {
     private DPlanSummaryRepo dps;
     @Autowired
     private BoxWhiskerRepo boxWhiskerRepo;
-
+    @Autowired
+    private EnsembleSummaryRepo ensembleSummaryRepo;
     @Autowired
     private DPlanDataRepo dPlanDataRepo;
     // @Autowired
@@ -113,6 +115,18 @@ public class ServiceRepo {
             DistrictPlanData es = dPlanDataRepo.findByStateAndTypeAndPlan(state, type, number);
             System.out.println("es returned");
         return es;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            throw new IOException(e);
+        }
+    }
+    @Cacheable(value = "ensemblesummary", key = "T(java.util.Objects).hash(#state, #type)")
+    public EnsembleSummary getEnsembleSummary(StateID state, Type type) throws IOException{
+        try{
+            EnsembleSummary es = ensembleSummaryRepo.getEnsembleSummary(state, type);
+            System.out.println("es returned");
+            return es;
         }
         catch(Exception e){
             System.out.println(e.getMessage());

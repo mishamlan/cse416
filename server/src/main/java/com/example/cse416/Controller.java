@@ -2,6 +2,7 @@ package com.example.cse416;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,14 @@ import com.example.cse416.model.DistrictBoundary;
 import com.example.cse416.model.DistrictPlan;
 import com.example.cse416.model.DistrictPlanData;
 import com.example.cse416.model.DistrictPlanSummary;
+import com.example.cse416.model.EnsembleSummary;
+
+import org.springframework.http.MediaType;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @SpringBootApplication
@@ -52,7 +59,19 @@ public class Controller {
     //     } else {
     //         return ResponseEntity.notFound().build();
     //     }
-    // }
+    // }]    
+
+    @GetMapping("/ensemble/summary/{state}/{type}/")
+    public ResponseEntity<EnsembleSummary> getEnsembleSummary(
+        @PathVariable StateID state,
+        @PathVariable Type type) {
+    try {
+        EnsembleSummary ensemble = service.getEnsembleSummary(state, type);
+        return ResponseEntity.ok(ensemble);
+    } catch (Exception e) {
+        return ResponseEntity.notFound().build();
+    }
+}
     @GetMapping("/dplan/data/{state}/{type}/{plan}/")
     public ResponseEntity<DistrictPlanData> getDPlanData(
             @PathVariable StateID state,
