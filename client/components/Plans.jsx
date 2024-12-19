@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import DemographicItem from './DemographicItem';
 import ElectionResultsItem from './ElectionResultsItem';
-import {  getDistrictPlan, getDemographic, getDBoundary, getDistrictPlanSummary, getDistrictPlanData } from '@/app/api/utils';
+import {  getDistrictPlan, getDemographic, getDBoundary, getDistrictPlanData } from '@/app/api/utils';
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
@@ -206,27 +206,17 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
   };
 
   useEffect(() => {
-
-    // const fetchDistrictPlan = async (state, ensemble, districtPlan) => {
-    //   console.log("fetching db");
-    //   try{
-    //   const data2 = await getDBoundary(state);
-    //   console.log(data2);
-    //   }catch(e){
-    //     console.error(e)
-    //   }
-    //   // setDemographics(data.demographics.totals);
-    //   // setNumDistricts(dplanSummary.numDistricts);
-    // }
-
-    // fetchDistrictPlan(state, ensemble, districtPlan);
-
-    // const func = async ()=>{
-    //   const data2 = await getDistrictPlanSummary("la", "smd", 0)  //summary for d plan
-    //   const data = await getDistrictPlan("la", "smd", 0)  //geojson for d plan
-    //   setDplanSummary(data2);
-    // }
-    // func()
+    const getDistrictPlanSummary = () => {
+      fetch(`/district_plans/${state}/${ensemble}/${districtPlan}.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setDplanSummary(data)});
+    }
+    getDistrictPlanSummary();
 
   }, [demographics, ensemble, districtPlan, state]);
 
@@ -254,7 +244,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
                 <option value="mmd">MMD</option>
               </select>
             </div>
-            <div className='setting-dropdown m-1'>
+            <div className='w-80 h-16 flex flex-col text-sm m-1'>
               <span>District Plan</span>
               <select name="district-type" id="district-type" className='dropdown-menu w-full h-full' onChange={selectDistrictPlan} value={districtPlan}>
                 {ensemble == 'mmd'? displayDistrictPlan(mmdPlans, mmdPlanNames) : displayDistrictPlan(smdPlans, smdPlanNames)}
@@ -289,20 +279,20 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
                 <span>{dplanSummary.opportunity_districts}</span>
               </li>
               <li className='flex my-1'>
-                <span className='font-semibold basis-1/2'>Threshold for Opportunity District: </span>
+                <span className='font-semibold basis-1/2'>Opportunity Threshold: </span>
                 <span>{dplanSummary.opportunity_threshold}</span>
               </li>
               <li className={ensemble == 'mmd' ? 'hidden' : 'flex my-1'}>
-                <span className='font-semibold basis-1/2'>Number of safe Districts: </span>
+                <span className='font-semibold basis-1/2'>Number of Safe Districts: </span>
                 <span>{dplanSummary.number_of_districts - dplanSummary.opportunity_districts}</span>
               </li>
               <li className='flex my-1'>
                 <span className='font-semibold basis-1/2'>DEM/REP Split: </span>
-                <span className='democrats'>{dplanSummary.d_wins}</span>:<span className='republican'>{dplanSummary.r_wins}</span>
+                <span className='democrats'>{dplanSummary.D_wins}</span>:<span className='republican'>{dplanSummary.R_wins}</span>
               </li>
               <li className='flex my-1'>
-                <span className='font-semibold basis-1/2'>Election Used: </span>
-                <span>{dplanSummary.electionPreference}</span>
+                <span className='font-semibold basis-1/2'>Equal Population Measure: </span>
+                <span>{dplanSummary.EPM}</span>
               </li>
             </ul>
             <div className="mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">

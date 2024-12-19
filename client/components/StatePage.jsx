@@ -60,8 +60,8 @@ const StatePage = ({state, center, bound, smdPlans, mmdPlans, smdPlanNames, mmdP
             showMapLayer(`${ensemble}-${districtPlan}-lines`);
           }
           else {
-            if (ensemble == 'smd') addMapLayer(`${ensemble}-${districtPlan}`, smdPlans[districtPlan], '#ff004c', '#9600b7');
-            else addMapLayer(`${ensemble}-${districtPlan}`, mmdPlans[districtPlan], '#ff004c', '#9600b7');
+            if (ensemble == 'smd') addMapLayer(`${ensemble}-${districtPlan}`, smdPlans[districtPlan], '#00ff4c', '#96ffb7');
+            else addMapLayer(`${ensemble}-${districtPlan}`, mmdPlans[districtPlan], '#00ff4c', '#96ffb7');
             clickLayer(ensemble, districtPlan)
           }
         }
@@ -154,7 +154,7 @@ const StatePage = ({state, center, bound, smdPlans, mmdPlans, smdPlanNames, mmdP
       stateRef.current.on('click', `${ensemble}-${districtPlan}-fills`, (e) => {
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
-          .setHTML(`<div><span>District Number: ${e.features[0].properties.DISTRICT}</span><br/><span>Is Opportunity District: ${e.features[0].properties.OpportunityDistrict}</span><br/><span>DEM Votes: ${e.features[0].properties.DVOTES}</span><br/><span>REP Votes: ${e.features[0].properties.RVOTES}</span><br/><span>Minority Population Share: ${e.features[0].properties.MinorityPopulationShare}%</span><br/><span>DEM Candidate: ${e.features[0].properties.DCAND}</span><br/><span>REP Candidate: ${e.features[0].properties.RCAND}</span>`)
+          .setHTML(`<div><span>District Number: ${e.features[0].properties.DISTRICT}</span><br/><span>Is Opportunity District: ${e.features[0].properties.OpportunityDistrict}</span><br/><span>DEM Votes: ${e.features[0].properties.DVOTES.toLocaleString()}</span><br/><span>REP Votes: ${e.features[0].properties.RVOTES.toLocaleString()}</span><br/><span>Minority Population Share: ${e.features[0].properties.MinorityPopulationShare}%</span><br/><span>DEM Candidate: ${e.features[0].properties.DCAND}</span><br/><span>REP Candidate: ${e.features[0].properties.RCAND}</span>`)
           .addTo(stateRef.current);
       });
     }
