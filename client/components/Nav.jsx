@@ -22,10 +22,10 @@ const Nav = ({option, setOption}) => {
       <ul className='flex items-center'>
         <li>
           <Link href="/">
-            <img className='scale-75 -translate-x-10' src="Lions_Logo.svg" alt="LIONS" onClick={()=>setOption('default')} />
+            <img className='scale-50 -translate-x-16' src="Lions_Logo.svg" alt="LIONS" onClick={()=>setOption('default')} />
           </Link>
         </li>
-        <li className='text-white text-xl px-2 hover:bg-gray-800 border-x-white border-s-2 -translate-x-12'>
+        <li className='text-white text-xl px-2 hover:bg-gray-800 border-x-white border-s-2 -translate-x-24' onClick={()=>setOption('default')}>
           <Link href='/about'>
             <span>References</span>
           </Link>
