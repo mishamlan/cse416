@@ -1,9 +1,9 @@
 {
-    "numDistrictPlans": 291,
-    "avgMinorityReps": 2.079,
+    "numDistrictPlans": 1000,
+    "avgMinorityReps": 2.103,
     "avgRepSplit": 1.0,
     "avgDemSplit": 0.0,
     "avgRepSafeDistricts": 0.0,
     "avgDemSafeDistricts": 0.0,
-    "avgEpm": 0.0209
+    "avgEpm": 0.0202
 }

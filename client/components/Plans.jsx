@@ -19,9 +19,10 @@ Largest number of opportunity districts : number = 3
 
 SMD
 -------------------------
-Most extreme vote share (Republican) : number = 1
+Most extreme vote share (Republican) : number = 1 (CANCELED / DOES NOT EXIST)
 Smallest number of opportunity districts : number = 2
 Highest number of Republican safe districts : number = 3
+largest number of opportunity districts : number 4
  */
 
 const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan, smdPlans, mmdPlans, smdPlanNames, mmdPlanNames}) => {
