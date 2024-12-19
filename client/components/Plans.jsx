@@ -26,7 +26,9 @@ Highest number of Republican safe districts : number = 3
 
 const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan, smdPlans, mmdPlans, smdPlanNames, mmdPlanNames}) => {
   const [display, setDisplay] = useState('summary');
-
+  const [voteShare, setVoteShare] = useState([]);
+  const [republicanSeatShare, setRepublicanSeatShare] = useState([]);
+  const [democraticSeatShare, setDemocraticSeatShare] = useState([]);
   const [dplanSummary, setDplanSummary] = useState({});
   const [demographics, setDemographics] = useState({
     district1: {
@@ -182,6 +184,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
   const selectDistrictPlan = (e) => {
     setDistrictPlan(e.target.value);
     console.log(districtPlan)
+    console.log(ensemble)
   };
 
   const displayDistrictPlan = (plans, planNames) => {
@@ -219,12 +222,41 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
     getDistrictPlanSummary();
 
   }, [demographics, ensemble, districtPlan, state]);
-
-  // Simulated seat-share data for Republicans and Democrats
-  const voteShare = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-
-  const republicanSeatShare = [0, 5, 15, 30, 40, 50, 60, 70, 85, 95, 100];
-  const democraticSeatShare = [0, 10, 25, 35, 50, 60, 65, 75, 90, 100, 100];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch JSON data
+        const response = await fetch(`/vote_seat/${districtPlan}/${districtPlan}.json`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        });
+        console.log(districtPlan)
+        const data = await response.json();
+  
+        // Parse data into arrays
+        const votes = [];
+        const repSeats = [];
+        const demSeats = [];
+        data.forEach((item) => {
+          votes.push(parseFloat(item.votes));
+          repSeats.push(parseFloat(item.seatsR));
+          demSeats.push(parseFloat(item.seatsD));
+        });
+  
+        // Update state
+        setVoteShare(votes);
+        setRepublicanSeatShare(repSeats);
+        setDemocraticSeatShare(demSeats);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    fetchData();
+  }, [districtPlan]); // Depend on `districtPlan` since the fetch call relies on it
+  
 
   // Markers for ensembles
   const smdPlansRep = { vote: 45, seat: 30 };
@@ -339,61 +371,27 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
           </div>
         </div>
         <div className={display == 'plot' ? 'mt-2' : 'hidden'}>
-          <Plot
-            data={[
-              // Republican Curve
-              {
-                x: voteShare,
-                y: republicanSeatShare,
-                type: "scatter",
-                mode: "lines",
-                name: "REP",
-                line: { color: "red", width: 2 },
-              },
-              // Democratic Curve
-              {
-                x: voteShare,
-                y: democraticSeatShare,
-                type: "scatter",
-                mode: "lines",
-                name: "DEM",
-                line: { color: "blue", width: 2 },
-              },
-              // Republican Marker
-              {
-                x: [smdPlansRep.vote],
-                y: [smdPlansRep.seat],
-                type: "scatter",
-                mode: "markers",
-                name: "SMD REP",
-                marker: { color: "orange", size: 10, symbol: "circle" },
-              },
-              {
-                x: [mmdPlansRep.vote],
-                y: [mmdPlansRep.seat],
-                type: "scatter",
-                mode: "markers",
-                name: "MMD REP",
-                marker: { color: "red", size: 10, symbol: "circle" },
-              },
-              // Democratic Marker
-              {
-                x: [smdPlansDem.vote],
-                y: [smdPlansDem.seat],
-                type: "scatter",
-                mode: "markers",
-                name: "SMD DEM",
-                marker: { color: "purple", size: 10, symbol: "circle" },
-              },
-              {
-                x: [mmdPlansDem.vote],
-                y: [mmdPlansDem.seat],
-                type: "scatter",
-                mode: "markers",
-                name: "MMD DEM",
-                marker: { color: "blue", size: 10, symbol: "circle" },
-              },
-            ]}
+    <Plot
+          data={[
+            // Republican Curve
+            {
+              x: voteShare,
+              y: republicanSeatShare,
+              type: "scatter",
+              mode: "lines",
+              name: "REP",
+              line: { color: "red", width: 2 },
+            },
+            // Democratic Curve
+            {
+              x: voteShare,
+              y: democraticSeatShare,
+              type: "scatter",
+              mode: "lines",
+              name: "DEM",
+              line: { color: "blue", width: 2 },
+            },
+          ]}
             layout={{
               width: 700,
               height: 450,
