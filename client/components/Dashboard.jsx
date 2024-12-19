@@ -14,22 +14,7 @@ const Dashboard = ({tab, state}) => {
 
   const [data, setData] = useState({});
 
-  const [oppoRepsData, setOppoRepsData] = useState({
-    smd: {
-      "0": 48,
-      "1": 2,
-      "2": 0,
-      "3": 0,
-      "4": 0,
-      "5": 0,
-      "6": 0,
-  },
-    mmd: {
-      "0": 0,
-      "1": 0,
-      "2": 3,
-    }
-  });
+  const [oppoRepsData, setOppoRepsData] = useState({smd:{}, mmd:{}});
 
   const [smdPartySplitData, setSmdPartySplitData] = useState({
     dem: {
@@ -202,6 +187,7 @@ const Dashboard = ({tab, state}) => {
             </table>
           </div>
         </div>
+        {Object.keys(oppoRepsData).length == 0 ? <span>Loading...</span> :
         <div className={display == 'oppoRep' ? "mt-2" : 'hidden'}>
           <Plot
             data={[
@@ -232,7 +218,7 @@ const Dashboard = ({tab, state}) => {
               },
             }}
           />
-        </div>
+        </div>}
         <div className={display == 'partySplit' ? "mt-2 flex" : 'hidden'}>
           <div>
             <Plot
@@ -312,7 +298,7 @@ const Dashboard = ({tab, state}) => {
           </div>
         </div>
       </div>
-      {Object.keys(data).length == 0 ? <span>Loading</span> :
+      {Object.keys(data).length == 0 ? <span>Loading...</span> :
       <div className="panel">
         <h2 className="panel-title">Enacted Plan VS. Avg. MMD Plan</h2>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
