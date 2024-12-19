@@ -152,14 +152,15 @@ const StatePage = ({state, center, bound, smdPlans, mmdPlans, smdPlanNames, mmdP
       });
 
       stateRef.current.on('click', `${ensemble}-${districtPlan}-fills`, (e) => {
+        const popup = new mapboxgl.Popup({
+          closeButton: false,
+        });
         if (ensemble == 'smd') {
-          new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
+          popup.setLngLat(e.lngLat)
             .setHTML(`<div><span>District Number: ${e.features[0].properties.DISTRICT}</span><br/><span>Is Opportunity District?: ${e.features[0].properties.OpportunityDistrict? 'Yes':'No'}</span><br/><span>DEM Votes: ${e.features[0].properties.DVOTES.toLocaleString()}</span><br/><span>REP Votes: ${e.features[0].properties.RVOTES.toLocaleString()}</span><br/><span>Minority Population Share: ${e.features[0].properties.MinorityPopulationShare}%</span><br/><span>DEM Candidate: ${e.features[0].properties.DCAND}</span><br/><span>REP Candidate: ${e.features[0].properties.RCAND}</span>`)
             .addTo(stateRef.current);
         } else {
-          new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
+          popup.setLngLat(e.lngLat)
             .setHTML(`<div><span>District Number: ${e.features[0].properties.MMD}</span><br/><span>Is Opportunity District?: ${e.features[0].properties.OpportunityDistrict? 'Yes':'No'}</span><br/><span>DEM Votes: ${e.features[0].properties.DVOTES.toLocaleString()}</span><br/><span>REP Votes: ${e.features[0].properties.RVOTES.toLocaleString()}</span><br/><span>Minority Population Share: ${e.features[0].properties.MinorityPopulationShare}%</span><br/><span>Number of Representatives: 3</span>`)
             .addTo(stateRef.current);
         }
