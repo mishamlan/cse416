@@ -7,37 +7,29 @@ const LA = () => {
   const precinctJSON = '/geoJSON/la/la_prec_geo_elec.geojson';
 
   const smdPlans = {
-    0: '/geoJSON/la/smd_plan_summary_0.geojson',
-    1: '/geoJSON/la/smd_plan_summary_0.geojson',
-    2: '/geoJSON/la/smd_plan_summary_0.geojson',
-    3: '/geoJSON/la/smd_plan_summary_0.geojson',
-    4: '/geoJSON/la/smd_plan_summary_0.geojson',
-    5: '/geoJSON/la/smd_plan_summary_0.geojson',
+    0: '/geoJSON/la/smd/smd_plan_summary_0.geojson',
+    1: '/geoJSON/la/smd/smd_plan_summary_10.geojson',
+    2: '/geoJSON/la/smd/smd_plan_summary_100.geojson',
+    3: '/geoJSON/la/smd/smd_plan_summary_110.geojson',
   };
 
   const mmdPlans = {
-    1: '/geoJSON/la/smd_plan_summary_0.geojson',
-    2: '/geoJSON/la/smd_plan_summary_0.geojson',
-    3: '/geoJSON/la/smd_plan_summary_0.geojson',
-    4: '/geoJSON/la/smd_plan_summary_0.geojson',
-    5: '/geoJSON/la/smd_plan_summary_0.geojson',
+    1: '/geoJSON/la/mmd/mmd_plan_summary_1.geojson',
+    2: '/geoJSON/la/mmd/mmd_plan_summary_263.geojson',
+    3: '/geoJSON/la/mmd/mmd_plan_summary_11.geojson',
   }
 
   const smdPlanNames = {
     0: 'Enacted',
-    1: 'Exmtreme 1',
-    2: 'Exmtreme 1',
-    3: 'Exmtreme 1',
-    4: 'Exmtreme 1',
-    5: 'Exmtreme 1',
+    1: 'Most Extreme Vote Share',
+    2: 'Smallest Num. of Opportunity Districts',
+    3: 'Highest Num. of REP Safe Districts',
   }
 
   const mmdPlanNames = {
-    1: 'Exmtreme 1',
-    2: 'Exmtreme 1',
-    3: 'Exmtreme 1',
-    4: 'Exmtreme 1',
-    5: 'Exmtreme 1',
+    1: 'Average MMD',
+    2: 'Lowest Equal Population Measure',
+    3: 'Largest Num. of Opportunity Districts',
   }
 
   return (

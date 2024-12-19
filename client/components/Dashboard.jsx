@@ -180,8 +180,8 @@ const Dashboard = ({tab, state}) => {
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. DEM/REP Split</th>
-                    <td className="px-6 py-2"><span className="democratic">{smdSummary.avgDemSplit}</span>:<span className="republican">{smdSummary.avgRepSplit}</span></td>
-                    <td className="px-6 py-2"><span className="democratic">{mmdSummary.avgDemSplit}</span>:<span className="republican">{mmdSummary.avgRepSplit}</span></td>
+                    <td className="px-6 py-2"><span className="democrats">{smdSummary.avgDemSplit}</span>:<span className="republican">{smdSummary.avgRepSplit}</span></td>
+                    <td className="px-6 py-2"><span className="democrats">{mmdSummary.avgDemSplit}</span>:<span className="republican">{mmdSummary.avgRepSplit}</span></td>
                   </tr>
               </tbody>
             </table>
