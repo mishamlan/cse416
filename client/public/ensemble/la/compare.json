@@ -1,0 +1,20 @@
+{
+    "enacted": {
+      "opportunityDistricts": 1,
+      "opportunityThreshold": 0.5,
+      "minorityReps": 1,
+      "demoVoteShare": 0.2439,
+      "repuVoteShare": 0.7561,
+      "demoSeatShare": 0.1666,
+      "repuSeatShare": 0.8333
+    },
+    "avgMmd": {
+      "opportunityDistricts": 1,
+      "opportunityThreshold": 0.3333,
+      "minorityReps": 1,
+      "demoVoteShare": 0.4829,
+      "repuVoteShare": 0.5171,
+      "demoSeatShare": 1.0,
+      "repuSeatShare": 0.0
+    }
+  }

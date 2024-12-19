@@ -9,6 +9,7 @@ const Dashboard = ({tab, state}) => {
   const [display, setDisplay] = useState('summary');
 
   const [smdSummary, setSmdSummary] = useState({
+<<<<<<< HEAD
     numDistrictPlans: 291,
     avgMinorityReps: 0.2818,
     avgRepSplit: 0.9519,
@@ -27,63 +28,92 @@ const Dashboard = ({tab, state}) => {
     avgDemSafeDistricts: 0.0,
     avgEpm: 0.0209
   });
+=======
+    "numDistrictPlans": 50,
+    "avgMinorityReps": 0.66,
+    "oppoThreshold": 0.5,
+    "avgRepSplit": 0.89,
+    "avgDemSplit": 0.11
+});
+
+  const [mmdSummary, setMmdSummary] = useState({
+    "numDistrictPlans": 3,
+    "avgMinorityReps": 2.67,
+    "oppoThreshold": 0.5,
+    "avgRepSplit": 1.0,
+    "avgDemSplit": 0.0
+});
+>>>>>>> 0044335d4e9c4b69f7a5178588a32b7c4952775f
 
   const [data, setData] = useState({
     enacted: {
-      partySplit: {
-        democratic: 0,
-        republican: 0,
-      },
       opportunityDistricts: 1,
-      demoVoteShare: 2,
-      repuVoteShare: 3,
-      demoSeatShare: 4,
-      repuSeatShare: 5,
+      opportunityThreshold: 0.5,
+      minorityReps: 1,
+      demoVoteShare: 0.2439,
+      repuVoteShare: 0.7561,
+      demoSeatShare: 0.1666,
+      repuSeatShare: 0.8333,
     },
     avgMmd: {
-      partySplit: {
-        democratic: 0,
-        republican: 0,
-      },
-      opportunityDistricts: 0,
-      demoVoteShare: 0,
-      repuVoteShare: 0,
-      demoSeatShare: 0,
-      repuSeatShare: 0,
+      opportunityDistricts: 1,
+      opportunityThreshold: 0.3333,
+      minorityReps: 1,
+      demoVoteShare: 0.4829,
+      repuVoteShare: 0.5171,
+      demoSeatShare: 1.0,
+      repuSeatShare: 0.0,
     }
   });
 
   const [oppoRepsData, setOppoRepsData] = useState({
     smd: {
-      0: 10,
-      1: 20,
-      2: 50,
-      3: 15,
-      4: 5,
-    },
+      "0": 48,
+      "1": 2,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+  },
     mmd: {
-      0: 5,
-      1: 25,
-      2: 60,
-      3: 20,
-      4: 10,
+      "0": 0,
+      "1": 0,
+      "2": 3,
     }
   });
 
-  const [partySplitData, setPartySplitData] = useState({
-    smd: {
+  const [smdPartySplitData, setSmdPartySplitData] = useState({
+    dem: {
       "0-20%": 10,
       "21-40%": 20,
       "41-60%": 50,
       "61-80%": 15,
       "81-100%": 5,
     },
-    mmd: {
+    rep: {
       "0-20%": 5,
       "21-40%": 25,
       "41-60%": 60,
       "61-80%": 20,
       "81-100%": 10,
+    }
+  });
+
+  const [mmdPartySplitData, setMmdPartySplitData] = useState({
+    dem: {
+      "0-20%": 3,
+      "21-40%": 0,
+      "41-60%": 0,
+      "61-80%": 0,
+      "81-100%": 0,
+    },
+    rep: {
+      "0-20%": 0,
+      "21-40%": 0,
+      "41-60%": 0,
+      "61-80%": 0,
+      "81-100%": 3,
     }
   });
 
@@ -95,26 +125,39 @@ const Dashboard = ({tab, state}) => {
     let ranges = [];
     let smdCounts = [];
     let mmdCounts = [];
-    for (let i = 0; i < Object.keys(oppoRepsData.smd).length; i++) {
-      ranges.push(i);
+    let fields = Object.keys(oppoRepsData.smd);
+    for (let i = 0; i < fields.length; i++) {
+      ranges.push(fields[i]);
       smdCounts.push(oppoRepsData.smd[i]);
       mmdCounts.push(oppoRepsData.mmd[i]);
     }
     return {ranges, smdCounts, mmdCounts};
   })();
 
-  const partySplitTrace = (() => {
-    let ranges = Object.keys(partySplitData.smd);
+  const smdPartySplitTrace = (() => {
+    let ranges = Object.keys(smdPartySplitData.dem);
     let democraticSplits = [];
     let republicanSplits = [];
     for (let i in ranges) {
-      democraticSplits.push(partySplitData.smd[ranges[i]]);
-      republicanSplits.push(partySplitData.mmd[ranges[i]]);
+      democraticSplits.push(smdPartySplitData.dem[ranges[i]]);
+      republicanSplits.push(smdPartySplitData.rep[ranges[i]]);
+    }
+    return {ranges, democraticSplits, republicanSplits};
+  })();
+
+  const mmdPartySplitTrace = (() => {
+    let ranges = Object.keys(mmdPartySplitData.dem);
+    let democraticSplits = [];
+    let republicanSplits = [];
+    for (let i in ranges) {
+      democraticSplits.push(mmdPartySplitData.dem[ranges[i]]);
+      republicanSplits.push(mmdPartySplitData.rep[ranges[i]]);
     }
     return {ranges, democraticSplits, republicanSplits};
   })();
 
   useEffect(() => {
+<<<<<<< HEAD
     const fetchEnsembleSummary = async (state) => {
       try {
         // Fetch the summaries using the generated URLs
@@ -134,6 +177,21 @@ const Dashboard = ({tab, state}) => {
     if (state) {
       fetchEnsembleSummary(state);
     }
+=======
+    const getCompareData = async () => {
+      const res = await fetch(`ensemble/${state}/compare.json`);
+      const json = await res.json();
+      setData(json);
+    }
+    getCompareData();
+    
+    const getOppoRepsData = async () => {
+      const res = await fetch(`ensemble/${state}/oppoRepsData.json`);
+      const json = await res.json();
+      setOppoRepsData(json);
+    }
+    getOppoRepsData();
+>>>>>>> 0044335d4e9c4b69f7a5178588a32b7c4952775f
   }, [state]);
   
 
@@ -206,7 +264,7 @@ const Dashboard = ({tab, state}) => {
               },
             ]}
             layout={{
-              height: 280,
+              height: 250,
               barmode: "group",
               title: "Distribution of Opportunity Representatives in SMD and MMD Plans",
               xaxis: {
@@ -218,42 +276,83 @@ const Dashboard = ({tab, state}) => {
             }}
           />
         </div>
-        <div className={display == 'partySplit' ? "mt-2" : 'hidden'}>
-          <Plot
-            data={[
-              {
-                x: partySplitTrace.ranges,
-                y: partySplitTrace.republicanSplits,
-                type: "bar",
-                name: "REP Splits",
-                marker: { color: "red" },
-              },
-              {
-                x: partySplitTrace.ranges,
-                y: partySplitTrace.democraticSplits,
-                type: "bar",
-                name: "DEM Splits",
-                marker: { color: "blue" },
-              },
-            ]}
-            layout={{
-              height: 280,
-              barmode: "group",
-              title: {
-                text: "Distribution of Republican/Democratic Splits",
-              },
-              xaxis: {
-                title: {
-                  text: "Range of Splits (%)",
+        <div className={display == 'partySplit' ? "mt-2 flex" : 'hidden'}>
+          <div>
+            <Plot
+              data={[
+                {
+                  x: smdPartySplitTrace.ranges,
+                  y: smdPartySplitTrace.republicanSplits,
+                  type: "bar",
+                  name: "REP Splits",
+                  marker: { color: "red" },
                 },
-              },
-              yaxis: {
-                title: {
-                  text: "Number of District Plans",
+                {
+                  x: smdPartySplitTrace.ranges,
+                  y: smdPartySplitTrace.democraticSplits,
+                  type: "bar",
+                  name: "DEM Splits",
+                  marker: { color: "blue" },
                 },
-              },
-            }}
-          />
+              ]}
+              layout={{
+                width: 420,
+                height: 250,
+                barmode: "group",
+                title: {
+                  text: "SMD",
+                },
+                xaxis: {
+                  title: {
+                    text: "Range of Splits (%)",
+                  },
+                },
+                yaxis: {
+                  title: {
+                    text: "Number of District Plans",
+                  },
+                },
+              }}
+            />
+          </div>
+          <div>
+            <Plot
+              data={[
+                {
+                  x: mmdPartySplitTrace.ranges,
+                  y: mmdPartySplitTrace.republicanSplits,
+                  type: "bar",
+                  name: "REP Splits",
+                  marker: { color: "red" },
+                },
+                {
+                  x: mmdPartySplitTrace.ranges,
+                  y: mmdPartySplitTrace.democraticSplits,
+                  type: "bar",
+                  name: "DEM Splits",
+                  marker: { color: "blue" },
+                },
+              ]}
+              layout={{
+                width: 420,
+                height: 250,
+                barmode: "group",
+                title: {
+                  text: "MMD",
+                },
+                xaxis: {
+                  title: {
+                    text: "Range of Splits (%)",
+                  },
+                },
+                yaxis: {
+                  title: {
+                    text: "Number of District Plans",
+                  },
+                },
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className="panel">
@@ -269,34 +368,39 @@ const Dashboard = ({tab, state}) => {
             </thead>
             <tbody>
                 <tr className="odd:bg-white even:bg-gray-50">
-                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">DEM/REP Split</th>
-                  <td className="px-6 py-2"><span className='democrats'>{data.enacted.partySplit.democratic}</span>:<span className='republican'>{data.enacted.partySplit.republican}</span></td>
-                  <td className="px-6 py-2"><span className='democrats'>{data.avgMmd.partySplit.democratic}</span>:<span className='republican'>{data.avgMmd.partySplit.republican}</span></td>
-                </tr>
-                <tr className="odd:bg-white even:bg-gray-50">
                   <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Opportunity Districts</th>
                   <td className="px-6 py-2">{data.enacted.opportunityDistricts}</td>
                   <td className="px-6 py-2">{data.avgMmd.opportunityDistricts}</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
+                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Opportunity Threshold</th>
+                  <td className="px-6 py-2">{data.enacted.opportunityThreshold * 100}%</td>
+                  <td className="px-6 py-2">{data.avgMmd.opportunityThreshold * 100}%</td>
+                </tr>
+                <tr className="odd:bg-white even:bg-gray-50">
+                  <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Minority Representatives</th>
+                  <td className="px-6 py-2">{data.enacted.minorityReps}</td>
+                  <td className="px-6 py-2">{data.avgMmd.minorityReps}</td>
+                </tr>
+                <tr className="odd:bg-white even:bg-gray-50">
                   <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">DEM Vote Share</th>
-                  <td className="px-6 py-2">{data.enacted.demoVoteShare}</td>
-                  <td className="px-6 py-2">{data.avgMmd.demoVoteShare}</td>
+                  <td className="px-6 py-2">{data.enacted.demoVoteShare * 100}%</td>
+                  <td className="px-6 py-2">{data.avgMmd.demoVoteShare * 100}%</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
                   <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">REP Vote Share</th>
-                  <td className="px-6 py-2">{data.enacted.repuVoteShare}</td>
-                  <td className="px-6 py-2">{data.avgMmd.repuVoteShare}</td>
+                  <td className="px-6 py-2">{data.enacted.repuVoteShare * 100}%</td>
+                  <td className="px-6 py-2">{data.avgMmd.repuVoteShare * 100}%</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
                   <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">DEM Seat Share</th>
-                  <td className="px-6 py-2">{data.enacted.demoSeatShare}</td>
-                  <td className="px-6 py-2">{data.avgMmd.demoSeatShare}</td>
+                  <td className="px-6 py-2">{data.enacted.demoSeatShare * 100}%</td>
+                  <td className="px-6 py-2">{data.avgMmd.demoSeatShare * 100}%</td>
                 </tr>
                 <tr className="odd:bg-white even:bg-gray-50">
                   <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">REP Seat Share</th>
-                  <td className="px-6 py-2">{data.enacted.repuSeatShare}</td>
-                  <td className="px-6 py-2">{data.avgMmd.repuSeatShare}</td>
+                  <td className="px-6 py-2">{data.enacted.repuSeatShare * 100}%</td>
+                  <td className="px-6 py-2">{data.avgMmd.repuSeatShare * 100}%</td>
                 </tr>
             </tbody>
           </table>
