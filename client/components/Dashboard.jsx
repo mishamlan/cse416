@@ -8,63 +8,11 @@ const Dashboard = ({tab, state}) => {
   
   const [display, setDisplay] = useState('summary');
 
-  const [smdSummary, setSmdSummary] = useState({
-<<<<<<< HEAD
-    numDistrictPlans: 291,
-    avgMinorityReps: 0.2818,
-    avgRepSplit: 0.9519,
-    avgDemSplit: 0,
-    avgRepSafeDistricts: 0.0,
-    avgDemSafeDistricts: 0.0,
-    avgEpm: 0.0209
-  });
+  const [smdSummary, setSmdSummary] = useState({});
 
-  const [mmdSummary, setMmdSummary] = useState({
-    numDistrictPlans: 291,
-    avgMinorityReps: 0.2818,
-    avgRepSplit: 0.9519,
-    avgDemSplit: 0,
-    avgRepSafeDistricts: 0.0,
-    avgDemSafeDistricts: 0.0,
-    avgEpm: 0.0209
-  });
-=======
-    "numDistrictPlans": 50,
-    "avgMinorityReps": 0.66,
-    "oppoThreshold": 0.5,
-    "avgRepSplit": 0.89,
-    "avgDemSplit": 0.11
-});
+  const [mmdSummary, setMmdSummary] = useState({});
 
-  const [mmdSummary, setMmdSummary] = useState({
-    "numDistrictPlans": 3,
-    "avgMinorityReps": 2.67,
-    "oppoThreshold": 0.5,
-    "avgRepSplit": 1.0,
-    "avgDemSplit": 0.0
-});
->>>>>>> 0044335d4e9c4b69f7a5178588a32b7c4952775f
-
-  const [data, setData] = useState({
-    enacted: {
-      opportunityDistricts: 1,
-      opportunityThreshold: 0.5,
-      minorityReps: 1,
-      demoVoteShare: 0.2439,
-      repuVoteShare: 0.7561,
-      demoSeatShare: 0.1666,
-      repuSeatShare: 0.8333,
-    },
-    avgMmd: {
-      opportunityDistricts: 1,
-      opportunityThreshold: 0.3333,
-      minorityReps: 1,
-      demoVoteShare: 0.4829,
-      repuVoteShare: 0.5171,
-      demoSeatShare: 1.0,
-      repuSeatShare: 0.0,
-    }
-  });
+  const [data, setData] = useState({});
 
   const [oppoRepsData, setOppoRepsData] = useState({
     smd: {
@@ -157,42 +105,51 @@ const Dashboard = ({tab, state}) => {
   })();
 
   useEffect(() => {
-<<<<<<< HEAD
-    const fetchEnsembleSummary = async (state) => {
-      try {
-        // Fetch the summaries using the generated URLs
-        const smdResponse = getEnsembleSummary(state, 'smd', "info");
-        const mmdResponse = getEnsembleSummary(state, 'mmd', "info");
-        // const response = await fetch('/ensemble_summary/smd/info.json');
-
-        setSmdSummary(smdResponse);
-        setMmdSummary(mmdResponse);
-        console.log(mmdResponse)
-        console.log(smdResponse)
-      } catch (error) {
-        console.error('Error fetching ensemble summary:', error);
-      }
-    };
-  
-    if (state) {
-      fetchEnsembleSummary(state);
-    }
-=======
-    const getCompareData = async () => {
-      const res = await fetch(`ensemble/${state}/compare.json`);
-      const json = await res.json();
-      setData(json);
+    const getCompareData = () => {
+      fetch(`/ensemble/${state}/compare.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setData(data)});
     }
     getCompareData();
     
-    const getOppoRepsData = async () => {
-      const res = await fetch(`ensemble/${state}/oppoRepsData.json`);
-      const json = await res.json();
-      setOppoRepsData(json);
+    const getGraphData = () => {
+      fetch(`/ensemble/${state}/oppoRepsData.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setOppoRepsData(data)});
     }
-    getOppoRepsData();
->>>>>>> 0044335d4e9c4b69f7a5178588a32b7c4952775f
-  }, [state]);
+    getGraphData();
+
+    const getSummary = () => {
+      fetch(`/ensemble_summary/${state}/smd/info.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setSmdSummary(data)});
+
+      fetch(`/ensemble_summary/${state}/mmd/info.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setMmdSummary(data)});
+    }
+    getSummary();
+  }, []);
   
 
   return (
@@ -222,7 +179,7 @@ const Dashboard = ({tab, state}) => {
               </thead>
               <tbody>
                   <tr className="odd:bg-white even:bg-gray-50">
-                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Number of Districts</th>
+                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Number of District Plans</th>
                     <td className="px-6 py-2">{smdSummary.numDistrictPlans}</td>
                     <td className="px-6 py-2">{mmdSummary.numDistrictPlans}</td>
                   </tr>
@@ -232,9 +189,9 @@ const Dashboard = ({tab, state}) => {
                     <td className="px-6 py-2">{mmdSummary.avgMinorityReps}</td>
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
-                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Opportunity threshold</th>
-                    <td className="px-6 py-2">{smdSummary.oppoThreshold * 100 }%</td>
-                    <td className="px-6 py-2">{mmdSummary.oppoThreshold * 100 }%</td>
+                    <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. Equal Population Measure</th>
+                    <td className="px-6 py-2">{smdSummary.avgEpm}</td>
+                    <td className="px-6 py-2">{mmdSummary.avgEpm}</td>
                   </tr>
                   <tr className="odd:bg-white even:bg-gray-50">
                     <th scope="row" className="px-6 py-2 font-medium text-xs text-gray-900 whitespace-nowrap">Avg. DEM/REP Split</th>
@@ -355,6 +312,7 @@ const Dashboard = ({tab, state}) => {
           </div>
         </div>
       </div>
+      {Object.keys(data).length == 0 ? <span>Loading</span> :
       <div className="panel">
         <h2 className="panel-title">Enacted Plan VS. Avg. MMD Plan</h2>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -405,7 +363,7 @@ const Dashboard = ({tab, state}) => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div>}
     </div>
   )
 }

@@ -68,12 +68,12 @@ const StatePage = ({state, center, bound, smdPlans, mmdPlans, smdPlanNames, mmdP
         if (tab == 'plans') changeLayer(ensemble, districtPlan);
       }
 
-      const func = async (ensemble, districtPlan)=>{
-        const data = await getDistrictPlan(state, ensemble, 0)
-        console.log(data)
-        console.log(districtPlan)
-      }
-      func(ensemble, districtPlan);
+      // const func = async (ensemble, districtPlan)=>{
+      //   const data = await getDistrictPlan(state, ensemble, 0)
+      //   console.log(data)
+      //   console.log(districtPlan)
+      // }
+      // func(ensemble, districtPlan);
 
     },[ensemble, districtPlan]);
 

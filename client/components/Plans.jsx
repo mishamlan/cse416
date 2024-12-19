@@ -8,7 +8,6 @@ import {  getDistrictPlan, getDemographic, getDBoundary, getDistrictPlanSummary,
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
-<<<<<<< HEAD
 
 /**
  * 
@@ -28,10 +27,7 @@ smd_plan_summary_110: Highest number of Republican safe districts
 
 mmd_plan_summary_1: Average MMD Plan
  */
-const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
-=======
 const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan, smdPlans, mmdPlans, smdPlanNames, mmdPlanNames}) => {
->>>>>>> 0044335d4e9c4b69f7a5178588a32b7c4952775f
   const [stop, setStop] = useState(false)
   const [display, setDisplay] = useState('summary');
 
@@ -228,17 +224,12 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
 
     // fetchDistrictPlan(state, ensemble, districtPlan);
 
-    const func = async ()=>{
-      const data2 = await getDistrictPlanSummary("la", "smd", 0)  //summary for d plan
-      const data = await getDistrictPlan("la", "smd", 0)  //geojson for d plan
-<<<<<<< HEAD
-      setDistrictPlan(data)
-      console.log(data2)
-=======
-      setDplanSummary(data2);
->>>>>>> 0044335d4e9c4b69f7a5178588a32b7c4952775f
-    }
-    func()
+    // const func = async ()=>{
+    //   const data2 = await getDistrictPlanSummary("la", "smd", 0)  //summary for d plan
+    //   const data = await getDistrictPlan("la", "smd", 0)  //geojson for d plan
+    //   setDplanSummary(data2);
+    // }
+    // func()
 
   }, [demographics, ensemble, districtPlan, state]);
 

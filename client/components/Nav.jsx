@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import "@/styles/globals.css"
 
-import Darkmode from 'darkmode-js';
+// import Darkmode from 'darkmode-js';
  
 // new Darkmode().showWidget();
 const Nav = ({option, setOption}) => {
