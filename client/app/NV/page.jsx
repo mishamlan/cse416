@@ -7,20 +7,30 @@ const NV = () => {
   const precinctJSON = '/geoJSON/nv/';
   const districtJSON = "geoJSON/2021Congressional_Final_SB1_Amd2.geojson";
 
-  const smdEnsemble = {
-    smd0: '/geoJSON/la/smd_plan_0.geojson',
-    smd1: '/geoJSON/la/smd_plan_0.geojson',
-    smd2: '/geoJSON/la/smd_plan_0.geojson',
-    smd3: '/geoJSON/la/smd_plan_0.geojson',
-    smd4: '/geoJSON/la/smd_plan_0.geojson',
+  const smdPlans = {
+    0: '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson',
+    1: '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson',
+    2: '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson',
+    3: '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson',
   };
 
-  const mmdEnsemble = {
-    mmd0: '/geoJSON/la/smd_plan_0.geojson',
-    mmd1: '/geoJSON/la/smd_plan_0.geojson',
-    mmd2: '/geoJSON/la/smd_plan_0.geojson',
-    mmd3: '/geoJSON/la/smd_plan_0.geojson',
-    mmd4: '/geoJSON/la/smd_plan_0.geojson',
+  const mmdPlans = {
+    1: '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson',
+    2: '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson',
+    3: '/geoJSON/2021Congressional_Final_SB1_Amd2.geojson',
+  }
+
+  const smdPlanNames = {
+    0: 'Enacted',
+    1: 'Most Extreme Vote Share',
+    2: 'Smallest Num. of Opportunity Districts',
+    3: 'Highest Num. of REP Safe Districts',
+  }
+
+  const mmdPlanNames = {
+    1: 'Average MMD',
+    2: 'Lowest Equal Population Measure',
+    3: 'Largest Num. of Opportunity Districts',
   }
 
   return (
@@ -30,8 +40,10 @@ const NV = () => {
       bound={bound}
       precinctData={precinctJSON}
       districtJSON={districtJSON}
-      smdEnsemble={smdEnsemble}
-      mmdEnsemble={mmdEnsemble}
+      smdPlans={smdPlans}
+      mmdPlans={mmdPlans}
+      smdPlanNames={smdPlanNames}
+      mmdPlanNames={mmdPlanNames}
     />
   );
 }

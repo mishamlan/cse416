@@ -152,10 +152,6 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
 
   const [curveData, setCurveData] = useState(null);
 
-  const selectDistrict = (e) => {
-    setDistrict(e.target.value);
-  };
-
   const listDistrict = () => {
     let list = [];
     for (let i = 1; i <= dplanSummary.numDistricts; i++) {
@@ -193,12 +189,83 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
     return list;
   }
 
+  const mmdResults = [
+    {
+      candidate: 'John Doe',
+      district: 1,
+      party: 'DEM',
+      votes: 12000,
+      isWinner: true
+    },
+    {
+      candidate: 'John Doe',
+      district: 1,
+      party: 'DEM',
+      votes: 1200,
+      percent: .5,
+      isWinner: true
+    },
+    {
+      candidate: 'John Doe',
+      district: 1,
+      party: 'REP',
+      votes: 12100,
+      percent: .5,
+      isWinner: true
+    },
+    {
+      candidate: 'John Doe',
+      district: 2,
+      party: 'REP',
+      votes: 12120,
+      percent: .5,
+      isWinner: true
+    },
+    {
+      candidate: 'John Doe',
+      district: 2,
+      party: 'DEM',
+      votes: 12002,
+      percent: .5,
+      isWinner: true
+    },
+    {
+      candidate: 'John Doe',
+      district: 2,
+      party: 'DEM',
+      votes: 12020,
+      percent: .5,
+      isWinner: true
+    },
+    {
+      candidate: 'John Doe',
+      district: 2,
+      party: 'DEM',
+      votes: 12000,
+      percent: .5,
+      isWinner: true
+    },
+  ]
+
   const displayResults = () => {
     let list = [];
-    results.forEach(candidate => {
-      const {district, winner, winParty, winVotes, winPercent, loser, loseParty, loseVotes, losePercent} = candidate;
-      list.push(<ElectionResultsItem key={district} district={district} winner={winner} winParty={winParty} winVotes={winVotes} winPercent={winPercent} loser={loser} loseParty={loseParty} loseVotes={loseVotes} losePercent={losePercent} />);
-    });
+    if (ensemble == 'smd') {
+      results.forEach(candidate => {
+        const {district, winner, winParty, winVotes, loser, loseParty, loseVotes} = candidate;
+        list.push(<ElectionResultsItem key={district} district={district} winner={winner} winParty={winParty} winVotes={winVotes} loser={loser} loseParty={loseParty} loseVotes={loseVotes} />);
+      });
+    } else {
+      mmdResults.forEach(r => {
+        const {candidate, district, party, votes, percent, isWinner} = r;
+        list.push(<tr key={district+candidate+votes}>
+          <td className='px-6 py-1 bg-gray-100'>{district}</td>
+          <td className='px-6 py-1'>{candidate}</td>
+          <td className={party == 'DEM' ? 'px-6 py-1 bg-gray-100 democrats' : 'px-6 py-1 bg-gray-100 republican'}>{party}</td>
+          <td className='px-6 py-1'>{votes.toLocaleString()}</td>
+          <td className='px-6 py-1 bg-gray-100'>{isWinner? "Win":"Lose"}</td>
+        </tr>)
+      })
+    }
     return list;
   };
 
@@ -255,7 +322,6 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
         </div>
       </div>
       <div className='panel'>
-        <h2 className='panel-title'>District Plan</h2>
         <ul className="display-tabs">
           <li className="w-full focus-within:z-10">
             <button className={display == 'summary' ? "ensemble-display-selected rounded-s-lg border-r" : 'ensemble-display rounded-s-lg border-r'} value={'summary'} onClick={changeDisplay}>Summary</button>
@@ -267,6 +333,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
             <button className={display == 'plot' ? "ensemble-display-selected rounded-e-lg" : "ensemble-display rounded-e-lg"} value={'plot'} onClick={changeDisplay}>Seat-Vote Curves</button>
           </li>
         </ul>
+        <h2 className='panel-title'></h2>
         <div className={display == 'summary' ? '' : 'hidden'}>
           {Object.keys(dplanSummary).length == 0 ? <span>Loading...</span>:
           <div>
@@ -318,6 +385,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
           }
         </div>
         <div className={display == 'election' ? '' : 'hidden'}>
+          {ensemble == 'smd' ? 
           <div className="mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-xs text-left rtl:text-right text-gray-500">
               <thead className="text-xs text-gray-700 uppercase">
@@ -326,11 +394,25 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
                   <th scope="col" className="px-6 py-1">Winner</th>
                   <th scope="col" className="px-6 py-1">Party</th>
                   <th scope="col" className="px-6 py-1">Votes</th>
-                  <th scope="col" className="px-6 py-1">Percent</th>
                   <th scope="col" className="px-6 py-1 bg-gray-100">Loser</th>
                   <th scope="col" className="px-6 py-1 bg-gray-100">Party</th>
                   <th scope="col" className="px-6 py-1 bg-gray-100">Votes</th>
-                  <th scope="col" className="px-6 py-1 bg-gray-100">Percent</th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayResults()}
+              </tbody>
+            </table>
+          </div> :
+          <div className="mt-2 relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-xs text-left rtl:text-right text-gray-500">
+              <thead className="text-xs text-gray-700 uppercase">
+                <tr>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">District</th>
+                  <th scope="col" className="px-6 py-1">Candidate</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">Party</th>
+                  <th scope="col" className="px-6 py-1">Votes</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">Result</th>
                 </tr>
               </thead>
               <tbody>
@@ -338,6 +420,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
               </tbody>
             </table>
           </div>
+          }
         </div>
         <div className={display == 'plot' ? 'mt-2' : 'hidden'}>
           <Plot

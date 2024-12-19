@@ -17,14 +17,14 @@ const Dashboard = ({tab, state}) => {
   const [oppoRepsData, setOppoRepsData] = useState({smd:{}, mmd:{}});
 
   const [smdPartySplitData, setSmdPartySplitData] = useState({
-    dem: {
+    dem_seat_share: {
       "0-20%": 10,
       "21-40%": 20,
       "41-60%": 50,
       "61-80%": 15,
       "81-100%": 5,
     },
-    rep: {
+    rep_seat_share: {
       "0-20%": 5,
       "21-40%": 25,
       "41-60%": 60,
@@ -34,14 +34,14 @@ const Dashboard = ({tab, state}) => {
   });
 
   const [mmdPartySplitData, setMmdPartySplitData] = useState({
-    dem: {
+    dem_seat_share: {
       "0-20%": 3,
       "21-40%": 0,
       "41-60%": 0,
       "61-80%": 0,
       "81-100%": 0,
     },
-    rep: {
+    rep_seat_share: {
       "0-20%": 0,
       "21-40%": 0,
       "41-60%": 0,
@@ -68,23 +68,23 @@ const Dashboard = ({tab, state}) => {
   })();
 
   const smdPartySplitTrace = (() => {
-    let ranges = Object.keys(smdPartySplitData.dem);
+    let ranges = Object.keys(smdPartySplitData.dem_seat_share);
     let democraticSplits = [];
     let republicanSplits = [];
     for (let i in ranges) {
-      democraticSplits.push(smdPartySplitData.dem[ranges[i]]);
-      republicanSplits.push(smdPartySplitData.rep[ranges[i]]);
+      democraticSplits.push(smdPartySplitData.dem_seat_share[ranges[i]]);
+      republicanSplits.push(smdPartySplitData.rep_seat_share[ranges[i]]);
     }
     return {ranges, democraticSplits, republicanSplits};
   })();
 
   const mmdPartySplitTrace = (() => {
-    let ranges = Object.keys(mmdPartySplitData.dem);
+    let ranges = Object.keys(mmdPartySplitData.dem_seat_share);
     let democraticSplits = [];
     let republicanSplits = [];
     for (let i in ranges) {
-      democraticSplits.push(mmdPartySplitData.dem[ranges[i]]);
-      republicanSplits.push(mmdPartySplitData.rep[ranges[i]]);
+      democraticSplits.push(mmdPartySplitData.dem_seat_share[ranges[i]]);
+      republicanSplits.push(mmdPartySplitData.rep_seat_share[ranges[i]]);
     }
     return {ranges, democraticSplits, republicanSplits};
   })();
@@ -111,6 +111,24 @@ const Dashboard = ({tab, state}) => {
       })
       .then((res) => res.json())
       .then((data) => {setOppoRepsData(data)});
+
+      fetch(`/ensemble_summary/${state}/smd/partySplit.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setSmdPartySplitData(data)});
+
+      fetch(`/ensemble_summary/${state}/mmd/partySplit.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setMmdPartySplitData(data); console.log(data)});
     }
     getGraphData();
 
