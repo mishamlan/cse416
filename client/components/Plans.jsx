@@ -82,74 +82,8 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
     },
   });
 
-  const [results, setResults] = useState([
-    {
-      district: 1,
-      winner: 'John Doe',
-      winParty: 'DEM',
-      winVotes: 100000,
-      winPercent: 0.66,
-      loser: 'John Doe',
-      loseParty: 'REP',
-      loseVotes: 50000,
-      losePercent: 0.33,
-    },
-    {
-      district: 2,
-      winner: 'John Doe',
-      winParty: 'DEM',
-      winVotes: 100000,
-      winPercent: 0.66,
-      loser: 'John Doe',
-      loseParty: 'REP',
-      loseVotes: 50000,
-      losePercent: 0.33,
-    },
-    {
-      district: 3,
-      winner: 'John Doe',
-      winParty: 'DEM',
-      winVotes: 100000,
-      winPercent: 0.66,
-      loser: 'John Doe',
-      loseParty: 'REP',
-      loseVotes: 50000,
-      losePercent: 0.33,
-    },
-    {
-      district: 4,
-      winner: 'John Doe',
-      winParty: 'DEM',
-      winVotes: 100000,
-      winPercent: 0.66,
-      loser: 'John Doe',
-      loseParty: 'REP',
-      loseVotes: 50000,
-      losePercent: 0.33,
-    },
-    {
-      district: 5,
-      winner: 'John Doe',
-      winParty: 'DEM',
-      winVotes: 100000,
-      winPercent: 0.66,
-      loser: 'John Doe',
-      loseParty: 'REP',
-      loseVotes: 50000,
-      losePercent: 0.33,
-    },
-    {
-      district: 6,
-      winner: 'John Doe',
-      winParty: 'DEM',
-      winVotes: 100000,
-      winPercent: 0.66,
-      loser: 'John Doe',
-      loseParty: 'REP',
-      loseVotes: 50000,
-      losePercent: 0.33,
-    },
-  ]);
+  const [smdResults, setSmdResults] = useState([]);
+  const [mmdResults, setMmdResults] = useState([]);
 
   const [curveData, setCurveData] = useState(null);
 
@@ -195,12 +129,12 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
   const displayResults = (ensemble, districtPlan) => {
     let list = [];
     if (ensemble == 'smd') {
-      results.forEach(candidate => {
+      smdResults.forEach(candidate => {
         const {district, winner, winParty, winVotes, loser, loseParty, loseVotes, winRace, loseRace} = candidate;
         list.push(<ElectionResultsItem key={district} district={district} winner={winner} winRace={winRace} winParty={winParty} winVotes={winVotes} loser={loser} loseRace={loseRace} loseParty={loseParty} loseVotes={loseVotes} />);
       });
     } else {
-      results.forEach(r => {
+      mmdResults.forEach(r => {
         const {candidate, district, party, votes, isWinner, race} = r;
         list.push(<tr key={district+candidate+votes}>
           <td className='px-6 py-1 bg-gray-100'>{district}</td>
@@ -214,6 +148,30 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
     }
     return list;
   };
+
+  const displaySmdResults = () => {
+    let list = [];
+    smdResults.forEach(candidate => {
+      const {district, winner, winParty, winVotes, loser, loseParty, loseVotes, winRace, loseRace} = candidate;
+      list.push(<ElectionResultsItem key={district} district={district} winner={winner} winRace={winRace} winParty={winParty} winVotes={winVotes} loser={loser} loseRace={loseRace} loseParty={loseParty} loseVotes={loseVotes} />);
+    });
+    return list;
+  }
+  const displayMmdResults = () => {
+    let list = [];
+    mmdResults.forEach(r => {
+      const {candidate, district, party, votes, isWinner, race} = r;
+      list.push(<tr key={district+candidate+votes}>
+        <td className='px-6 py-1 bg-gray-100'>{district}</td>
+        <td className='px-6 py-1'>{candidate}</td>
+        <td className='px-6 py-1  bg-gray-100'>{race}</td>
+        <td className={party == 'DEM' ? 'px-6 py-1 democrats' : 'px-6 py-1 republican'}>{party}</td>
+        <td className='px-6 py-1 bg-gray-100'>{votes? votes.toLocaleString():0}</td>
+        <td className='px-6 py-1'>{isWinner? "Win":"Lose"}</td>
+      </tr>)
+    })
+    return list;
+  }
 
   const changeDisplay = (e) => {
     setDisplay(e.target.value);
@@ -244,7 +202,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
     }
     getDemographic(ensemble, districtPlan);
 
-    const getElectionResults = (ensemble, districtPlan) => {
+    const getSmdElectionResults = (ensemble, districtPlan) => {
       // setResults([]);
       fetch(`/election_results/${state}/${ensemble}/${districtPlan}.json`,{
         headers: {
@@ -253,11 +211,24 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
         }
       })
       .then((res) => res.json())
-      .then((data) => {setResults(data.results); console.log(data.results)});
+      .then((data) => {setSmdResults(data.results)});
     }
-    getElectionResults(ensemble, districtPlan);
+    getSmdElectionResults(ensemble, districtPlan);
 
-  }, [demographics, ensemble, districtPlan, state]);
+    const getMmdElectionResults = (ensemble, districtPlan) => {
+      // setResults([]);
+      fetch(`/election_results/${state}/${ensemble}/${districtPlan}.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setMmdResults(data.results)});
+    }
+    getMmdElectionResults(ensemble, districtPlan);
+
+  }, [ensemble, districtPlan, state]);
   
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -403,7 +374,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
                 </tr>
               </thead>
               <tbody>
-                {displayResults(ensemble, districtPlan)}
+                {displaySmdResults()}
               </tbody>
             </table>
           </div> :
@@ -420,7 +391,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
                 </tr>
               </thead>
               <tbody>
-                {displayResults(ensemble, districtPlan)}
+                {displayMmdResults()}
               </tbody>
             </table>
           </div>

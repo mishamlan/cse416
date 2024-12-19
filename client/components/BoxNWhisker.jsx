@@ -744,6 +744,18 @@ const BoxNWhisker = ({tab, state}) => {
     };
   
     changeBasis(basis);
+
+    const getBW = () => {
+      fetch(`/ensemble/${state}/box_whisker.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setgeneralData(data)});
+    }
+    getBW();
   }, [state, basis]);
   
 
