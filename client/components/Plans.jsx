@@ -8,8 +8,6 @@ import {  getDistrictPlan, getDemographic, getDBoundary, getDistrictPlanSummary,
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
-
-
 /**
  * 
  * plan is available w the function getDistrictPlan(state, type, number)
@@ -25,8 +23,8 @@ Most extreme vote share (Republican) : number = 1
 Smallest number of opportunity districts : number = 2
 Highest number of Republican safe districts : number = 3
  */
+
 const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan, smdPlans, mmdPlans, smdPlanNames, mmdPlanNames}) => {
-  const [stop, setStop] = useState(false)
   const [display, setDisplay] = useState('summary');
 
   const [dplanSummary, setDplanSummary] = useState({});
@@ -183,6 +181,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
 
   const selectDistrictPlan = (e) => {
     setDistrictPlan(e.target.value);
+    console.log(districtPlan)
   };
 
   const displayDistrictPlan = (plans, planNames) => {
