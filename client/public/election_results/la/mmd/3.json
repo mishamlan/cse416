@@ -1,0 +1,100 @@
+{
+    "results": [
+        {
+          "candidate": "Mike Johnson",
+          "district": 1,
+          "party": "REP",
+          "votes": 391650,
+          "isWinner": true,
+          "race": "White"
+        },
+        {
+          "candidate": "Allen Guillory",
+          "district": 1,
+          "party": "REP",
+          "votes": 391650,
+          "isWinner": true,
+          "race": "White"
+        },
+        {
+          "candidate": "Brian Belzer",
+          "district": 1,
+          "party": "REP",
+          "votes": 391650,
+          "isWinner": true,
+          "race": "White"
+        },
+        {
+          "candidate": "Oscar \"Omar\" Dantzler",
+          "district": 1,
+          "party": "DEM",
+          "votes": 157309,
+          "isWinner": false,
+          "race": "Black"
+        },
+        {
+          "candidate": "D-6",
+          "district": 1,
+          "party": "DEM",
+          "votes": 157309,
+          "isWinner": false,
+          "race": "White"
+        },
+        {
+          "candidate": "D-4",
+          "district": 1,
+          "party": "DEM",
+          "votes": 157309,
+          "isWinner": false,
+          "race": "White"
+        },
+        {
+          "candidate": "Steve Scalise",
+          "district": 2,
+          "party": "REP",
+          "votes": 295602,
+          "isWinner": true,
+          "race": "White"
+        },
+        {
+          "candidate": "Clay Higgins",
+          "district": 2,
+          "party": "REP",
+          "votes": 295602,
+          "isWinner": true,
+          "race": "White"
+        },
+        {
+          "candidate": "\"Dan\" Lux",
+          "district": 2,
+          "party": "REP",
+          "votes": 295602,
+          "isWinner": true,
+          "race": "White"
+        },
+        {
+          "candidate": "Katie Darling",
+          "district": 2,
+          "party": "DEM",
+          "votes": 221711,
+          "isWinner": false,
+          "race": "Black"
+        },
+        {
+          "candidate": "Troy A. Carter",
+          "district": 2,
+          "party": "DEM",
+          "votes": 221711,
+          "isWinner": false,
+          "race": "Black"
+        },
+        {
+          "candidate": "Tia LeBrun",
+          "district": 2,
+          "party": "DEM",
+          "votes": 221711,
+          "isWinner": false,
+          "race": "AIAN"
+        }
+      ]
+}

@@ -1,16 +1,16 @@
 {
-    "plan": 1,
+    "plan": 10,
     "number_of_districts": 2,
     "minority_representation": 2,
     "opportunity_districts": 2,
-    "opportunity_threshold": "33.33%",
+    "opportunity_threshold": "16.66%",
     "R_wins": 6,
     "D_wins": 0,
     "R_seat_share": 1.0,
     "D_seat_share": 0.0,
     "R_vote_share": 0.7561,
     "D_vote_share": 0.2439,
-    "EPM": 0.0049,
+    "EPM": 0.0154,
     "rep_safe_districts": 0,
     "dem_safe_districts": 0
 }

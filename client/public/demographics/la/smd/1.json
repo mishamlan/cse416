@@ -1,0 +1,50 @@
+{
+    "1": {
+        "white": 278517,
+        "asian": 20128,
+        "hispanic": 56607,
+        "black": 231853,
+        "other": 20622,
+        "total": 613571
+      },
+    "2": {
+        "white": 342903,
+        "asian": 12577,
+        "hispanic": 31877,
+        "black": 169201,
+        "other": 15618,
+        "total": 573399
+      },
+    "3": {
+        "white": 331612,
+        "asian": 5390,
+        "hispanic": 20479,
+        "black": 199065,
+        "other": 15851,
+        "total": 574531
+      },
+    "4": {
+        "white": 420637,
+        "asian": 10553,
+        "hispanic": 31400,
+        "black": 147586,
+        "other": 17379,
+        "total": 631236
+      },
+    "5": {
+        "white": 360081,
+        "asian": 10730,
+        "hispanic": 54699,
+        "black": 117290,
+        "other": 18184,
+        "total": 563013
+      },
+    "6": {
+        "white": 319156,
+        "asian": 6682,
+        "hispanic": 22553,
+        "black": 181047,
+        "other": 19436,
+        "total": 552874
+      }
+}

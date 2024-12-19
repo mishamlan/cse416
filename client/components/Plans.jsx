@@ -192,80 +192,23 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
     return list;
   }
 
-  const mmdResults = [
-    {
-      candidate: 'John Doe',
-      district: 1,
-      party: 'DEM',
-      votes: 12000,
-      isWinner: true
-    },
-    {
-      candidate: 'John Doe',
-      district: 1,
-      party: 'DEM',
-      votes: 1200,
-      percent: .5,
-      isWinner: true
-    },
-    {
-      candidate: 'John Doe',
-      district: 1,
-      party: 'REP',
-      votes: 12100,
-      percent: .5,
-      isWinner: true
-    },
-    {
-      candidate: 'John Doe',
-      district: 2,
-      party: 'REP',
-      votes: 12120,
-      percent: .5,
-      isWinner: true
-    },
-    {
-      candidate: 'John Doe',
-      district: 2,
-      party: 'DEM',
-      votes: 12002,
-      percent: .5,
-      isWinner: true
-    },
-    {
-      candidate: 'John Doe',
-      district: 2,
-      party: 'DEM',
-      votes: 12020,
-      percent: .5,
-      isWinner: true
-    },
-    {
-      candidate: 'John Doe',
-      district: 2,
-      party: 'DEM',
-      votes: 12000,
-      percent: .5,
-      isWinner: true
-    },
-  ]
-
-  const displayResults = () => {
+  const displayResults = (ensemble, districtPlan) => {
     let list = [];
     if (ensemble == 'smd') {
       results.forEach(candidate => {
-        const {district, winner, winParty, winVotes, loser, loseParty, loseVotes} = candidate;
-        list.push(<ElectionResultsItem key={district} district={district} winner={winner} winParty={winParty} winVotes={winVotes} loser={loser} loseParty={loseParty} loseVotes={loseVotes} />);
+        const {district, winner, winParty, winVotes, loser, loseParty, loseVotes, winRace, loseRace} = candidate;
+        list.push(<ElectionResultsItem key={district} district={district} winner={winner} winRace={winRace} winParty={winParty} winVotes={winVotes} loser={loser} loseRace={loseRace} loseParty={loseParty} loseVotes={loseVotes} />);
       });
     } else {
-      mmdResults.forEach(r => {
-        const {candidate, district, party, votes, percent, isWinner} = r;
+      results.forEach(r => {
+        const {candidate, district, party, votes, isWinner, race} = r;
         list.push(<tr key={district+candidate+votes}>
           <td className='px-6 py-1 bg-gray-100'>{district}</td>
           <td className='px-6 py-1'>{candidate}</td>
-          <td className={party == 'DEM' ? 'px-6 py-1 bg-gray-100 democrats' : 'px-6 py-1 bg-gray-100 republican'}>{party}</td>
-          <td className='px-6 py-1'>{votes.toLocaleString()}</td>
-          <td className='px-6 py-1 bg-gray-100'>{isWinner? "Win":"Lose"}</td>
+          <td className='px-6 py-1  bg-gray-100'>{race}</td>
+          <td className={party == 'DEM' ? 'px-6 py-1 democrats' : 'px-6 py-1 republican'}>{party}</td>
+          <td className='px-6 py-1 bg-gray-100'>{votes? votes.toLocaleString():0}</td>
+          <td className='px-6 py-1'>{isWinner? "Win":"Lose"}</td>
         </tr>)
       })
     }
@@ -289,41 +232,67 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
     }
     getDistrictPlanSummary();
 
+    const getDemographic = (ensemble, districtPlan) => {
+      fetch(`/demographics/${state}/${ensemble}/${districtPlan}.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setDemographics(data)});
+    }
+    getDemographic(ensemble, districtPlan);
+
+    const getElectionResults = (ensemble, districtPlan) => {
+      // setResults([]);
+      fetch(`/election_results/${state}/${ensemble}/${districtPlan}.json`,{
+        headers: {
+          'Content-Type':'application/json',
+          'Accept':'application/json'
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {setResults(data.results); console.log(data.results)});
+    }
+    getElectionResults(ensemble, districtPlan);
+
   }, [demographics, ensemble, districtPlan, state]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch JSON data
-        const response = await fetch(`/vote_seat/${districtPlan}/${districtPlan}.json`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-        });
-        console.log(districtPlan)
-        const data = await response.json();
   
-        // Parse data into arrays
-        const votes = [];
-        const repSeats = [];
-        const demSeats = [];
-        data.forEach((item) => {
-          votes.push(parseFloat(item.votes));
-          repSeats.push(parseFloat(item.seatsR));
-          demSeats.push(parseFloat(item.seatsD));
-        });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Fetch JSON data
+  //       const response = await fetch(`/vote_seat/${districtPlan}/${districtPlan}.json`, {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Accept': 'application/json',
+  //         },
+  //       });
+  //       console.log(districtPlan)
+  //       const data = await response.json();
   
-        // Update state
-        setVoteShare(votes);
-        setRepublicanSeatShare(repSeats);
-        setDemocraticSeatShare(demSeats);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  //       // Parse data into arrays
+  //       const votes = [];
+  //       const repSeats = [];
+  //       const demSeats = [];
+  //       data.forEach((item) => {
+  //         votes.push(parseFloat(item.votes));
+  //         repSeats.push(parseFloat(item.seatsR));
+  //         demSeats.push(parseFloat(item.seatsD));
+  //       });
   
-    fetchData();
-  }, [districtPlan]); // Depend on `districtPlan` since the fetch call relies on it
+  //       // Update state
+  //       setVoteShare(votes);
+  //       setRepublicanSeatShare(repSeats);
+  //       setDemocraticSeatShare(demSeats);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, [districtPlan]); // Depend on `districtPlan` since the fetch call relies on it
   
 
   // Markers for ensembles
@@ -388,7 +357,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
               </li>
               <li className='flex my-1'>
                 <span className='font-semibold basis-1/2'>DEM/REP Split: </span>
-                <span className='democrats'>{dplanSummary.D_wins}</span>:<span className='republican'>{dplanSummary.R_wins}</span>
+                <span className='democrats'>{dplanSummary.D_wins}</span>/<span className='republican'>{dplanSummary.R_wins}</span>
               </li>
               <li className='flex my-1'>
                 <span className='font-semibold basis-1/2'>Equal Population Measure: </span>
@@ -424,15 +393,17 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
                 <tr>
                   <th scope="col" className="px-6 py-1 bg-gray-100">District</th>
                   <th scope="col" className="px-6 py-1">Winner</th>
+                  <th scope="col" className="px-6 py-1">Race</th>
                   <th scope="col" className="px-6 py-1">Party</th>
                   <th scope="col" className="px-6 py-1">Votes</th>
                   <th scope="col" className="px-6 py-1 bg-gray-100">Loser</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">Race</th>
                   <th scope="col" className="px-6 py-1 bg-gray-100">Party</th>
                   <th scope="col" className="px-6 py-1 bg-gray-100">Votes</th>
                 </tr>
               </thead>
               <tbody>
-                {displayResults()}
+                {displayResults(ensemble, districtPlan)}
               </tbody>
             </table>
           </div> :
@@ -442,13 +413,14 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
                 <tr>
                   <th scope="col" className="px-6 py-1 bg-gray-100">District</th>
                   <th scope="col" className="px-6 py-1">Candidate</th>
-                  <th scope="col" className="px-6 py-1 bg-gray-100">Party</th>
-                  <th scope="col" className="px-6 py-1">Votes</th>
-                  <th scope="col" className="px-6 py-1 bg-gray-100">Result</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">Race</th>
+                  <th scope="col" className="px-6 py-1">Party</th>
+                  <th scope="col" className="px-6 py-1 bg-gray-100">Votes</th>
+                  <th scope="col" className="px-6 py-1">Result</th>
                 </tr>
               </thead>
               <tbody>
-                {displayResults()}
+                {displayResults(ensemble, districtPlan)}
               </tbody>
             </table>
           </div>

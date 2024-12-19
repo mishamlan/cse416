@@ -1,5 +1,5 @@
 {
-    "plan": 263,
+    "plan": 13,
     "number_of_districts": 2,
     "minority_representation": 2,
     "opportunity_districts": 2,
@@ -10,7 +10,7 @@
     "D_seat_share": 0.0,
     "R_vote_share": 0.7561,
     "D_vote_share": 0.2439,
-    "EPM": 0.0841,
+    "EPM": 0.0218,
     "rep_safe_districts": 0,
     "dem_safe_districts": 0
 }

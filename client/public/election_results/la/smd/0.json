@@ -1,0 +1,70 @@
+{
+    "results": [
+        {
+            "district": 1,
+            "winner": "Steve Scalise",
+            "winRace": "White",
+            "winParty": "REP",
+            "winVotes": 177670,
+            "loser": "Katie Darling",
+            "loseParty": "DEM",
+            "loseVotes": 61467,
+            "loseRace": "White"
+          },
+        {
+            "district": 2,
+            "winner": "Troy A. Carter",
+            "winRace": "Black",
+            "winParty": "DEM",
+            "winVotes": 158136,
+            "loser": "\"Dan\" Lux",
+            "loseParty": "REP",
+            "loseVotes": 46966,
+            "loseRace": "White"
+          },
+        {
+            "district": 3,
+            "winner": "Clay Higgins",
+            "winRace": "White",
+            "winParty": "REP",
+            "winVotes": 174864,
+            "loser": "Tia LeBrun",
+            "loseParty": "DEM",
+            "loseVotes": 44813,
+            "loseRace": "White"
+          },
+        {
+            "district": 4,
+            "winner": "Mike Johnson",
+            "winRace": "White",
+            "winParty": "REP",
+            "winVotes": 45775,
+            "loser": "D-4",
+            "loseParty": "DEM",
+            "loseVotes": 30405,
+            "loseRace": "White"
+          },
+        {
+            "district": 5,
+            "winner": "Julia Letlow",
+            "winRace": "White",
+            "winParty": "REP",
+            "winVotes": 169021,
+            "loser": "Oscar \"Omar\" Dantzler",
+            "loseParty": "DEM",
+            "loseVotes": 54532,
+            "loseRace": "Black"
+          },
+        {
+            "district": 6,
+            "winner": "Garret Graves",
+            "winRace": "White",
+            "winParty": "REP",
+            "winVotes": 72956,
+            "loser": "D-6",
+            "loseParty": "DEM",
+            "loseVotes": 29667,
+            "loseRace": "White"
+          }
+    ]
+}
