@@ -361,7 +361,7 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
             <button className={display == 'election' ? "ensemble-display-selected border-r" : "ensemble-display border-r"} value={'election'} onClick={changeDisplay}>Election Results</button>
           </li>
           <li className="w-full focus-within:z-10">
-            <button className={display == 'plot' ? "ensemble-display-selected rounded-e-lg" : "ensemble-display rounded-e-lg"} value={'plot'} onClick={changeDisplay}>Seat-Vote Curves</button>
+            <button className={display == 'plot' ? "ensemble-display-selected rounded-e-lg" : "ensemble-display rounded-e-lg"} value={'plot'} onClick={changeDisplay} disabled={ensemble=='mmd'}>Seat-Vote Curves</button>
           </li>
         </ul>
         <h2 className='panel-title'></h2>
@@ -454,41 +454,44 @@ const Plans = ({state, tab, setEnsemble, setDistrictPlan, ensemble, districtPlan
           }
         </div>
         <div className={display == 'plot' ? 'mt-2' : 'hidden'}>
-    <Plot
-          data={[
-            // Republican Curve
-            {
-              x: voteShare,
-              y: republicanSeatShare,
-              type: "scatter",
-              mode: "lines",
-              name: "REP",
-              line: { color: "red", width: 2 },
-            },
-            // Democratic Curve
-            {
-              x: voteShare,
-              y: democraticSeatShare,
-              type: "scatter",
-              mode: "lines",
-              name: "DEM",
-              line: { color: "blue", width: 2 },
-            },
-          ]}
-            layout={{
-              width: 700,
-              height: 450,
-              xaxis: {
-                title: { text: "Vote Share (%)"},
-                range: [0, 100],
-              },
-              yaxis: {
-                title: { text: "Seat Share (%)"},
-                range: [0, 100],
-              },
-              showlegend: true,
-            }}
-          />
+          {ensemble == 'smd' ?
+            <div>
+            <Plot
+              data={[
+                // Republican Curve
+                {
+                  x: voteShare,
+                  y: republicanSeatShare,
+                  type: "scatter",
+                  mode: "lines",
+                  name: "REP",
+                  line: { color: "red", width: 2 },
+                },
+                // Democratic Curve
+                {
+                  x: voteShare,
+                  y: democraticSeatShare,
+                  type: "scatter",
+                  mode: "lines",
+                  name: "DEM",
+                  line: { color: "blue", width: 2 },
+                },
+              ]}
+              layout={{
+                width: 700,
+                height: 450,
+                xaxis: {
+                  title: { text: "Vote Share (%)"},
+                  range: [0, 100],
+                },
+                yaxis: {
+                  title: { text: "Seat Share (%)"},
+                  range: [0, 100],
+                },
+                showlegend: true,
+              }}
+            />
+          </div> : <div className="mt-2">No Seat-Vote Curve for MMD District Plan.</div>}
         </div>
       </div>
     </div>
