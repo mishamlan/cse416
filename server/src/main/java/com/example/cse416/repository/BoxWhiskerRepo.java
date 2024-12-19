@@ -8,7 +8,6 @@ import com.example.cse416.model.BoxWhisker;
 
 @Repository
 public interface BoxWhiskerRepo extends MongoRepository<BoxWhisker, String>{
-    @Query("{'basis_of_comparison' : ?0, 'plan_type' : ?1, 'plan_index': ?2, 'district' : ?3}")
-    public BoxWhisker findBoxWhisker(String basis_of_comparison, String plan_type, String plan_index, int district);
-    
+    @Query("{}")
+    BoxWhisker findSingleBoxWhisker();
 }

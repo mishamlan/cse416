@@ -8,6 +8,25 @@ import {  getDistrictPlan, getDemographic, getDBoundary, getDistrictPlanSummary,
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
+
+/**
+ * 
+ * MMD
+-----------------
+mmd_plan_summary_263: Lowest equal population measure
+mmd_plan_summary_11: Largest number of opportunity districts
+
+
+SMD
+-------------------------
+smd_plan_summary_10: Most extreme vote share (Republican)
+smd_plan_summary_100: Smallest number of opportunity districts
+smd_plan_summary_110: Highest number of Republican safe districts
+
+
+
+mmd_plan_summary_1: Average MMD Plan
+ */
 const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
   const [stop, setStop] = useState(false)
   const [ensemble, setEnsemble] = useState('enacted');
@@ -229,7 +248,7 @@ const Plans = ({state, tab, smdEnsemble, mmdEnsemble}) => {
       const data2 = await getDistrictPlanSummary("la", "smd", 0)  //summary for d plan
       const data = await getDistrictPlan("la", "smd", 0)  //geojson for d plan
       setDistrictPlan(data)
-      console.log(data)
+      console.log(data2)
     }
     func()
 

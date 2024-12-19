@@ -6,35 +6,49 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Document("box-whisker")
 public class BoxWhisker {
-@JsonProperty("basis_of_comparison")
-    private String basis_of_comparison;
+    @JsonProperty("democratic")
+    private Object democratic;
 
-    @JsonProperty("plan_type")
-    private String plan_type;
+    @JsonProperty("smd")
+    private List<SMDObject> smd;
 
-    @JsonProperty("plan_index")
-    private String plan_index;
+    @JsonProperty("mmd")
+    private List<MMDObject> mmd;
 
-    private int district;
+    @JsonProperty("republican")
+    private Object republican;
 
-    @JsonProperty("population_percent")
-    private double population_percent;
+    @JsonProperty("black")
+    private Object black;
 
-    @JsonProperty("min_population_percent")
-    private double minPopulation_percent;
+    @JsonProperty("white")
+    private Object white;
 
-    @JsonProperty("q1_population_percent")
-    private double q1_population_percent;
+    @JsonProperty("hispanic")
+    private Object hispanic;
 
-    @JsonProperty("median_population_percent")
-    private double median_population_percent;
+    @JsonProperty("asian")
+    private Object asian;
 
-    @JsonProperty("q3_population_percent")
-    private double q3_population_percent;
+    @Data
+    public static class SMDObject {
+        @JsonProperty("box")
+        private Box box;
+    }
 
-    @JsonProperty("max_population_percent")
-    private double max_population_percent;
+    @Data
+    public static class Box {
+        @JsonProperty("enacted")
+        private double enacted;
+    }
+
+    @Data
+    public static class MMDObject {
+        // Define any necessary fields for the MMD objects if applicable.
+    }
 }

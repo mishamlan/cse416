@@ -49,8 +49,7 @@ public class ServiceRepo {
     private EnsembleSummaryRepo ensembleSummaryRepo;
     @Autowired
     private DPlanDataRepo dPlanDataRepo;
-    // @Autowired
-    // private EnsembleSummaryRepo ensembleSummaryRepo;
+;
 
     @Cacheable(value = "demographics", key = "#state")
     public List<Demographics> getDemographicsData(StateID state) throws IOException {
@@ -96,11 +95,10 @@ public class ServiceRepo {
         throw new IOException("Failed to load ensemble data", e);
         }
     }
-
-    @Cacheable(value = "boxwhisker", key = "T(java.util.Objects).hash(#type, #number, #group, #index)")
-    public BoxWhisker getBoxWhisker(String group, String type, String index, int district) throws IOException {
+    @Cacheable(value = "boxwhisker")
+    public BoxWhisker getBoxWhisker() throws IOException {
         try {
-            BoxWhisker bw = boxWhiskerRepo.findBoxWhisker(group, type, index, district);
+            BoxWhisker bw = boxWhiskerRepo.findSingleBoxWhisker();
             return bw;
         } catch (Exception e) {
             System.err.println("Error loading ensemble data: " + e.getMessage());
@@ -113,7 +111,7 @@ public class ServiceRepo {
             System.out.println("inside dplan, point reached");
 
             DistrictPlanData es = dPlanDataRepo.findByStateAndTypeAndPlan(state, type, number);
-            System.out.println("es returned");
+            System.out.println(es);
         return es;
         }
         catch(Exception e){

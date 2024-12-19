@@ -75,9 +75,18 @@ export const PLAN_TYPES = {
       }
     }
    */
-  export const getEnsembleSummary = (state, type) => {
-    return fetchData(`/ensemble/summary/${state}/${type}/`);
-  };
+  /**
+   * 
+   * @param {*} state 
+   * @param {*} type 
+   * @param {*} specific - info, oppoReps, partySplit
+   * @returns 
+   */
+  export const getEnsembleSummary = async (state, type, specific) => {
+    // /Users/mishkat1/cse416/cse416/client/public/ensemble_summary/smd/info.json
+    
+};
+
     
   /**
    * Fetches ensemble opportunity representatives data
@@ -144,8 +153,8 @@ export const PLAN_TYPES = {
    * ]
    * }
   */
-  export const getBoxWhiskerData = (state, group) => {
-    return fetchData(`/boxwhisker/${state}/${group}/`);
+  export const getBoxWhiskerData = () => {
+    return fetchData(`/boxwhisker/`);
   };
   
 

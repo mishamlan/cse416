@@ -61,10 +61,10 @@ public class Controller {
     //     }
     // }]    
 
-    @GetMapping("/ensemble/summary/{state}/{type}/")
+    @GetMapping("/ensemble/summary/{state}/{type}/{specific}")
     public ResponseEntity<EnsembleSummary> getEnsembleSummary(
         @PathVariable StateID state,
-        @PathVariable Type type) {
+        @PathVariable Type type,  @PathVariable String specific) {
     try {
         EnsembleSummary ensemble = service.getEnsembleSummary(state, type);
         return ResponseEntity.ok(ensemble);
@@ -111,18 +111,10 @@ public class Controller {
         }
     }
 
-    @GetMapping("/boxwhisker/{group}/{type}/{district}/{index}/")
-    public ResponseEntity<BoxWhisker> getBoxWhiskerData(
-            @PathVariable String group,
-            @PathVariable String type,
-            @PathVariable int district,
-            @PathVariable int index) {
+    @GetMapping("/boxwhisker/")
+    public ResponseEntity<BoxWhisker> getBoxWhiskerData() {
         try {
-            String groupName = mapEnumToGroup(group);
-            String indexVal= String.valueOf(index);
-            // System.out.println(groupName);
-            BoxWhisker bw = service.getBoxWhisker(groupName, type, indexVal, district);
-            
+            BoxWhisker bw = service.getBoxWhisker();
             return ResponseEntity.ok(bw);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

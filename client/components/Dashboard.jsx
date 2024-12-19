@@ -9,19 +9,23 @@ const Dashboard = ({tab, state}) => {
   const [display, setDisplay] = useState('summary');
 
   const [smdSummary, setSmdSummary] = useState({
-    numDistrictPlans: 0,
-    avgMinorityReps: 0,
-    oppoThreshold: .5,
+    numDistrictPlans: 291,
+    avgMinorityReps: 0.2818,
+    avgRepSplit: 0.9519,
     avgDemSplit: 0,
-    avgRepSplit: 0,
+    avgRepSafeDistricts: 0.0,
+    avgDemSafeDistricts: 0.0,
+    avgEpm: 0.0209
   });
 
   const [mmdSummary, setMmdSummary] = useState({
-    numDistrictPlans: 0,
-    avgMinorityReps: 0,
-    oppoThreshold: .5,
+    numDistrictPlans: 291,
+    avgMinorityReps: 0.2818,
+    avgRepSplit: 0.9519,
     avgDemSplit: 0,
-    avgRepSplit: 0,
+    avgRepSafeDistricts: 0.0,
+    avgDemSafeDistricts: 0.0,
+    avgEpm: 0.0209
   });
 
   const [data, setData] = useState({
@@ -111,16 +115,27 @@ const Dashboard = ({tab, state}) => {
   })();
 
   useEffect(() => {
-    // const fetchEnsembleSummary = async (state) => {
-    //   const smd = await getEnsembleSummary(state, 'smd', 0);
-    //   const mmd = await getEnsembleSummary(state, 'mmd', 0);
-    //   console.log(smd)
-    //   setSmdSummary(smd);
-    //   setMmdSummary(mmd);
-    // };
+    const fetchEnsembleSummary = async (state) => {
+      try {
+        // Fetch the summaries using the generated URLs
+        const smdResponse = getEnsembleSummary(state, 'smd', "info");
+        const mmdResponse = getEnsembleSummary(state, 'mmd', "info");
+        // const response = await fetch('/ensemble_summary/smd/info.json');
 
-    // fetchEnsembleSummary(state);
+        setSmdSummary(smdResponse);
+        setMmdSummary(mmdResponse);
+        console.log(mmdResponse)
+        console.log(smdResponse)
+      } catch (error) {
+        console.error('Error fetching ensemble summary:', error);
+      }
+    };
+  
+    if (state) {
+      fetchEnsembleSummary(state);
+    }
   }, [state]);
+  
 
   return (
     <div className={tab == 'dashboard' ? 'p-4' : 'hidden'}>
