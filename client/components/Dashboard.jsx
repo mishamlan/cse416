@@ -9,7 +9,6 @@ const Dashboard = ({tab, state}) => {
   const [display, setDisplay] = useState('summary');
 
   const [smdSummary, setSmdSummary] = useState({
-<<<<<<< HEAD
     numDistrictPlans: 291,
     avgMinorityReps: 0.2818,
     avgRepSplit: 0.9519,
@@ -28,22 +27,6 @@ const Dashboard = ({tab, state}) => {
     avgDemSafeDistricts: 0.0,
     avgEpm: 0.0209
   });
-=======
-    "numDistrictPlans": 50,
-    "avgMinorityReps": 0.66,
-    "oppoThreshold": 0.5,
-    "avgRepSplit": 0.89,
-    "avgDemSplit": 0.11
-});
-
-  const [mmdSummary, setMmdSummary] = useState({
-    "numDistrictPlans": 3,
-    "avgMinorityReps": 2.67,
-    "oppoThreshold": 0.5,
-    "avgRepSplit": 1.0,
-    "avgDemSplit": 0.0
-});
->>>>>>> 0044335d4e9c4b69f7a5178588a32b7c4952775f
 
   const [data, setData] = useState({
     enacted: {
@@ -157,7 +140,6 @@ const Dashboard = ({tab, state}) => {
   })();
 
   useEffect(() => {
-<<<<<<< HEAD
     const fetchEnsembleSummary = async (state) => {
       try {
         // Fetch the summaries using the generated URLs
@@ -177,21 +159,6 @@ const Dashboard = ({tab, state}) => {
     if (state) {
       fetchEnsembleSummary(state);
     }
-=======
-    const getCompareData = async () => {
-      const res = await fetch(`ensemble/${state}/compare.json`);
-      const json = await res.json();
-      setData(json);
-    }
-    getCompareData();
-    
-    const getOppoRepsData = async () => {
-      const res = await fetch(`ensemble/${state}/oppoRepsData.json`);
-      const json = await res.json();
-      setOppoRepsData(json);
-    }
-    getOppoRepsData();
->>>>>>> 0044335d4e9c4b69f7a5178588a32b7c4952775f
   }, [state]);
   
 
